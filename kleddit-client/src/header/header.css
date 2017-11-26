@@ -1,0 +1,30 @@
+.header-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 15px 25px 15px 25px;
+    border-bottom: 1px solid white;
+    background-color: rgba(15, 15, 15, 1);
+}
+
+.header-section {
+    width: 33.3%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-app-name {
+    font-size: 1.5rem;
+}
+
+.header-buttons-container {
+    justify-content: flex-end;
+}
+
+.header-button {
+    margin: 0px 4px;
+}
+
+.header-invisible {
+    visibility: hidden;
+}

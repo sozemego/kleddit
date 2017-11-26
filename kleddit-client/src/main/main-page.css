@@ -1,0 +1,25 @@
+.main-page-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.main-page-subkleddit-list-container {
+    width: 15%;
+    height: 100%;
+    padding: 4px;
+    background-color: red;
+}
+
+.main-page-subkleddit-list-element-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-page-subkleddit-list-element-subscribers-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>kleddit</artifactId>
+        <groupId>com.soze</groupId>
+        <version>0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>ear</packaging>
+
+    <artifactId>kleddit-ear</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <version>7</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <modules>
+                        //USER
+                        <webModule>
+                            <groupId>com.soze</groupId>
+                            <artifactId>user</artifactId>
+                            <contextRoot>api/0.1/user</contextRoot>
+                        </webModule>
+                        //subkleddit
+                        <webModule>
+                            <groupId>com.soze</groupId>
+                            <artifactId>subkleddit</artifactId>
+                            <contextRoot>api/0.1/subkleddit</contextRoot>
+                        </webModule>
+                        <!--<webModule>-->
+                            <!--<groupId>com.soze</groupId>-->
+                            <!--<artifactId>user-api</artifactId>-->
+                            <!--<contextRoot>api/0.1/user</contextRoot>-->
+                        <!--</webModule>-->
+                        <!--<jarModule>-->
+                            <!--<groupId>com.soze</groupId>-->
+                            <!--<artifactId>user-dto</artifactId>-->
+                        <!--</jarModule>-->
+                        <!--<ejbModule>-->
+                            <!--<groupId>com.soze</groupId>-->
+                            <!--<artifactId>user-services</artifactId>-->
+                        <!--</ejbModule>-->
+                        <!--<ejbModule>-->
+                            <!--<groupId>com.soze</groupId>-->
+                            <!--<artifactId>user-repository</artifactId>-->
+                        <!--</ejbModule>-->
+
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.soze</groupId>
+            <artifactId>user</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.soze</groupId>
+            <artifactId>subkleddit</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.soze</groupId>-->
+            <!--<artifactId>user-api</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>war</type>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.soze</groupId>-->
+            <!--<artifactId>user-dto</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>jar</type>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.soze</groupId>-->
+            <!--<artifactId>user-services</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>ejb</type>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.soze</groupId>-->
+            <!--<artifactId>user-repository</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>ejb</type>-->
+        <!--</dependency>-->
+    </dependencies>
+
+
+
+</project>
