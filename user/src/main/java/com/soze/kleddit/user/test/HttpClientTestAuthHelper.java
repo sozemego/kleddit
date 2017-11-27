@@ -29,6 +29,10 @@ public class HttpClientTestAuthHelper {
     this.httpClient = new HttpClient(userUri);
   }
 
+  public HttpClientTestAuthHelper(String path) throws Exception {
+    this.httpClient = new HttpClient(path + USER_BASE_PATH);
+  }
+
   public void login(String username) {
     register(username);
 

@@ -7,56 +7,16 @@ import com.soze.kleddit.user.dto.SimpleUserDto;
 import com.soze.kleddit.utils.http.ErrorResponse;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.net.URI;
 import java.util.stream.IntStream;
 
-
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-@RunWith(Arquillian.class)
-@RunAsClient
 public class UserSystemTest {
-
-  @Deployment
-  public static WebArchive createDeployment() {
-
-    File[] files = Maven.resolver()
-      .loadPomFromFile("user/pom.xml")
-      .importRuntimeAndTestDependencies()
-      .resolve()
-      .withTransitivity()
-      .asFile();
-
-    WebArchive arch = ShrinkWrap.create(WebArchive.class)
-      .addPackages(true, "com.soze.kleddit.user")
-      .addAsResource("META-INF/persistence-int.xml", "META-INF/persistence.xml")
-      .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-      .addAsLibraries(files);
-
-    return arch;
-  }
-
-  @ArquillianResource
-  private URI uri;
-
-  private HttpClient client;
 
   private final String singleUserPath = "single/";
   private final String createUserPath = "register/";
@@ -64,9 +24,11 @@ public class UserSystemTest {
   private final String usernameAvailable = "single/available/";
   private final String login = "auth/login/";
 
+  private HttpClient client;
+
   @Before
   public void setup() {
-    client = new HttpClient(uri);
+    client = new HttpClient("http://localhost:8080/api/0.1/user/");
   }
 
   @Test

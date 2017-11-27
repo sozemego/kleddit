@@ -24,7 +24,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 2px;
+    padding: 2px 4px;
     height: 24px;
 }
 
@@ -39,7 +39,6 @@
     width: 100%;
     background-color: black;
     justify-content: center;
-    font-size: 1.5rem;
 }
 
 .main-page-subkleddit-list-title {
