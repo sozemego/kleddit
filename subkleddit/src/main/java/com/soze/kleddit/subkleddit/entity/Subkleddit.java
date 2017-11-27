@@ -1,6 +1,9 @@
 package com.soze.kleddit.subkleddit.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -14,6 +17,9 @@ public class Subkleddit {
 
   @Column(name = "name")
   private String name;
+
+  @OneToMany(mappedBy = "subkleddit", cascade = CascadeType.ALL)
+  private List<Submission> submissions = new ArrayList<>();
 
   public Subkleddit() {
 
@@ -32,6 +38,16 @@ public class Subkleddit {
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = Objects.requireNonNull(name);
+  }
+
+  public List<Submission> getSubmissions() {
+    return submissions;
+  }
+
+  public void setSubmissions(List<Submission> submissions) {
+    Objects.requireNonNull(submissions);
+    this.submissions.clear();
+    this.submissions.addAll(submissions);
   }
 }

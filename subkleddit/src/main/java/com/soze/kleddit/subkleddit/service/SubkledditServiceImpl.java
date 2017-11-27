@@ -47,6 +47,12 @@ public class SubkledditServiceImpl implements SubkledditService {
   }
 
   @Override
+  public void updateSubkleddit(Subkleddit subkleddit) {
+    Objects.requireNonNull(subkleddit);
+    repository.updateSubkleddit(subkleddit);
+  }
+
+  @Override
   public Optional<Subkleddit> getSubkledditByName(String name) {
     Objects.requireNonNull(name);
 

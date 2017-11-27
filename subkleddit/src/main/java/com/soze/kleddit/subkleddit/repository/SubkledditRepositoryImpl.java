@@ -49,4 +49,10 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
 
     return query.getResultList();
   }
+
+  @Override
+  public void updateSubkleddit(Subkleddit subkleddit) {
+    Objects.requireNonNull(subkleddit);
+    em.merge(subkleddit);
+  }
 }

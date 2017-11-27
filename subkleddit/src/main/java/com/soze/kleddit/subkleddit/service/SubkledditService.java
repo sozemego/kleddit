@@ -30,4 +30,6 @@ public interface SubkledditService {
    */
   public List<Subkleddit> searchForSubkledditByName(String searchString);
 
+  void updateSubkleddit(Subkleddit subkleddit);
+
 }

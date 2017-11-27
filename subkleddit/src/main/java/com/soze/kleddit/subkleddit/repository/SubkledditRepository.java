@@ -15,4 +15,6 @@ public interface SubkledditRepository {
   Optional<Subkleddit> getSubkledditByName(String name);
 
   List<Subkleddit> searchForSubkledditByName(String searchString);
+
+  void updateSubkleddit(Subkleddit subkleddit);
 }
