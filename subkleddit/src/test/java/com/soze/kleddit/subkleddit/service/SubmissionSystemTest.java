@@ -168,7 +168,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      "not a valid id",
+      SubmissionId.randomId().toString(),
       OffsetDateTime.now().toEpochSecond() + 25000000, //way after now
       subkledditName,
       "Content!"
