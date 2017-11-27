@@ -13,8 +13,8 @@
         <finalName>kleddit</finalName>
     </build>
     <modules>
-        <module>user</module>
         <module>kleddit-ear</module>
+        <module>user</module>
         <module>utils</module>
         <module>subkleddit</module>
     </modules>
