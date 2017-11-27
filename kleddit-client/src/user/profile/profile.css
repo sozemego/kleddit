@@ -3,6 +3,7 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    padding-top: 10px;
 }
 
 .profile-welcome {

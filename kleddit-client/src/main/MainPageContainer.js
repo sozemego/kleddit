@@ -22,9 +22,7 @@ class MainPageContainer extends Component {
   render() {
     return (
       <div className="main-page-container">
-        <div className="main-page-subkleddit-list-container">
-          <SubkledditListContainer />
-        </div>
+        <SubkledditListContainer />
       </div>
     );
   }

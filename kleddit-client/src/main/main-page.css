@@ -5,10 +5,18 @@
 }
 
 .main-page-subkleddit-list-container {
-    width: 15%;
-    height: 100%;
-    padding: 4px;
-    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 12%;
+    border-right: 1px solid white;
+    border-radius: 2px;
+    background-color: rgba(37, 37, 37, 1);
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.main-page-subkleddit-list-divider {
+    width: 100%;
 }
 
 .main-page-subkleddit-list-element-container {
@@ -16,10 +24,33 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 2px;
+    height: 24px;
 }
 
 .main-page-subkleddit-list-element-subscribers-container {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.main-page-subkleddit-list-header-container {
+    display: flex;
+    width: 100%;
+    background-color: black;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.main-page-subkleddit-list-title {
+    padding: 6px 6px;
+    background-color: black;
+}
+
+.main-page-subkleddit-list-subscribe-icon {
+    opacity: 0.65;
+}
+
+.main-page-subkleddit-list-subscribe-icon:hover {
+    opacity: 1;
 }

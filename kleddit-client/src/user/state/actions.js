@@ -1,6 +1,7 @@
 import {UserService as userService} from '../UserService';
 import {NavigationService as navigationService} from '../../navigation/NavigationService';
 import {NetworkService as networkService} from '../../network/NetworkService';
+import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
 import {userRoot} from './selectors';
 
@@ -42,11 +43,11 @@ const checkUsernameAvailableTimer = (username, dispatch) => {
 
   checkUsernameAvailableTimerId = setTimeout(() => {
     userService.checkUsernameAvailability(username)
-      .then(isAvailable => {
-        if (!isAvailable) {
-          dispatch(usernameRegistrationError(`${username} already exists`));
-        }
-      });
+    .then(isAvailable => {
+      if (!isAvailable) {
+        dispatch(usernameRegistrationError(`${username} already exists`));
+      }
+    });
   }, 250);
 };
 
@@ -138,6 +139,24 @@ const clearForms = () => {
   };
 };
 
+export const subscribe = (subkledditName) => {
+  return (dispatch, getState) => {
+
+    return subkledditService.subscribe(subkledditName)
+      .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)));
+
+  }
+};
+
+export const unsubscribe = (subkledditName) => {
+  return (dispatch, getState) => {
+
+    return subkledditService.unsubscribe(subkledditName)
+      .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)));
+
+  }
+};
+
 export const USERNAME_REGISTRATION_ERROR = 'USERNAME_REGISTRATION_ERROR';
 const usernameRegistrationError = makeActionCreator(USERNAME_REGISTRATION_ERROR, 'message');
 
@@ -152,3 +171,12 @@ const setUsername = makeActionCreator(SET_USERNAME, 'username');
 
 export const SET_TOKEN = 'SET_TOKEN';
 const setToken = makeActionCreator(SET_TOKEN, 'token');
+
+export const ADD_SUBSCRIBED_TO_SUBKLEDDIT = 'ADD_SUBSCRIBED_TO_SUBKLEDDIT';
+const addSubscribedToSubkleddit = makeActionCreator(ADD_SUBSCRIBED_TO_SUBKLEDDIT, 'subkleddit');
+
+export const REMOVE_SUBSCRIBED_TO_SUBKLEDDIT = 'REMOVE_SUBSCRIBED_TO_SUBKLEDDIT';
+const removeSubscribedToSubkleddit = makeActionCreator(REMOVE_SUBSCRIBED_TO_SUBKLEDDIT, 'subkleddit');
+
+export const SET_SUBSCRIBED_TO_SUBKLEDDITS = 'SET_SUBSCRIBED_TO_SUBKLEDDITS';
+export const setSubscribedToSubkleddits = makeActionCreator(SET_SUBSCRIBED_TO_SUBKLEDDITS, 'subkleddits');

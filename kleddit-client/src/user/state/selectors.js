@@ -9,3 +9,5 @@ export const getLoginError = userRoot => userRoot.loginError;
 
 export const getUsername = userRoot => userRoot.currentUser.name;
 export const isLoggedIn = userRoot => !!userRoot.currentUser.token;
+
+export const getSubscribedToSubkleddits = userRoot => userRoot.subscribedToSubkleddits;

@@ -1,13 +1,18 @@
 import {
+  ADD_SUBSCRIBED_TO_SUBKLEDDIT,
   LOGIN_ERROR,
   PASSWORD_REGISTRATION_ERROR,
+  REMOVE_SUBSCRIBED_TO_SUBKLEDDIT,
+  SET_SUBSCRIBED_TO_SUBKLEDDITS,
   SET_TOKEN,
   SET_USERNAME,
   USERNAME_REGISTRATION_ERROR
 } from './actions';
 
+import {NetworkService as networkService} from '../../network/NetworkService';
+
 const anonymousUser = {
-  name: 'Anonymous',
+  name: null,
   token: null
 };
 
@@ -20,6 +25,8 @@ const _getCurrentUser = () => {
     return anonymousUser;
   }
 
+  networkService.setAuthorizationToken(token);
+
   return {name, token};
 };
 
@@ -28,7 +35,8 @@ const initialState = {
   currentUser: _getCurrentUser(),
   usernameRegistrationError: null,
   passwordRegistrationError: null,
-  loginError: null
+  loginError: null,
+  subscribedToSubkleddits: []
 
 };
 
@@ -51,9 +59,30 @@ const user = (state = initialState, action) => {
       action.token ? localStorage.setItem('jwt', action.token) : localStorage.removeItem('jwt');
       return {...state, currentUser: {...state.currentUser, token: action.token}};
     }
+    case SET_SUBSCRIBED_TO_SUBKLEDDITS: {
+      return {...state, subscribedToSubkleddits: [...action.subkleddits]}
+    }
+    case ADD_SUBSCRIBED_TO_SUBKLEDDIT: {
+      return {...state, subscribedToSubkleddits: addSubkleddit(state.subscribedToSubkleddits, action.subkleddit)}
+    }
+    case REMOVE_SUBSCRIBED_TO_SUBKLEDDIT: {
+      return {...state, subscribedToSubkleddits: removeSubkleddit(state.subscribedToSubkleddits, action.subkleddit)}
+    }
     default:
       return state;
   }
+};
+
+const addSubkleddit = (subkleddits, subkledditName) => {
+  return [...subkleddits, subkledditName];
+};
+
+const removeSubkleddit = (subkleddits, subkledditName) => {
+  const index = subkleddits.findIndex(subkleddit => subkleddit === subkledditName);
+  if(index > -1) {
+    subkleddits.splice(index, 1);
+  }
+  return [...subkleddits];
 };
 
 export default user;

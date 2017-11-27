@@ -131,7 +131,7 @@ class ProfileContainer extends Component {
 
     return (
       <div className="profile-container">
-        <div className="profile-welcome">Welcome, {username}.</div>
+        <div className="profile-welcome">Welcome, {username ? username : "Anonymous"}.</div>
         {getDeleteComponents()}
       </div>
     );
