@@ -194,6 +194,16 @@ public class SubkledditSubscribeSystemTest {
   }
 
   @Test
+  public void testSubscribeCaseInsensitive() throws Exception {
+    login("USER_30");
+    client.post(new SubscriptionForm("GeNeRaL", SubscriptionType.SUBSCRIBE), subscribe);
+
+    Response response = client.getPlainText(subkledditSubscriptions + "General");
+    long subscriberCount = response.readEntity(Long.class);
+    assertEquals(5, subscriberCount);
+  }
+
+  @Test
   public void testSubscribeUnauthorized() throws Exception {
     Response response = client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
     assertResponseIsUnauthorized(response);
