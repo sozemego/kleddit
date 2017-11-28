@@ -119,4 +119,11 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
       .collect(Collectors.toList());
   }
 
+  @Override
+  public boolean isSubscribed(UserId userId, String subkledditName) {
+    Objects.requireNonNull(userId);
+    Objects.requireNonNull(subkledditName);
+    return subkledditSubscriptionRepository.isSubscribed(userId, subkledditName);
+  }
+
 }

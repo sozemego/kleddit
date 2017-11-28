@@ -62,7 +62,7 @@ public class SubmissionSystemTest {
   public void testSubmissionUnsubscribed() {
     String username = "SUBMISSION_TEST_1";
     login(username);
-    String subkledditName = "General";
+    String subkledditName = "Pictures";
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
@@ -138,7 +138,7 @@ public class SubmissionSystemTest {
   public void testSubmissionInvalidSubmissionId() {
     String username = "SUBMISSION_TEST_4";
     login(username);
-    String subkledditName = "Gifs";
+    String subkledditName = "News";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
     client.post(subscriptionForm, subscribe);

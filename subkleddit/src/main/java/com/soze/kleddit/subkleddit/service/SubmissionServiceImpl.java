@@ -5,6 +5,7 @@ import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.exceptions.SubkledditDoesNotExistException;
+import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
@@ -29,14 +30,17 @@ public class SubmissionServiceImpl implements SubmissionService {
   private SubkledditService subkledditService;
 
   @Inject
+  private SubkledditSubscriptionService subkledditSubscriptionService;
+
+  @Inject
   private UserService userService;
 
   @Override
   public void submit(String username, SubmissionForm form) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(form);
-
-    LOG.info("[{}] is submitting to [{}], submission id [{}]", username, form.getSubkledditName(), form.getSubmissionId());
+    String subkledditName = form.getSubkledditName();
+    LOG.info("[{}] is submitting to [{}], submission id [{}]", username, subkledditName, form.getSubmissionId());
 
     Optional<User> userOptional = userService.getUserByUsername(username);
 
@@ -45,10 +49,16 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new AuthUserDoesNotExistException("User [" + username + "] does not exist.");
     }
 
-    Optional<Subkleddit> subkledditOptional = subkledditService.getSubkledditByName(form.getSubkledditName());
-    if(!subkledditOptional.isPresent()) {
-      LOG.info("[{}] subkleddit does not exist, cannot post to it.", form.getSubkledditName());
-      throw new SubkledditDoesNotExistException(form.getSubkledditName() + " does not exist!");
+    User user = userOptional.get();
+    boolean isSubscribed = subkledditSubscriptionService.isSubscribed(user.getUserId(), subkledditName);
+    if (!isSubscribed) {
+      throw new SubmissionException(username + " is not subscribed to " + subkledditName);
+    }
+
+    Optional<Subkleddit> subkledditOptional = subkledditService.getSubkledditByName(subkledditName);
+    if (!subkledditOptional.isPresent()) {
+      LOG.info("[{}] subkleddit does not exist, cannot post to it.", subkledditName);
+      throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
 
     Submission submission = new Submission();
@@ -56,15 +66,21 @@ public class SubmissionServiceImpl implements SubmissionService {
     try {
       submissionId = new SubmissionId(form.getSubmissionId());
     } catch (IllegalArgumentException e) {
-      //TODO throw own exception
-      throw new IllegalArgumentException("Invalid submission id");
+      throw new SubmissionException("Invalid submission id [" + form.getSubmissionId() + "]");
     }
 
     Subkleddit subkleddit = subkledditOptional.get();
-
     submission.setSubmissionId(submissionId);
-    submission.setCreatedAt(Timestamp.from(Instant.ofEpochMilli(form.getSubmissionTime())));
-    submission.setAuthorId(userOptional.get().getUserId());
+
+    Timestamp timestamp = Timestamp.from(Instant.ofEpochMilli(form.getSubmissionTime()));
+    Timestamp now = Timestamp.from(Instant.now());
+    if (timestamp.getNanos() > now.getNanos()) {
+      LOG.info("Time of submission [{}] cannot be later than now [{}]", timestamp, now);
+      throw new SubmissionException("Time of submission [" + timestamp + "] cannot be later than now [" + now + "]");
+    }
+
+    submission.setCreatedAt(timestamp);
+    submission.setAuthorId(user.getUserId());
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);
     List<Submission> submissions = subkleddit.getSubmissions();
@@ -78,7 +94,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     LOG.info("Retrieving submissions for [{}]", subkledditName);
     Optional<Subkleddit> subkledditOptional = subkledditService.getSubkledditByName(subkledditName);
 
-    if(!subkledditOptional.isPresent()) {
+    if (!subkledditOptional.isPresent()) {
       LOG.info("[{}] subkleddit does not exist, cannot post to it.", subkledditName);
       throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
