@@ -74,7 +74,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     Timestamp timestamp = Timestamp.from(Instant.ofEpochMilli(form.getSubmissionTime()));
     Timestamp now = Timestamp.from(Instant.now());
-    if (timestamp.getNanos() > now.getNanos()) {
+    if (timestamp.getTime() > now.getTime()) {
       LOG.info("Time of submission [{}] cannot be later than now [{}]", timestamp, now);
       throw new SubmissionException("Time of submission [" + timestamp + "] cannot be later than now [" + now + "]");
     }

@@ -12,7 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.temporal.TemporalField;
 import java.util.List;
 
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
@@ -46,7 +48,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -66,7 +68,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -83,7 +85,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Videos";
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -103,7 +105,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -122,7 +124,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -145,7 +147,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       "not a valid id",
-      OffsetDateTime.now().toEpochSecond(),
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Content!"
     );
@@ -169,7 +171,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      OffsetDateTime.now().toEpochSecond() + 25000000, //way after now
+      Instant.now().toEpochMilli() + 25000000, //way after now
       subkledditName,
       "Content!"
     );

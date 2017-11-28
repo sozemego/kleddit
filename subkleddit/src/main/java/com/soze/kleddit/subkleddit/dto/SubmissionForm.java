@@ -16,7 +16,8 @@ public class SubmissionForm {
   public SubmissionForm(@JsonProperty("submissionId") String submissionId,
                         @JsonProperty("submissionTime") long submissionTime,
                         @JsonProperty("subkledditName") String subkledditName,
-                        @JsonProperty("content") String content) {
+                        @JsonProperty("content") String content
+  ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.submissionTime = submissionTime;
     this.subkledditName = Objects.requireNonNull(subkledditName);

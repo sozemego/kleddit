@@ -31,8 +31,8 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
 
   @Override
   public Optional<Subkleddit> getSubkledditByName(String name) {
-    Query query = em.createQuery("SELECT s FROM Subkleddit s WHERE s.name = :name");
-    query.setParameter("name", name);
+    Query query = em.createQuery("SELECT s FROM Subkleddit s WHERE UPPER(s.name) = :name");
+    query.setParameter("name", name.toUpperCase());
 
     try {
       return Optional.of((Subkleddit) query.getSingleResult());
