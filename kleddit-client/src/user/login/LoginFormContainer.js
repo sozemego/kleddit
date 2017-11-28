@@ -7,11 +7,8 @@ import {
   getLoginError,
   userRoot
 } from '../state/selectors';
-import {
-  onLogin,
-  onLoginPasswordChange,
-  onLoginUsernameChange
-} from '../state/actions';
+import * as userActions from '../state/actions';
+import {bindActionCreators} from 'redux';
 
 class LoginFormContainer extends Component {
 
@@ -22,9 +19,12 @@ class LoginFormContainer extends Component {
   render() {
     const {
       onLogin,
-      loginError,
       onLoginUsernameChange,
       onLoginPasswordChange
+    } = this.props.actions;
+
+    const {
+      loginError
     } = this.props;
 
     return (
@@ -49,15 +49,7 @@ const mapStateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    onLogin: (username, password) => {
-      dispatch(onLogin(username, password));
-    },
-    onLoginUsernameChange: (username) => {
-      dispatch(onLoginUsernameChange(username));
-    },
-    onLoginPasswordChange: (password) => {
-      dispatch(onLoginPasswordChange(password));
-    }
+    actions: bindActionCreators(userActions, dispatch)
   };
 };
 

@@ -8,7 +8,9 @@ import {
   getUsernameRegistrationError,
   userRoot
 } from '../state/selectors';
-import {onRegisterPasswordChange, onRegister, onRegisterUsernameChange} from '../state/actions';
+
+import * as userActions from '../state/actions';
+import {bindActionCreators} from 'redux';
 
 export class RegisterUserContainer extends Component {
 
@@ -19,8 +21,11 @@ export class RegisterUserContainer extends Component {
   render() {
     const {
       onRegister,
-      onUsernameChange,
-      onPasswordChange,
+      onRegisterUsernameChange,
+      onRegisterPasswordChange,
+    } = this.props.actions;
+
+    const {
       usernameRegistrationError,
       passwordRegistrationError
     } = this.props;
@@ -28,8 +33,8 @@ export class RegisterUserContainer extends Component {
     return (
       <div className="register-page-container">
         <RegisterFormComponent onSubmit={onRegister}
-                               onUsernameChange={onUsernameChange}
-                               onPasswordChange={onPasswordChange}
+                               onUsernameChange={onRegisterUsernameChange}
+                               onPasswordChange={onRegisterPasswordChange}
                                usernameRegistrationError={usernameRegistrationError}
                                passwordRegistrationError={passwordRegistrationError}
         />
@@ -49,15 +54,7 @@ const mapStateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    onRegister: (username, password) => {
-      dispatch(onRegister(username, password));
-    },
-    onUsernameChange: (username) => {
-      dispatch(onRegisterUsernameChange(username));
-    },
-    onPasswordChange: (password) => {
-      dispatch(onRegisterPasswordChange(password));
-    }
+    actions: bindActionCreators(userActions, dispatch)
   };
 };
 

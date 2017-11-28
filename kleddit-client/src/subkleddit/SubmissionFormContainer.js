@@ -22,10 +22,10 @@ const mapStateToProps = (state) => {
 };
 
 
-const mapDispatchToprops = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
 
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToprops)(SubmissionFormContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SubmissionFormContainer);

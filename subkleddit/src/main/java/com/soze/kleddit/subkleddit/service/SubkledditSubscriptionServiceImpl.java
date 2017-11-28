@@ -9,6 +9,7 @@ import com.soze.kleddit.subkleddit.repository.SubkledditRepository;
 import com.soze.kleddit.subkleddit.repository.SubkledditSubscriptionRepository;
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,9 +104,8 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     Objects.requireNonNull(username);
 
     Optional<User> userOptional = userService.getUserByUsername(username);
-
     if(!userOptional.isPresent()) {
-      throw new IllegalArgumentException("NOPE");
+      throw new AuthUserDoesNotExistException(username + " does not exist.");
     }
 
     User user = userOptional.get();

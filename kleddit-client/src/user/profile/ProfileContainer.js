@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
+import {bindActionCreators} from 'redux';
 
 import './profile.css';
 import {getUsername, isLoggedIn, userRoot} from '../state/selectors';
-import {deleteUser} from '../state/actions';
-import Divider from 'material-ui/Divider';
+import * as userActions from '../state/actions';
+
 
 class ProfileContainer extends Component {
 
@@ -71,8 +73,8 @@ class ProfileContainer extends Component {
     } = this;
 
     const {
-      onDeleteUserRequest
-    } = this.props;
+      deleteUser
+    } = this.props.actions;
 
     return [
       <Button key="A"
@@ -85,7 +87,7 @@ class ProfileContainer extends Component {
       </Button>,
       <Button key="B"
               onClick={() => {
-                onDeleteUserRequest();
+                deleteUser();
                 onDeleteConfirmationClose();
               }}
               raised={true}
@@ -149,9 +151,7 @@ const mapStateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    onDeleteUserRequest: () => {
-      dispatch(deleteUser());
-    }
+    actions: bindActionCreators(userActions, dispatch)
   };
 };
 

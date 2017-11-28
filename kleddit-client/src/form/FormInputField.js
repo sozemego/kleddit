@@ -14,8 +14,7 @@ export class FormInputField extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = () => {
-    };
+    this.onChange = () => {};
   }
 
   render() {
