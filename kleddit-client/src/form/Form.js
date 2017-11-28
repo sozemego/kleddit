@@ -21,9 +21,12 @@ export class Form extends Component {
 
     return (
       <div className="form-container">
-        <div className="form-header">
-          <span className="form-title">{title}</span>
-        </div>
+        {title ?
+          <div className="form-header">
+            <span className="form-title">{title}</span>
+          </div>
+          : null
+        }
         <Divider className="form-divider" light={true}/>
         <div className="form-children-container">
           {this.props.children}

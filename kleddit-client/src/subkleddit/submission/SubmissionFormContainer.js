@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import {SubmissionFormComponent} from './SubmissionFormComponent';
+
 class SubmissionFormContainer extends Component {
 
   constructor(props) {
@@ -8,9 +10,9 @@ class SubmissionFormContainer extends Component {
   }
 
   render() {
-    return [
-        <div>If you wish to submit a new post, please do it in the form below</div>,
-    ];
+    return (
+      <SubmissionFormComponent />
+    );
   }
 
 }

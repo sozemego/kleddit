@@ -1,0 +1,41 @@
+.submission-form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+}
+
+.submission-form-title-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.submission-form-title-input {
+    width: 650px;
+    margin: 12px;
+    background-color: gray;
+}
+
+.submission-form-content-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.submission-form-content-input {
+    width: 650px;
+    margin: 12px;
+    background-color: gray;
+}
+
+.submission-form-label-container {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.submission-form-subkleddit-input-container {
+    display: flex;
+}
+
+.submission-form-subkleddit-select-root {
+    width: 175px !important;
+}
