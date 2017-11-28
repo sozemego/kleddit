@@ -6,6 +6,7 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.dto.SubscriptionType;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
+import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
 import org.junit.Before;
@@ -50,6 +51,7 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
     Response response = client.post(form, postSubmission);
@@ -70,6 +72,7 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
     Response response = client.post(form, postSubmission);
@@ -87,6 +90,7 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
     Response response = client.post(form, postSubmission);
@@ -107,6 +111,7 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
     Response response = client.post(form, postSubmission);
@@ -126,6 +131,7 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
     Response response = client.post(form, postSubmission);
@@ -149,6 +155,7 @@ public class SubmissionSystemTest {
       "not a valid id",
       Instant.now().toEpochMilli(),
       subkledditName,
+      "Title",
       "Content!"
     );
 
@@ -173,7 +180,108 @@ public class SubmissionSystemTest {
       SubmissionId.randomId().toString(),
       Instant.now().toEpochMilli() + 25000000, //way after now
       subkledditName,
+      "Title",
       "Content!"
+    );
+
+    Response response = client.post(form, postSubmission);
+    assertResponseIsBadRequest(response);
+
+    response = client.get(getAllSubmissions + subkledditName);
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    assertEquals(0, submissions.size());
+  }
+
+  @Test
+  public void testSubmissionEmptyTitle() {
+    String username = "SUBMISSION_TEST_6";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      SubmissionId.randomId().toString(),
+      Instant.now().toEpochMilli() + 25000000, //way after now
+      subkledditName,
+      "",
+      "Content!"
+    );
+
+    Response response = client.post(form, postSubmission);
+    assertResponseIsBadRequest(response);
+
+    response = client.get(getAllSubmissions + subkledditName);
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    assertEquals(0, submissions.size());
+  }
+
+  @Test
+  public void testSubmissionTooLongTitleTitle() {
+    String username = "SUBMISSION_TEST_7";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      SubmissionId.randomId().toString(),
+      Instant.now().toEpochMilli() + 25000000, //way after now
+      subkledditName,
+      CommonUtils.generateRandomString(500),
+      "Content!"
+    );
+
+    Response response = client.post(form, postSubmission);
+    assertResponseIsBadRequest(response);
+
+    response = client.get(getAllSubmissions + subkledditName);
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    assertEquals(0, submissions.size());
+  }
+
+  @Test
+  public void testSubmissionEmptyContent() {
+    String username = "SUBMISSION_TEST_8";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      SubmissionId.randomId().toString(),
+      Instant.now().toEpochMilli() + 25000000, //way after now
+      subkledditName,
+      "Title",
+      ""
+    );
+
+    Response response = client.post(form, postSubmission);
+    assertResponseIsBadRequest(response);
+
+    response = client.get(getAllSubmissions + subkledditName);
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    assertEquals(0, submissions.size());
+  }
+
+  @Test
+  public void testSubmissionTooLongContent() {
+    String username = "SUBMISSION_TEST_9";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      SubmissionId.randomId().toString(),
+      Instant.now().toEpochMilli() + 25000000, //way after now
+      subkledditName,
+      "Title",
+      CommonUtils.generateRandomString(10005)
     );
 
     Response response = client.post(form, postSubmission);

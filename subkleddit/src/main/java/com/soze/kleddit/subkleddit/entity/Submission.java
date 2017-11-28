@@ -18,6 +18,9 @@ public class Submission {
   @Column(name = "author_id")
   private UserId authorId;
 
+  @Column(name = "title")
+  private String title;
+
   @Column(name = "content")
   private String content;
 
