@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as userActions from '../user/state/actions';
-import * as mainPageActions from './state/actions';
 import {getDefaultSubkleddits, mainPageRoot} from './state/selectors';
 import Divider from "material-ui/Divider";
 import {getSubscribedToSubkleddits, isLoggedIn, userRoot} from '../user/state/selectors';
@@ -13,10 +12,14 @@ class SubkledditListContainer extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.actions.getSubscribedToSubkleddits();
+  }
+
   onSubscribeClicked = (subscribed, subkledditName) => {
     const {
       subscribe,
-      unsubscribe
+      unsubscribe,
     } = this.props.actions;
 
     subscribed ? unsubscribe(subkledditName) : subscribe(subkledditName);
@@ -137,7 +140,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({...userActions, ...mainPageActions}, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 };
 

@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 
 import './main-page.css';
 import SubkledditListContainer from './SubkledditListContainer';
-import {init} from './state/actions';
+import * as mainPageActions from './state/actions';
 import SubmissionFormContainer from '../subkleddit/SubmissionFormContainer';
+import {bindActionCreators} from 'redux';
 
 class MainPageContainer extends Component {
 
@@ -13,11 +14,7 @@ class MainPageContainer extends Component {
   }
 
   componentWillMount() {
-    const {
-      init
-    } = this.props;
-
-    init();
+    this.props.actions.init();
   }
 
   render() {
@@ -41,9 +38,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    init: () => {
-      dispatch(init());
-    }
+    actions: bindActionCreators(mainPageActions, dispatch)
   };
 };
 
