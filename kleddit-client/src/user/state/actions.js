@@ -153,7 +153,6 @@ export const unsubscribe = (subkledditName) => {
 
     return subkledditService.unsubscribe(subkledditName)
       .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)));
-
   }
 };
 

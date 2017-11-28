@@ -4,15 +4,18 @@ import {makeActionCreator} from '../../state/utils';
 export const init = () => {
   return (dispatch, getState) => {
 
-    getDefaultSubkleddits()
-      .then(subkleddits => {
-        dispatch(setDefaultSubkleddits(subkleddits));
-      });
+    dispatch(getDefaultSubkleddits());
+
   };
 };
 
-const getDefaultSubkleddits = () => {
-  return subkledditService.getDefaultSubkleddits();
+export const getDefaultSubkleddits = () => {
+  return (dispatch, getState) => {
+
+    return subkledditService.getDefaultSubkleddits()
+      .then((subkleddits => dispatch(setDefaultSubkleddits(subkleddits))));
+
+  };
 };
 
 export const SET_DEFAULT_SUBKLEDDITS = 'SET_DEFAULT_SUBKLEDDITS';
