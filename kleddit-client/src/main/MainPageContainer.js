@@ -14,7 +14,7 @@ class MainPageContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.init();
+    this.props.init();
   }
 
   render() {
@@ -36,10 +36,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(mainPageActions, dispatch)
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainPageContainer);
+export default connect(mapStateToProps, mainPageActions)(MainPageContainer);

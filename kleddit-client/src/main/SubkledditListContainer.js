@@ -93,13 +93,13 @@ class SubkledditListContainer extends Component {
     let elements = [];
 
     elements.push(
-      <div className="main-page-subkleddit-list-header-container">
+      <div key={"A"} className="main-page-subkleddit-list-header-container">
         <span className="main-page-subkleddit-list-title">Default subkleddits</span>
       </div>
     );
 
     elements.push(
-      <Divider className="main-page-subkleddit-list-divider" light={true}/>
+      <Divider key={"B"} className="main-page-subkleddit-list-divider"/>
     );
 
     const defaultSubkledditsElements = defaultSubkleddits.map((subkleddit, index) => {
@@ -133,10 +133,9 @@ class SubkledditListContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const main = mainPageRoot(state);
   const user = userRoot(state);
   return {
-    defaultSubkleddits: getDefaultSubkleddits(main),
+    defaultSubkleddits: getDefaultSubkleddits(state),
     subscribedToSubkleddits: getSubscribedToSubkleddits(user),
     isLoggedIn: isLoggedIn(user)
   };
