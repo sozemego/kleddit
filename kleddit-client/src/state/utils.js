@@ -9,5 +9,5 @@ export const makeActionCreator = (type, ...argNames) => (...args) => {
 };
 
 export const rootSelector = (rootName) => (state) => {
-  return state[rootName];
+  return typeof state === 'function' ? state()[rootName] : state[rootName];
 };

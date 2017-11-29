@@ -6,7 +6,7 @@ import Divider from "material-ui/Divider";
 import * as userActions from '../user/state/actions';
 import * as mainActions from './state/actions';
 import {getDefaultSubkleddits, mainPageRoot} from './state/selectors';
-import {getSubscribedToSubkleddits, isLoggedIn, userRoot} from '../user/state/selectors';
+import {getSubscribedToSubkleddits, isLoggedIn, getUserRoot} from '../user/state/selectors';
 
 class SubkledditListContainer extends Component {
 
@@ -15,7 +15,7 @@ class SubkledditListContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.getSubscribedToSubkleddits();
+    this.props.getSubscribedToSubkleddits();
   }
 
   onSubscribeClicked = (subscribed, subkledditName) => {
@@ -23,7 +23,7 @@ class SubkledditListContainer extends Component {
       subscribe,
       unsubscribe,
       getDefaultSubkleddits
-    } = this.props.actions;
+    } = this.props;
 
     const action = subscribed ? unsubscribe(subkledditName) : subscribe(subkledditName);
     action.then(() => getDefaultSubkleddits());
@@ -133,18 +133,11 @@ class SubkledditListContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = userRoot(state);
   return {
     defaultSubkleddits: getDefaultSubkleddits(state),
-    subscribedToSubkleddits: getSubscribedToSubkleddits(user),
-    isLoggedIn: isLoggedIn(user)
+    subscribedToSubkleddits: getSubscribedToSubkleddits(state),
+    isLoggedIn: isLoggedIn(state)
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators({...userActions, ...mainActions}, dispatch)
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubkledditListContainer);
+export default connect(mapStateToProps, {...userActions, ...mainActions})(SubkledditListContainer);

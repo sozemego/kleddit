@@ -3,14 +3,12 @@ import {NavigationService as navigationService} from '../../navigation/Navigatio
 import {NetworkService as networkService} from '../../network/NetworkService';
 import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
-import {getUsername, userRoot} from './selectors';
+import {getUsername, getUserRoot} from './selectors';
 
-const getRoot = getState => userRoot(getState());
+const getRoot = getState => getUserRoot(getState());
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
-
-    const user = getRoot(getState);
 
     userService.registerUser(username, password)
       .then(() => {
@@ -159,8 +157,7 @@ export const unsubscribe = (subkledditName) => {
 export const getSubscribedToSubkleddits = () => {
   return (dispatch, getState) => {
 
-    const userRoot = getRoot(getState);
-    const username = getUsername(userRoot);
+    const username = getUsername(getState);
 
     return subkledditService.getSubscribedToSubkleddits(username)
       .then(subkleddits => dispatch(setSubscribedToSubkleddits(subkleddits.map(subkleddit => subkleddit.name))));

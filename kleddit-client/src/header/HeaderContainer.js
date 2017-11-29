@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {navigateToLogin, navigateToMain, navigateToProfile, navigateToRegister} from './actions';
 
 import '../index.css';
 import './header.css';
-import {isLoggedIn, userRoot} from '../user/state/selectors';
-import {logout} from '../user/state/actions';
+import {isLoggedIn} from '../user/state/selectors';
+import * as userActions from '../user/state/actions';
+import * as headerActions from './actions';
 import {RaisedButton} from 'material-ui';
 
 class HeaderContainer extends Component {
@@ -16,20 +16,19 @@ class HeaderContainer extends Component {
 
   getButtons = () => {
     const {
-      onProfileClicked,
+      navigateToProfile,
       isLoggedIn,
-      onRegisterClicked,
-      onLogoutClicked,
-      onLoginClicked
+      navigateToRegister,
+      logout,
+      navigateToLogin
     } = this.props;
-
 
     const buttonClasses = ['header-button'].join(' ');
 
     const buttons = [];
 
     buttons.push(
-      <RaisedButton onClick={onProfileClicked}
+      <RaisedButton onClick={navigateToProfile}
                     key={1}
                     primary={true}
                     className={buttonClasses}
@@ -38,7 +37,7 @@ class HeaderContainer extends Component {
     );
 
     buttons.push(
-      <RaisedButton onClick={onRegisterClicked}
+      <RaisedButton onClick={navigateToRegister}
                     key={2}
                     primary={true}
                     className={buttonClasses}
@@ -48,7 +47,7 @@ class HeaderContainer extends Component {
 
     if (isLoggedIn) {
       buttons.push(
-        <RaisedButton onClick={onLogoutClicked}
+        <RaisedButton onClick={logout}
                       key={3}
                       primary={true}
                       className={buttonClasses}
@@ -57,7 +56,7 @@ class HeaderContainer extends Component {
       );
     } else {
       buttons.push(
-        <RaisedButton onClick={onLoginClicked}
+        <RaisedButton onClick={navigateToLogin}
                       key={3}
                       primary={true}
                       className={buttonClasses}
@@ -71,7 +70,7 @@ class HeaderContainer extends Component {
 
   render() {
     const {
-      onLogoClicked
+      navigateToMain
     } = this.props;
 
     const {
@@ -84,7 +83,7 @@ class HeaderContainer extends Component {
           A
         </div>
         <div className="header-section header-app-name">
-          <div className="link" onClick={onLogoClicked}>KLEDDIT</div>
+          <div className="link" onClick={navigateToMain}>KLEDDIT</div>
         </div>
         <div className="header-section header-buttons-container">{getButtons()}</div>
       </div>
@@ -94,30 +93,9 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = userRoot(state);
   return {
-    isLoggedIn: isLoggedIn(user)
+    isLoggedIn: isLoggedIn(state)
   };
 };
 
-const dispatchToProps = (dispatch) => {
-  return {
-    onRegisterClicked: () => {
-      dispatch(navigateToRegister());
-    },
-    onProfileClicked: () => {
-      dispatch(navigateToProfile());
-    },
-    onLogoutClicked: () => {
-      dispatch(logout());
-    },
-    onLoginClicked: () => {
-      dispatch(navigateToLogin());
-    },
-    onLogoClicked: () => {
-      dispatch(navigateToMain());
-    }
-  };
-};
-
-export default connect(mapStateToProps, dispatchToProps)(HeaderContainer);
+export default connect(mapStateToProps, {...headerActions, ...userActions})(HeaderContainer);

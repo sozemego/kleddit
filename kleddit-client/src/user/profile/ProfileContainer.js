@@ -5,7 +5,7 @@ import Divider from 'material-ui/Divider';
 import {bindActionCreators} from 'redux';
 
 import './profile.css';
-import {getUsername, isLoggedIn, userRoot} from '../state/selectors';
+import {getUsername, isLoggedIn, getUserRoot} from '../state/selectors';
 import * as userActions from '../state/actions';
 import {RaisedButton} from 'material-ui';
 
@@ -68,7 +68,7 @@ class ProfileContainer extends Component {
 
     const {
       deleteUser
-    } = this.props.actions;
+    } = this.props;
 
 
 
@@ -121,18 +121,11 @@ class ProfileContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = userRoot(state);
   return {
-    username: getUsername(user),
-    isLoggedIn: isLoggedIn(user)
+    username: getUsername(state),
+    isLoggedIn: isLoggedIn(state)
   };
 };
 
-const dispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(userActions, dispatch)
-  };
-};
-
-export default connect(mapStateToProps, dispatchToProps)(ProfileContainer);
+export default connect(mapStateToProps, userActions)(ProfileContainer);
 

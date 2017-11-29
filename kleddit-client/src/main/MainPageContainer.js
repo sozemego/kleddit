@@ -5,7 +5,6 @@ import './main-page.css';
 import SubkledditListContainer from './SubkledditListContainer';
 import * as mainPageActions from './state/actions';
 import SubmissionFormContainer from '../subkleddit/submission/SubmissionFormContainer';
-import {bindActionCreators} from 'redux';
 
 class MainPageContainer extends Component {
 

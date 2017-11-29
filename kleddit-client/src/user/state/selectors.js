@@ -1,13 +1,13 @@
 import {rootSelector} from '../../state/utils';
 
-export const userRoot = rootSelector('user');
+export const getUserRoot = rootSelector('user');
 
-export const getUsernameRegistrationError = userRoot => userRoot.usernameRegistrationError;
-export const getPasswordRegistrationError = userRoot => userRoot.passwordRegistrationError;
+export const getUsernameRegistrationError = state => getUserRoot(state).usernameRegistrationError;
+export const getPasswordRegistrationError = state => getUserRoot(state).passwordRegistrationError;
 
-export const getLoginError = userRoot => userRoot.loginError;
+export const getLoginError = state => getUserRoot(state).loginError;
 
-export const getUsername = userRoot => userRoot.currentUser.name;
-export const isLoggedIn = userRoot => !!userRoot.currentUser.token;
+export const getUsername = state => getUserRoot(state).currentUser.name;
+export const isLoggedIn = state => !!getUserRoot(state).currentUser.token;
 
-export const getSubscribedToSubkleddits = userRoot => userRoot.subscribedToSubkleddits;
+export const getSubscribedToSubkleddits = state => getUserRoot(state).subscribedToSubkleddits;

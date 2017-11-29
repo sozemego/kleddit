@@ -6,11 +6,9 @@ import {RegisterFormComponent} from './RegisterFormComponent';
 import {
   getPasswordRegistrationError,
   getUsernameRegistrationError,
-  userRoot
 } from '../state/selectors';
 
 import * as userActions from '../state/actions';
-import {bindActionCreators} from 'redux';
 
 export class RegisterUserContainer extends Component {
 
@@ -23,7 +21,7 @@ export class RegisterUserContainer extends Component {
       onRegister,
       onRegisterUsernameChange,
       onRegisterPasswordChange,
-    } = this.props.actions;
+    } = this.props;
 
     const {
       usernameRegistrationError,
@@ -45,17 +43,10 @@ export class RegisterUserContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = userRoot(state);
   return {
-    usernameRegistrationError: getUsernameRegistrationError(user),
-    passwordRegistrationError: getPasswordRegistrationError(user)
+    usernameRegistrationError: getUsernameRegistrationError(state),
+    passwordRegistrationError: getPasswordRegistrationError(state)
   };
 };
 
-const dispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(userActions, dispatch)
-  };
-};
-
-export default connect(mapStateToProps, dispatchToProps)(RegisterUserContainer);
+export default connect(mapStateToProps, userActions)(RegisterUserContainer);
