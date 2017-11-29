@@ -38,7 +38,8 @@
 }
 
 .form-submit-button {
-    margin: 14px 0px 6px 0px;
+    margin: 6px auto 6px auto;
+    width: 50%;
 }
 
 .form-input-field-error {

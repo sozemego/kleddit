@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Select, TextField} from 'material-ui';
+import {TextField} from 'material-ui';
 
 import './submission-form.css';
 
@@ -36,9 +36,7 @@ export class SubmissionFormComponent extends Component {
         </div>
         <div className="submission-form-subkleddit-input-container">
           <div className="submission-form-label-container">Subkleddit</div>
-          <Select value={"gifs"} classes={{root: "submission-form-subkleddit-select-root"}}>
-            {subkleddits}
-          </Select>
+
         </div>
       </div>
     );

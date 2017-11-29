@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Button from 'material-ui/Button';
 
 import './form.css';
+import {RaisedButton} from 'material-ui';
 
 export class FormSubmitButton extends Component {
 
@@ -16,12 +16,12 @@ export class FormSubmitButton extends Component {
     } = this.props;
 
     return (
-      <Button onClick={onClick}
-              raised={true}
-              color="primary"
-              className="form-submit-button">
-        {label}
-      </Button>
+      <RaisedButton label={label}
+                    className="form-submit-button"
+                    primary={true}
+                    onClick={onClick}
+      />
+
     );
   }
 

@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {createMuiTheme, MuiThemeProvider} from 'material-ui/styles';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './App.css';
 import {store} from '../state/init';
@@ -11,17 +14,13 @@ import HeaderContainer from '../header/HeaderContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
 import MainPageContainer from '../main/MainPageContainer';
 
-const theme = createMuiTheme({
-  palette: {
-    type: 'dark'
-  }
-});
+const theme = getMuiTheme(darkBaseTheme);
 
 class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider muiTheme={theme}>
         <Provider store={store}>
           <div style={{height: '100%'}}>
             <HeaderContainer/>
@@ -40,5 +39,4 @@ class App extends Component {
   }
 }
 
-// export default withTheme(theme)(App);
 export default App;

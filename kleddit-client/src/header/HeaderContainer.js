@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {navigateToLogin, navigateToMain, navigateToProfile, navigateToRegister} from './actions';
-import Button from 'material-ui/Button';
 
 import '../index.css';
 import './header.css';
 import {isLoggedIn, userRoot} from '../user/state/selectors';
 import {logout} from '../user/state/actions';
+import {RaisedButton} from 'material-ui';
 
 class HeaderContainer extends Component {
 
   constructor(props) {
     super(props);
   }
-
-  getButtonClasses = () => {
-    return {
-      root: 'header-button'
-    };
-  };
 
   getButtons = () => {
     const {
@@ -29,55 +23,46 @@ class HeaderContainer extends Component {
       onLoginClicked
     } = this.props;
 
-    const {
-      getButtonClasses
-    } = this;
+
+    const buttonClasses = ['header-button'].join(' ');
 
     const buttons = [];
 
     buttons.push(
-      <Button onClick={onProfileClicked}
-              key={1}
-              color="primary"
-              raised={true}
-              classes={getButtonClasses()}
-      >
-        Profile
-      </Button>
+      <RaisedButton onClick={onProfileClicked}
+                    key={1}
+                    primary={true}
+                    className={buttonClasses}
+                    label="Profile"
+      />
     );
 
     buttons.push(
-      <Button onClick={onRegisterClicked}
-              key={2}
-              color="primary"
-              raised={true}
-              classes={getButtonClasses()}
-      >
-        Register
-      </Button>
+      <RaisedButton onClick={onRegisterClicked}
+                    key={2}
+                    primary={true}
+                    className={buttonClasses}
+                    label="Register"
+      />
     );
 
     if (isLoggedIn) {
       buttons.push(
-        <Button onClick={onLogoutClicked}
-                key={3}
-                color="primary"
-                raised={true}
-                classes={getButtonClasses()}
-        >
-          Logout
-        </Button>
+        <RaisedButton onClick={onLogoutClicked}
+                      key={3}
+                      primary={true}
+                      className={buttonClasses}
+                      label="Logout"
+        />
       );
     } else {
       buttons.push(
-        <Button onClick={onLoginClicked}
-                key={3}
-                color="primary"
-                raised={true}
-                classes={getButtonClasses()}
-        >
-          Login
-        </Button>
+        <RaisedButton onClick={onLoginClicked}
+                      key={3}
+                      primary={true}
+                      className={buttonClasses}
+                      label="Login"
+        />
       );
     }
 

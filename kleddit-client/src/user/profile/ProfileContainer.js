@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import {bindActionCreators} from 'redux';
 
 import './profile.css';
 import {getUsername, isLoggedIn, userRoot} from '../state/selectors';
 import * as userActions from '../state/actions';
+import {RaisedButton} from 'material-ui';
 
 
 class ProfileContainer extends Component {
@@ -32,7 +32,8 @@ class ProfileContainer extends Component {
     const {
       onDeleteClicked,
       onDeleteConfirmationClose,
-      getDeleteDialogChildren
+      getDeleteDialogChildren,
+      getDeleteConfirmationDialogActions
     } = this;
 
     const {
@@ -40,14 +41,14 @@ class ProfileContainer extends Component {
     } = this.state;
 
     return <div className="profile-delete-section">
-      <Button onClick={onDeleteClicked}
-              raised={true}>
-        Delete account
-      </Button>
+      <RaisedButton onClick={onDeleteClicked}
+                    label="Delete account"
+      />
       <Dialog open={deleteConfirmationOpen}
               title="Confirm account deletion"
               onRequestClose={onDeleteConfirmationClose}
               children={getDeleteDialogChildren()}
+              actions={getDeleteConfirmationDialogActions()}
       />
     </div>;
   };
@@ -60,13 +61,6 @@ class ProfileContainer extends Component {
     this.setState({deleteConfirmationOpen: false});
   };
 
-  getDeleteDialogTitle = () => {
-    return [
-      <div key="A">Delete account</div>,
-      <Divider key="B" light={true}/>
-    ];
-  };
-
   getDeleteConfirmationDialogActions = () => {
     const {
       onDeleteConfirmationClose
@@ -76,44 +70,29 @@ class ProfileContainer extends Component {
       deleteUser
     } = this.props.actions;
 
+
+
     return [
-      <Button key="A"
-              onClick={onDeleteConfirmationClose}
-              raised={true}
-              color="primary"
-              className="profile-delete-dialog-button"
-      >
-        Cancel
-      </Button>,
-      <Button key="B"
-              onClick={() => {
-                deleteUser();
-                onDeleteConfirmationClose();
-              }}
-              raised={true}
-              color="accent"
-              className="profile-delete-dialog-button"
-      >
-        Confirm
-      </Button>
+      <RaisedButton key="A"
+                    onClick={onDeleteConfirmationClose}
+                    primary={true}
+                    className="profile-delete-dialog-button"
+                    label="Cancel"
+      />,
+      <RaisedButton key="B"
+                    onClick={() => {
+                      deleteUser();
+                      onDeleteConfirmationClose();
+                    }}
+                    primary={false}
+                    className="profile-delete-dialog-button"
+                    label="Confirm"
+      />
     ];
   };
 
   getDeleteDialogChildren = () => {
-    const {
-      getDeleteDialogTitle,
-      getDeleteConfirmationContent,
-      getDeleteConfirmationDialogActions
-    } = this;
-
-    return <div>
-      <div className="profile-delete-dialog-title">{getDeleteDialogTitle()}</div>
-      <Divider className="profile-delete-dialog-divider"/>
-      {getDeleteConfirmationContent()}
-      <div className="profile-delete-confirmation-actions-container">
-        {getDeleteConfirmationDialogActions()}
-      </div>
-    </div>;
+    return this.getDeleteConfirmationContent();
   };
 
   getDeleteConfirmationContent = () => {
