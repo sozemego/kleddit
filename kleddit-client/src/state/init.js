@@ -3,10 +3,12 @@ import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import user from '../user/state/reducer';
 import main from '../main/state/reducer';
+import subkleddits from '../subkleddit/state/reducer';
 
 const rootReducer = combineReducers({
   user,
-  main
+  main,
+  subkleddits
 });
 
 export const store = createStore(

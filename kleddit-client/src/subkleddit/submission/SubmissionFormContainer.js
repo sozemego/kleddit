@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {SubmissionFormComponent} from './SubmissionFormComponent';
-import {getDefaultSubkledditNames, getDefaultSubkleddits} from '../../main/state/selectors';
+import {getDefaultSubkledditNames} from '../state/selectors';
 
 class SubmissionFormContainer extends Component {
 

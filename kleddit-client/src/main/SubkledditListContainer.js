@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import Divider from "material-ui/Divider";
 
 import * as userActions from '../user/state/actions';
-import * as mainActions from './state/actions';
-import {getDefaultSubkleddits, mainPageRoot} from './state/selectors';
-import {getSubscribedToSubkleddits, isLoggedIn, getUserRoot} from '../user/state/selectors';
+import * as subkledditsActions from '../subkleddit/state/actions';
+import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
+import {getDefaultSubkleddits} from '../subkleddit/state/selectors';
 
 class SubkledditListContainer extends Component {
 
@@ -140,4 +139,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {...userActions, ...mainActions})(SubkledditListContainer);
+export default connect(mapStateToProps, {...userActions, ...subkledditsActions})(SubkledditListContainer);
