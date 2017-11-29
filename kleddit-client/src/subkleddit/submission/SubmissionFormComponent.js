@@ -11,7 +11,7 @@ export class SubmissionFormComponent extends Component {
     this.state = {
       title: "",
       content: "",
-      subkleddit: null
+      subkleddit: 0
     }
   }
 
@@ -28,6 +28,11 @@ export class SubmissionFormComponent extends Component {
     } = this.state;
 
     onSubmit(subkleddits[subkleddit], title, content);
+    this.setState({
+      title: "",
+      content: "",
+      subkleddit: 0
+    })
   };
 
   render() {

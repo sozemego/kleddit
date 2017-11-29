@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {SubmissionFormComponent} from './SubmissionFormComponent';
 import {getDefaultSubkledditNames} from '../state/selectors';
+import * as subkledditActions from '../state/actions';
 
 class SubmissionFormContainer extends Component {
 
@@ -12,12 +13,12 @@ class SubmissionFormContainer extends Component {
 
   render() {
     const {
-      onSubmit,
+      submit,
       subkleddits
     } = this.props;
 
     return (
-      <SubmissionFormComponent onSubmit={onSubmit} subkleddits={subkleddits}/>
+      <SubmissionFormComponent onSubmit={submit} subkleddits={subkleddits}/>
     );
   }
 
@@ -30,10 +31,4 @@ const mapStateToProps = (state) => {
 };
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSubmit: () => {}
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubmissionFormContainer);
+export default connect(mapStateToProps, subkledditActions)(SubmissionFormContainer);
