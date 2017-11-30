@@ -23,7 +23,7 @@ public class SubmissionSystemTest {
 
   private final String getAllSubmissions = "submission/subkleddit/";
   private final String postSubmission = "submission/submit/";
-  private final String getSubmissionsForSubscribed = "submission/own";
+  private final String getSubmissionsForSubscribed = "submission/subscribed";
 
   private final String subscribe = "subscription/subscribe/";
 

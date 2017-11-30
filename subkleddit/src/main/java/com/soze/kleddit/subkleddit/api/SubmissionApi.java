@@ -50,7 +50,7 @@ public class SubmissionApi {
   }
 
   @Authenticated
-  @Path("/own")
+  @Path("/subscribed")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getSubmissionsForSubscribedSubkleddits() {
