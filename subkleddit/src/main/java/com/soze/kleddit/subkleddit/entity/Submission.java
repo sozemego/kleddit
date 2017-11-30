@@ -71,4 +71,12 @@ public class Submission {
   public void setSubkleddit(Subkleddit subkleddit) {
     this.subkleddit = subkleddit;
   }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
 }

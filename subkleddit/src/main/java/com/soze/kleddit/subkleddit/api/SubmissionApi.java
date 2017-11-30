@@ -5,6 +5,7 @@ import com.soze.kleddit.subkleddit.dto.SubmissionSimpleDto;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.service.SubmissionService;
 import com.soze.kleddit.user.api.Authenticated;
+import com.soze.kleddit.utils.filters.Log;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Log
 @Path("submission")
 public class SubmissionApi {
 
@@ -34,15 +36,36 @@ public class SubmissionApi {
 
     List<Submission> submissions = submissionService.getSubmissions(subkledditName);
 
-    List<SubmissionSimpleDto> dtos = submissions.stream().map(submission -> {
-      return new SubmissionSimpleDto(
+    List<SubmissionSimpleDto> dtos = submissions.stream().map(submission ->
+      new SubmissionSimpleDto(
         submission.getSubmissionId().toString(),
-        submission.getAuthorId().getUserId().toString(),
+        submission.getAuthorId().toString(),
         submission.getCreatedAt().getTime(),
+        submission.getTitle(),
         submission.getContent()
-      );
-    }).collect(Collectors.toList());
+      )
+    ).collect(Collectors.toList());
 
+    return Response.ok(dtos).build();
+  }
+
+  @Authenticated
+  @Path("/own")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getSubmissionsForSubscribedSubkleddits() {
+    String username = securityContext.getUserPrincipal().getName();
+
+    List<Submission> submissions = submissionService.getSubmissionsForUser(username);
+    List<SubmissionSimpleDto> dtos = submissions.stream().map(
+      submission -> new SubmissionSimpleDto(
+        submission.getSubmissionId().toString(),
+        submission.getAuthorId().toString(),
+        submission.getCreatedAt().getTime(),
+        submission.getTitle(),
+        submission.getContent()
+      )
+    ).collect(Collectors.toList());
 
     return Response.ok(dtos).build();
   }

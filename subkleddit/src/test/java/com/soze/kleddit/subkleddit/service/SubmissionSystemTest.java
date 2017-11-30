@@ -14,8 +14,6 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.temporal.TemporalField;
 import java.util.List;
 
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
@@ -25,6 +23,7 @@ public class SubmissionSystemTest {
 
   private final String getAllSubmissions = "submission/subkleddit/";
   private final String postSubmission = "submission/submit/";
+  private final String getSubmissionsForSubscribed = "submission/own";
 
   private final String subscribe = "subscription/subscribe/";
 
@@ -203,7 +202,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      Instant.now().toEpochMilli() + 25000000, //way after now
+      Instant.now().toEpochMilli(),
       subkledditName,
       "",
       "Content!"
@@ -214,11 +213,11 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
+    assertEquals(1, submissions.size());
   }
 
   @Test
-  public void testSubmissionTooLongTitleTitle() {
+  public void testSubmissionTooLongTitle() {
     String username = "SUBMISSION_TEST_7";
     login(username);
     String subkledditName = "Casual";
@@ -228,7 +227,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      Instant.now().toEpochMilli() + 25000000, //way after now
+      Instant.now().toEpochMilli(),
       subkledditName,
       CommonUtils.generateRandomString(500),
       "Content!"
@@ -239,7 +238,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
+    assertEquals(1, submissions.size());
   }
 
   @Test
@@ -253,7 +252,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      Instant.now().toEpochMilli() + 25000000, //way after now
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       ""
@@ -264,7 +263,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
+    assertEquals(1, submissions.size());
   }
 
   @Test
@@ -278,7 +277,7 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       SubmissionId.randomId().toString(),
-      Instant.now().toEpochMilli() + 25000000, //way after now
+      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       CommonUtils.generateRandomString(10005)
@@ -289,7 +288,33 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
+    assertEquals(1, submissions.size());
+  }
+
+  @Test
+  public void testGetSubmissionsForUser() {
+    String username = "SUBMISSION_TEST_10";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      SubmissionId.randomId().toString(),
+      Instant.now().toEpochMilli(),
+      subkledditName,
+      "Title",
+      "Super content"
+    );
+
+    client.post(form, postSubmission);
+
+    Response response = client.get(getSubmissionsForSubscribed);
+    System.out.println(response.getStatus());
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+
+    assertEquals(1, submissions.size());
   }
 
   private List<SubmissionSimpleDto> getSubmissions(Response response) {

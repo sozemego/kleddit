@@ -36,11 +36,11 @@ public class HttpClient {
     String finalPath = url;
     System.out.println("Making a get request to " + finalPath);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(url)
       .request()
       .header("Authorization", "Bearer " + token)
-      .get();
+      .get());
   }
 
   /**
@@ -53,12 +53,12 @@ public class HttpClient {
     String finalPath = url + path;
     System.out.println("Making a GET request to " + finalPath);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(url + path)
       .request()
       .header("Authorization", "Bearer " + token)
       .accept(MediaType.APPLICATION_JSON)
-      .get();
+      .get());
   }
 
   /**
@@ -71,12 +71,12 @@ public class HttpClient {
     String finalPath = url + path;
     System.out.println("Making a GET request to " + finalPath);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(url + path)
       .request()
       .header("Authorization", "Bearer " + token)
       .accept(MediaType.TEXT_PLAIN)
-      .get();
+      .get());
   }
 
   /**
@@ -89,11 +89,11 @@ public class HttpClient {
     String json = JsonUtils.objectToJson(body);
     System.out.println("Making a POST request to " + finalPath + " with body " + json);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(url)
       .request()
       .header("Authorization", "Bearer " + token)
-      .post(Entity.json(json));
+      .post(Entity.json(json)));
   }
 
   /**
@@ -107,11 +107,11 @@ public class HttpClient {
     String finalPath = url + path;
     System.out.println("Making a POST request to " + finalPath);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(finalPath)
       .request()
       .header("Authorization", "Bearer " + token)
-      .post(Entity.json(JsonUtils.objectToJson(body)));
+      .post(Entity.json(JsonUtils.objectToJson(body))));
   }
 
   public Response deleteWithAuthorizationHeader(String path, String headerValue) {
@@ -120,11 +120,11 @@ public class HttpClient {
     System.out.println("Deleting with authorization header. Path: " + finalPath + ", header value: " + headerValue);
 
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(finalPath)
       .request()
       .header("Authorization", "Bearer " + headerValue)
-      .delete();
+      .delete());
   }
 
   /**
@@ -134,11 +134,11 @@ public class HttpClient {
 
     System.out.println("Sending a DELETE request to " + url);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(url)
       .request()
       .header("Authorization", "Bearer " + token)
-      .delete();
+      .delete());
   }
 
   /**
@@ -152,11 +152,11 @@ public class HttpClient {
     String finalPath = url + path;
     System.out.println("Sending a DELETE request to " + finalPath);
 
-    return createClient()
+    return warnNotFound(createClient()
       .target(finalPath)
       .request()
       .header("Authorization", "Bearer " + token)
-      .delete();
+      .delete());
   }
 
   public void setToken(String token) {
@@ -165,6 +165,13 @@ public class HttpClient {
 
   private Client createClient() {
     return ClientBuilder.newClient();
+  }
+
+  private Response warnNotFound(Response response) {
+    if(response.getStatusInfo() == Response.Status.NOT_FOUND) {
+      System.out.println("Warning, response had status code 404");
+    }
+    return response;
   }
 
 }

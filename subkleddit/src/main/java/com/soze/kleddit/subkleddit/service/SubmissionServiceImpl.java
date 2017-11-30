@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class SubmissionServiceImpl implements SubmissionService {
 
   private static final Logger LOG = LoggerFactory.getLogger(SubmissionServiceImpl.class);
+  private static final int MAX_TITLE_LENGTH = 100;
+  private static final int MAX_CONTENT_LENGTH = 10000;
 
   @Inject
   private SubkledditService subkledditService;
@@ -34,6 +37,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
   @Inject
   private UserService userService;
+
+  @Inject
+  private SubmissionService submissionService;
 
   @Override
   public void submit(String username, SubmissionForm form) {
@@ -61,6 +67,26 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
 
+    if(form.getTitle().trim().isEmpty()) {
+      LOG.info("User tried to post a submission without a title.");
+      throw new SubmissionException("Title cannot be empty.");
+    }
+
+    if(form.getContent().trim().isEmpty()) {
+      LOG.info("User tried to post a submission without content.");
+      throw new SubmissionException("Content cannot be empty.");
+    }
+
+    if(form.getTitle().length() > MAX_TITLE_LENGTH) {
+      LOG.info("User tried to post too long title.");
+      throw new SubmissionException("User tried to post too long title. Maximum title length is: " + MAX_TITLE_LENGTH);
+    }
+
+    if(form.getContent().length() > MAX_CONTENT_LENGTH) {
+      LOG.info("User tried to post too long content.");
+      throw new SubmissionException("User tried to post too long content. Maximum content length is: " + MAX_CONTENT_LENGTH);
+    }
+
     Submission submission = new Submission();
     SubmissionId submissionId = null;
     try {
@@ -83,6 +109,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     submission.setAuthorId(user.getUserId());
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);
+    submission.setTitle(form.getTitle());
+
     List<Submission> submissions = subkleddit.getSubmissions();
     submissions.add(submission);
     subkledditService.updateSubkleddit(subkleddit);
@@ -103,6 +131,24 @@ public class SubmissionServiceImpl implements SubmissionService {
     LOG.info("Retrieved [{}] submissions for subkleddit [{}]", submissions.size(), subkledditName);
 
     return new ArrayList<>(submissions);
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForUser(String username) {
+    Objects.requireNonNull(username);
+
+    Optional<User> userOptional = userService.getUserByUsername(username);
+    if(!userOptional.isPresent()) {
+      LOG.info("Non existing user wanted to get a list of submissions.");
+      throw new AuthUserDoesNotExistException(username);
+    }
+
+    List<Subkleddit> subscriptions = subkledditSubscriptionService.getSubscribedSubkleddits(username);
+
+    return subscriptions
+      .stream()
+      .flatMap(subkleddit -> subkleddit.getSubmissions().stream())
+      .collect(Collectors.toList());
   }
 
 }

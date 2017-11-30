@@ -20,4 +20,11 @@ public interface SubmissionService {
    */
   List<Submission> getSubmissions(String subkledditName);
 
+  /**
+   * Returns a list of submissions from subkleddits a given user is subscribed to.
+   * @param username username
+   * @return list of submissions
+   */
+  List<Submission> getSubmissionsForUser(String username);
+
 }
