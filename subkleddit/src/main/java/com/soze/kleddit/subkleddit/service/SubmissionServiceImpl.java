@@ -106,7 +106,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     submission.setCreatedAt(timestamp);
-    submission.setAuthorId(user.getUserId());
+    submission.setAuthor(user);
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);
     submission.setTitle(form.getTitle());

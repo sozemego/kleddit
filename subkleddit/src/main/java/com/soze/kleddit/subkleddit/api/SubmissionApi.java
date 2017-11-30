@@ -39,7 +39,7 @@ public class SubmissionApi {
     List<SubmissionSimpleDto> dtos = submissions.stream().map(submission ->
       new SubmissionSimpleDto(
         submission.getSubmissionId().toString(),
-        submission.getAuthorId().toString(),
+        submission.getAuthor().getUsername(),
         submission.getCreatedAt().getTime(),
         submission.getTitle(),
         submission.getContent()
@@ -60,7 +60,7 @@ public class SubmissionApi {
     List<SubmissionSimpleDto> dtos = submissions.stream().map(
       submission -> new SubmissionSimpleDto(
         submission.getSubmissionId().toString(),
-        submission.getAuthorId().toString(),
+        submission.getAuthor().getUsername(),
         submission.getCreatedAt().getTime(),
         submission.getTitle(),
         submission.getContent()

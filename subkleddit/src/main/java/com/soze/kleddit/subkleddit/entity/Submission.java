@@ -1,5 +1,6 @@
 package com.soze.kleddit.subkleddit.entity;
 
+import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.entity.UserId;
 
 import javax.persistence.*;
@@ -15,8 +16,9 @@ public class Submission {
   @Column(name = "created_at")
   private Timestamp createdAt;
 
-  @Column(name = "author_id")
-  private UserId authorId;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "author_id")
+  private User author;
 
   @Column(name = "title")
   private String title;
@@ -48,12 +50,12 @@ public class Submission {
     this.createdAt = createdAt;
   }
 
-  public UserId getAuthorId() {
-    return authorId;
+  public User getAuthor() {
+    return author;
   }
 
-  public void setAuthorId(UserId authorId) {
-    this.authorId = authorId;
+  public void setAuthor(User author) {
+    this.author = author;
   }
 
   public String getContent() {

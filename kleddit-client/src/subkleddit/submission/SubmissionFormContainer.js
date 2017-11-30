@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {SubmissionFormComponent} from './SubmissionFormComponent';
 import {getDefaultSubkledditNames} from '../state/selectors';
 import * as subkledditActions from '../state/actions';
+import {getSubscribedToSubkleddits} from '../../user/state/selectors';
 
 class SubmissionFormContainer extends Component {
 
@@ -14,11 +15,11 @@ class SubmissionFormContainer extends Component {
   render() {
     const {
       submit,
-      subkleddits
+      subscribedToSubkleddits
     } = this.props;
 
     return (
-      <SubmissionFormComponent onSubmit={submit} subkleddits={subkleddits}/>
+      <SubmissionFormComponent onSubmit={submit} subkleddits={subscribedToSubkleddits}/>
     );
   }
 
@@ -26,7 +27,7 @@ class SubmissionFormContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    subkleddits: getDefaultSubkledditNames(state),
+    subscribedToSubkleddits: getSubscribedToSubkleddits(state)
   }
 };
 

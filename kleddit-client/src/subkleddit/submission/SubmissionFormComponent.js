@@ -44,6 +44,10 @@ export class SubmissionFormComponent extends Component {
       subkleddits = [],
     } = this.props;
 
+    if(subkleddits.length === 0) {
+      return <div className="submission-form-container">Subscribe to at least one subkleddit to post!</div>;
+    }
+
     const {
       title,
       content,

@@ -5,6 +5,7 @@ const getAllPath = '/all';
 const subscribedSubkledditsPath = '/subscription/user/subkleddits/';
 const subscribePath = '/subscription/subscribe';
 const submitPath = '/submission/submit';
+const subscribedToSubkleddits = '/submission/subscribed';
 
 export const SubkledditService = {};
 
@@ -30,12 +31,16 @@ SubkledditService.unsubscribe = function (subkledditName) {
   });
 };
 
-SubkledditService.submit = function (submissionId, submissionTime, subkleddit, title, content) {
+SubkledditService.submit = function (submissionId, submissionTime, subkledditName, title, content) {
   return networkService.post(`${basePath}${submitPath}`, {
     submissionId,
     submissionTime,
-    subkledditName: subkleddit,
+    subkledditName,
     title,
     content
   });
+};
+
+SubkledditService.getSubmissionsForSubscribedSubkleddits = function() {
+  return networkService.get(`${basePath}${subscribedToSubkleddits}`);
 };
