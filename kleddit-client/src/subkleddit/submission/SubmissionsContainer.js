@@ -26,6 +26,10 @@ SubmissionsContainer.propTypes = {
   submissions: PropTypes.array
 };
 
+SubmissionsContainer.defaultProps = {
+  submission: []
+};
+
 const mapStateToProps = (state) => {
   return {
     submissions: getSubmissions(state)

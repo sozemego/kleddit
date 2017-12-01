@@ -42,7 +42,8 @@ public class SubmissionApi {
         submission.getAuthor().getUsername(),
         submission.getCreatedAt().getTime(),
         submission.getTitle(),
-        submission.getContent()
+        submission.getContent(),
+        submission.getSubkleddit().getName()
       )
     ).collect(Collectors.toList());
 
@@ -63,7 +64,8 @@ public class SubmissionApi {
         submission.getAuthor().getUsername(),
         submission.getCreatedAt().getTime(),
         submission.getTitle(),
-        submission.getContent()
+        submission.getContent(),
+        submission.getSubkleddit().getName()
       )
     ).collect(Collectors.toList());
 

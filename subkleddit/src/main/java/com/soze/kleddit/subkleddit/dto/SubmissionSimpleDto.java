@@ -13,18 +13,22 @@ public class SubmissionSimpleDto {
   private final long createdAt;
   private final String title;
   private final String content;
+  private final String subkleddit;
 
   @JsonCreator
   public SubmissionSimpleDto(@JsonProperty("submissionId") String submissionId,
                              @JsonProperty("author") String author,
                              @JsonProperty("createdAt") long createdAt,
                              @JsonProperty("title") String title,
-                             @JsonProperty("content") String content) {
+                             @JsonProperty("content") String content,
+                             @JsonProperty("subkleddit") String subkleddit
+  ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.author = Objects.requireNonNull(author);
     this.createdAt = createdAt;
     this.title = Objects.requireNonNull(title);
     this.content = Objects.requireNonNull(content);
+    this.subkleddit = Objects.requireNonNull(subkleddit);
   }
 
   public String getSubmissionId() {
@@ -45,5 +49,9 @@ public class SubmissionSimpleDto {
 
   public String getTitle() {
     return title;
+  }
+
+  public String getSubkleddit() {
+    return subkleddit;
   }
 }
