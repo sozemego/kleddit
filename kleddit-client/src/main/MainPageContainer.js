@@ -20,7 +20,9 @@ class MainPageContainer extends Component {
   render() {
     return (
       <div className="main-page-container">
-        <SubkledditListContainer />
+        <div className="main-page-subkleddit-list-container">
+          <SubkledditListContainer />
+        </div>
         <div className="main-page-content-container">
           <div className="main-page-submission-form-container">
             <SubmissionFormContainer />

@@ -1,9 +1,9 @@
 .submission-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid red;
     margin: 4px;
     width: 100%;
+    padding: 4px;
 }
 
 .submission-title {
@@ -13,4 +13,13 @@
 .submission-subkleddit {
     opacity: 0.45;
     font-size: 0.75em;
+}
+
+.submission-author {
+    opacity: 0.45;
+    font-size: 0.75em;
+}
+
+.submission-content {
+    /*margin: 6px;*/
 }

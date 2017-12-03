@@ -19,7 +19,7 @@ export const onRegister = (username, password) => {
         dispatch(setToken(token));
         dispatch(clearForms());
         networkService.setAuthorizationToken(token);
-        navigationService.profile();
+        navigationService.mainPage();
       })
       .catch(error => {
         if (error.field === 'username') {
@@ -85,7 +85,7 @@ export const onLogin = (username, password) => {
         dispatch(setUsername(username));
         dispatch(setToken(token));
         networkService.setAuthorizationToken(token);
-        navigationService.profile();
+        navigationService.mainPage();
         dispatch(clearForms());
       })
       .catch(error => dispatch(loginError(error)));

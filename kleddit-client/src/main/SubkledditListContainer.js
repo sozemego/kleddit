@@ -6,6 +6,7 @@ import * as userActions from '../user/state/actions';
 import * as subkledditsActions from '../subkleddit/state/actions';
 import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
 import {getDefaultSubkleddits} from '../subkleddit/state/selectors';
+import {List, Subheader} from 'material-ui';
 
 class SubkledditListContainer extends Component {
 
@@ -28,7 +29,7 @@ class SubkledditListContainer extends Component {
     action.then(() => getDefaultSubkleddits());
   };
 
-  _isSubscribed = (subkledditName) => {
+  isSubscribed = (subkledditName) => {
     const {
       subscribedToSubkleddits
     } = this.props;
@@ -85,16 +86,14 @@ class SubkledditListContainer extends Component {
     } = this.props;
 
     const {
-      _isSubscribed,
+      isSubscribed,
       getSubscribeIcon
     } = this;
 
     let elements = [];
 
     elements.push(
-      <div key={"A"} className="main-page-subkleddit-list-header-container">
-        <span className="main-page-subkleddit-list-title">Default subkleddits</span>
-      </div>
+      <Subheader key="A" inset={false}>Default subkleddits</Subheader>
     );
 
     elements.push(
@@ -102,7 +101,7 @@ class SubkledditListContainer extends Component {
     );
 
     const defaultSubkledditsElements = defaultSubkleddits.map((subkleddit, index) => {
-      const subscribed = _isSubscribed(subkleddit.name);
+      const subscribed = isSubscribed(subkleddit.name);
       return <div key={index} className="main-page-subkleddit-list-element-container">
         <div>{subkleddit.name}</div>
         <div className="main-page-subkleddit-list-element-subscribers-container">
@@ -123,9 +122,10 @@ class SubkledditListContainer extends Component {
     } = this;
 
     return (
-      <div className="main-page-subkleddit-list-container">
-        {getDefaultSubkledditElements()}
-      </div>
+      <List children={getDefaultSubkledditElements()}/>
+      //<div className="main-page-subkleddit-list-container">
+        // {getDefaultSubkledditElements()}
+      // </div>
     );
   }
 

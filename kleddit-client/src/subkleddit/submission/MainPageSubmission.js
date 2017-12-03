@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './submission.css';
+import {Paper} from 'material-ui';
 
 export class MainPageSubmission extends Component {
 
@@ -16,19 +17,25 @@ export class MainPageSubmission extends Component {
     } = this.props;
 
     return (
-      <div className="submission-container">
+      <Paper zDepth={2} className="submission-container">
         <div className="submission-title">
           {submission.title}
           <span className="submission-subkleddit">{'\u0020'}[{submission.subkleddit}]</span>
         </div>
-        <div>by {submission.author} {moment(submission.createdAt).fromNow()}</div>
-        <div>{submission.content}</div>
-      </div>
+        <div>by <span className="submission-author">{submission.author}</span> {moment(submission.createdAt).fromNow()}</div>
+        <br/>
+        <Paper className="submission-content" zDepth={1}>{submission.content}</Paper>
+      </Paper>
     );
   }
 
 }
 
 MainPageSubmission.propTypes = {
-  submission: PropTypes.object.isRequired,
+  submissionId: PropTypes.string,
+  author: PropTypes.string,
+  createdAt: PropTypes.number,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  subkleddit: PropTypes.string
 };

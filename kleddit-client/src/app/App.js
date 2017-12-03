@@ -20,21 +20,21 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={theme}>
-        <Provider store={store}>
-          <div style={{height: '100%'}}>
-            <HeaderContainer/>
-            <Router>
+      <Router>
+        <MuiThemeProvider muiTheme={theme}>
+          <Provider store={store}>
+            <div>
+              <HeaderContainer/>
               <div className="app-container">
                 <Route exact path="/register" component={RegisterUserContainer}/>
                 <Route exact path="/profile" component={ProfileContainer}/>
                 <Route exact path="/login" component={LoginFormContainer}/>
                 <Route exact path="/" component={MainPageContainer}/>
               </div>
-            </Router>
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+            </div>
+          </Provider>
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }
