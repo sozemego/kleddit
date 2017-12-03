@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Divider from "material-ui/Divider";
+import Divider from 'material-ui/Divider';
 
 import * as userActions from '../user/state/actions';
 import * as subkledditsActions from '../subkleddit/state/actions';
 import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
 import {getDefaultSubkleddits} from '../subkleddit/state/selectors';
-import {List, Subheader} from 'material-ui';
+import {List, RaisedButton, Subheader} from 'material-ui';
 
-class SubkledditListContainer extends Component {
+class LeftMainPageSidebar extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      hidden: false
+    };
   }
 
   componentWillMount() {
@@ -42,7 +46,7 @@ class SubkledditListContainer extends Component {
       isLoggedIn
     } = this.props;
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
       return null;
     }
 
@@ -62,7 +66,8 @@ class SubkledditListContainer extends Component {
            xmlns="http://www.w3.org/2000/svg"
            onClick={onClick}
       >
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        <path
+          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
         <path d="M0 0h24v24H0z" fill="none"/>
       </svg>
       :
@@ -77,7 +82,7 @@ class SubkledditListContainer extends Component {
       >
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
-    </svg>;
+      </svg>;
   };
 
   getDefaultSubkledditElements = () => {
@@ -97,7 +102,7 @@ class SubkledditListContainer extends Component {
     );
 
     elements.push(
-      <Divider key={"B"} className="main-page-subkleddit-list-divider"/>
+      <Divider key={'B'} className="main-page-subkleddit-list-divider"/>
     );
 
     const defaultSubkledditsElements = defaultSubkleddits.map((subkleddit, index) => {
@@ -108,7 +113,7 @@ class SubkledditListContainer extends Component {
           ({subkleddit.subscribers})
           {getSubscribeIcon(subscribed, subkleddit.name)}
         </div>
-      </div>
+      </div>;
     });
 
     elements = elements.concat(defaultSubkledditsElements);
@@ -116,15 +121,57 @@ class SubkledditListContainer extends Component {
     return elements;
   };
 
+  getHideButton = () => {
+    return <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+      <RaisedButton label="Hide" onClick={() => this.setState({hidden: !this.state.hidden})}/>
+    </div>;
+  };
+
+  getListClassNames = () => {
+    const defaultClassNames = ['main-page-subkleddit-list-container'];
+    const { hidden } = this.state;
+    if(hidden) {
+      // defaultClassNames.push('main-page-subkleddit-list-container-hidden');
+    }
+
+    return defaultClassNames.join(' ');
+  };
+
+  getContainerClassNames = () => {
+    const defaultClassNames = ['main-page-sidebar-container'];
+    const { hidden } = this.state;
+    if(hidden) {
+      defaultClassNames.push('main-page-subkleddit-list-container-hidden');
+    }
+    return defaultClassNames.join(' ');
+  };
+
+  getSideButtonClassNames = () => {
+    return this.state.hidden ? 'main-page-side-show-button' : 'main-page-side-hide-button';
+  };
+
   render() {
     const {
-      getDefaultSubkledditElements
+      getDefaultSubkledditElements,
+      getListClassNames,
+      getContainerClassNames,
+      getSideButtonClassNames
     } = this;
 
+    const children = [
+      ...getDefaultSubkledditElements(),
+    ];
+
     return (
-      <List children={getDefaultSubkledditElements()}/>
+      <div className={getContainerClassNames()}>
+        <List className={getListClassNames()} children={children}/>
+        <div className={getSideButtonClassNames()}
+             onClick={() => this.setState({hidden: !this.state.hidden})}>
+        </div>
+      </div>
+
       //<div className="main-page-subkleddit-list-container">
-        // {getDefaultSubkledditElements()}
+      // {getDefaultSubkledditElements()}
       // </div>
     );
   }
@@ -139,4 +186,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {...userActions, ...subkledditsActions})(SubkledditListContainer);
+export default connect(mapStateToProps, {...userActions, ...subkledditsActions})(LeftMainPageSidebar);
