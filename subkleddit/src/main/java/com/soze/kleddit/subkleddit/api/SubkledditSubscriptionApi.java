@@ -5,6 +5,7 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.service.SubkledditSubscriptionService;
 import com.soze.kleddit.user.api.Authenticated;
+import com.soze.kleddit.utils.filters.Log;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Log
 @Path("/subscription")
 public class SubkledditSubscriptionApi {
 

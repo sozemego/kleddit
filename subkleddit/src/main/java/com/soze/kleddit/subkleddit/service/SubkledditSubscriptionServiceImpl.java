@@ -67,6 +67,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     LOG.info("[{}] is trying to [{}] to [{}]", username, form.getSubscriptionType(), form.getSubkledditName());
 
     if (!userOptional.isPresent()) {
+      LOG.info("User with name [{}] does not exist.", username);
       throw new SubscriptionException("User with name [" + username + "] does not exist.");
     }
 
