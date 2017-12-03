@@ -21,5 +21,6 @@
 }
 
 .submission-content {
+    background-color: red !important;
     /*margin: 6px;*/
 }

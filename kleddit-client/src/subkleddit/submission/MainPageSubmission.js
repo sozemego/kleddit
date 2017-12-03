@@ -23,7 +23,6 @@ export class MainPageSubmission extends Component {
           <span className="submission-subkleddit">{'\u0020'}[{submission.subkleddit}]</span>
         </div>
         <div>by <span className="submission-author">{submission.author}</span> {moment(submission.createdAt).fromNow()}</div>
-        <br/>
         <Paper className="submission-content" zDepth={1}>{submission.content}</Paper>
       </Paper>
     );
