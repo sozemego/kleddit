@@ -7,6 +7,7 @@ import * as mainPageActions from './state/actions';
 import SubmissionFormContainer from './MainPageSubmissionFormContainer';
 import SubmissionsContainer from './MainPageSubmissionsContainer';
 import {Col, Grid, Row} from 'react-flexbox-grid';
+import {isLeftSidebarShown} from './state/selectors';
 
 class MainPageContainer extends Component {
 
@@ -19,13 +20,17 @@ class MainPageContainer extends Component {
   }
 
   render() {
+    const {
+      isLeftSidebarShown
+    } = this.props;
+
     return (
       <Grid className="main-page-container">
         <Row>
           <Col lg={2}>
             <SubkledditListContainer />
           </Col>
-          <Col lg={10}>
+          <Col lg={10} className={isLeftSidebarShown ? 'main-page-content-container' : 'main-page-content-container-full'}>
             <Grid>
               <Col lg={12}>
                 <SubmissionFormContainer />
@@ -42,7 +47,7 @@ class MainPageContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-
+    isLeftSidebarShown: isLeftSidebarShown(state)
   };
 };
 

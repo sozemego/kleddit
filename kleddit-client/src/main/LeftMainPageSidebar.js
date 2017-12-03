@@ -4,18 +4,16 @@ import Divider from 'material-ui/Divider';
 
 import * as userActions from '../user/state/actions';
 import * as subkledditsActions from '../subkleddit/state/actions';
+import * as mainPageActions from './state/actions';
 import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
 import {getDefaultSubkleddits} from '../subkleddit/state/selectors';
-import {List, RaisedButton, Subheader} from 'material-ui';
+import {List, Subheader} from 'material-ui';
+import {isLeftSidebarShown} from './state/selectors';
 
 class LeftMainPageSidebar extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      hidden: false
-    };
   }
 
   componentWillMount() {
@@ -121,16 +119,10 @@ class LeftMainPageSidebar extends Component {
     return elements;
   };
 
-  getHideButton = () => {
-    return <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-      <RaisedButton label="Hide" onClick={() => this.setState({hidden: !this.state.hidden})}/>
-    </div>;
-  };
-
   getListClassNames = () => {
     const defaultClassNames = ['main-page-subkleddit-list-container'];
-    const { hidden } = this.state;
-    if(hidden) {
+    const { isLeftSidebarShown } = this.props;
+    if(isLeftSidebarShown) {
       // defaultClassNames.push('main-page-subkleddit-list-container-hidden');
     }
 
@@ -139,15 +131,15 @@ class LeftMainPageSidebar extends Component {
 
   getContainerClassNames = () => {
     const defaultClassNames = ['main-page-sidebar-container'];
-    const { hidden } = this.state;
-    if(hidden) {
+    const { isLeftSidebarShown } = this.props;
+    if(!isLeftSidebarShown) {
       defaultClassNames.push('main-page-subkleddit-list-container-hidden');
     }
     return defaultClassNames.join(' ');
   };
 
   getSideButtonClassNames = () => {
-    return this.state.hidden ? 'main-page-side-show-button' : 'main-page-side-hide-button';
+    return this.props.isLeftSidebarShown ? 'main-page-side-show-button' : 'main-page-side-hide-button';
   };
 
   render() {
@@ -158,6 +150,10 @@ class LeftMainPageSidebar extends Component {
       getSideButtonClassNames
     } = this;
 
+    const {
+      toggleLeftSidebarVisibility
+    } = this.props;
+
     const children = [
       ...getDefaultSubkledditElements(),
     ];
@@ -166,7 +162,7 @@ class LeftMainPageSidebar extends Component {
       <div className={getContainerClassNames()}>
         <List className={getListClassNames()} children={children}/>
         <div className={getSideButtonClassNames()}
-             onClick={() => this.setState({hidden: !this.state.hidden})}>
+             onClick={() => toggleLeftSidebarVisibility()}>
         </div>
       </div>
 
@@ -182,8 +178,9 @@ const mapStateToProps = (state) => {
   return {
     defaultSubkleddits: getDefaultSubkleddits(state),
     subscribedToSubkleddits: getSubscribedToSubkleddits(state),
-    isLoggedIn: isLoggedIn(state)
+    isLoggedIn: isLoggedIn(state),
+    isLeftSidebarShown: isLeftSidebarShown(state)
   };
 };
 
-export default connect(mapStateToProps, {...userActions, ...subkledditsActions})(LeftMainPageSidebar);
+export default connect(mapStateToProps, {...userActions, ...subkledditsActions, ...mainPageActions})(LeftMainPageSidebar);
