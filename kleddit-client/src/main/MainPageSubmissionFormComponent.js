@@ -3,7 +3,7 @@ import {MenuItem, RaisedButton, SelectField, TextField} from 'material-ui';
 
 import './submission-form.css';
 
-export class SubmissionFormComponent extends Component {
+export class MainPageSubmissionFormComponent extends Component {
 
   constructor(props) {
     super(props);

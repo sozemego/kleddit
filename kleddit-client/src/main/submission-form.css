@@ -1,5 +1,6 @@
 .submission-form-container {
     display: flex;
+    background-color: black;
     flex-direction: column;
     padding: 6px;
 }
@@ -11,7 +12,6 @@
 }
 
 .submission-form-title-input {
-    /*width: 650px;*/
     margin: 12px;
     background-color: gray;
     width: 100%;
@@ -24,7 +24,6 @@
 }
 
 .submission-form-content-input {
-    /*width: 650px;*/
     margin: 12px;
     background-color: gray;
     width: 100% !important;

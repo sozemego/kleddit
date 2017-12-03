@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import './main-page.css';
 import SubkledditListContainer from './LeftMainPageSidebar';
 import * as mainPageActions from './state/actions';
-import SubmissionFormContainer from '../subkleddit/submission/SubmissionFormContainer';
-import SubmissionsContainer from '../subkleddit/submission/SubmissionsContainer';
+import SubmissionFormContainer from './MainPageSubmissionFormContainer';
+import SubmissionsContainer from './MainPageSubmissionsContainer';
+import {Col, Grid, Row} from 'react-flexbox-grid';
 
 class MainPageContainer extends Component {
 
@@ -19,17 +20,21 @@ class MainPageContainer extends Component {
 
   render() {
     return (
-      <div className="main-page-container">
-        <SubkledditListContainer />
-        <div className="main-page-content-container">
-          <div className="main-page-submission-form-container">
-            <SubmissionFormContainer />
-          </div>
-          <div className="main-page-submissions-container">
-            <SubmissionsContainer />
-          </div>
-        </div>
-      </div>
+      <Grid className="main-page-container">
+        <Row>
+          <Col lg={2}>
+            <SubkledditListContainer />
+          </Col>
+          <Col lg={10}>
+            <Grid>
+              <Col lg={12}>
+                <SubmissionFormContainer />
+                <SubmissionsContainer />
+              </Col>
+            </Grid>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 
