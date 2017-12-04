@@ -80,16 +80,18 @@ class HeaderContainer extends Component {
     } = this;
 
     return [
-      <div key={"A"} className="header-container">
-        <div className="header-section header-invisible">
-          A
+      <div style={{display: "flex", flexDirection: "column", borderBottom: "1px solid white"}}>
+        <div className="header-container">
+          <div className="header-section header-invisible">
+            A
+          </div>
+          <div className="header-section header-app-name">
+            <div className="link" onClick={navigateToMain}>KLEDDIT</div>
+          </div>
+          <div className="header-section header-buttons-container">{getButtons()}</div>
         </div>
-        <div className="header-section header-app-name">
-          <div className="link" onClick={navigateToMain}>KLEDDIT</div>
-        </div>
-        <div className="header-section header-buttons-container">{getButtons()}</div>
-      </div>,
-      isFetching ? <LinearProgress key={"B"} mode="indeterminate"/> : null
+        <LinearProgress mode="indeterminate" style={isFetching ? {}: {visibility: "hidden"}}/>
+      </div>
     ]
   }
 
