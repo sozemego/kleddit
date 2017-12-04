@@ -21,6 +21,9 @@
 }
 
 .submission-content {
-    background-color: red !important;
+    background-color: rgba(127, 127, 127, 0.5) !important;
+    margin: 6px 6px;
+    word-break: break-all;
+    padding: 4px;
     /*margin: 6px;*/
 }

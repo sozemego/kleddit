@@ -4,6 +4,7 @@ import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.entity.UserId;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
@@ -21,9 +22,11 @@ public class Submission {
   private User author;
 
   @Column(name = "title")
+  @Size(min = 1, max = 100)
   private String title;
 
   @Column(name = "content")
+  @Size(min = 1, max = 10000)
   private String content;
 
   @ManyToOne(fetch = FetchType.EAGER)

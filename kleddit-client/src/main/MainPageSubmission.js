@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './submission.css';
-import {Paper} from 'material-ui';
+import {Divider, Paper} from 'material-ui';
 
 export class MainPageSubmission extends Component {
 
@@ -23,6 +23,7 @@ export class MainPageSubmission extends Component {
           <span className="submission-subkleddit">{'\u0020'}[{submission.subkleddit}]</span>
         </div>
         <div>by <span className="submission-author">{submission.author}</span> {moment(submission.createdAt).fromNow()}</div>
+        <Divider />
         <Paper className="submission-content" zDepth={1}>{submission.content}</Paper>
       </Paper>
     );

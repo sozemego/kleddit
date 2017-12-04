@@ -141,7 +141,7 @@ export const subscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
     return subkledditService.subscribe(subkledditName)
-      .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)));
+      .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)))
 
   }
 };

@@ -22,13 +22,11 @@ class LeftMainPageSidebar extends Component {
 
   onSubscribeClicked = (subscribed, subkledditName) => {
     const {
-      subscribe,
-      unsubscribe,
-      getDefaultSubkleddits
+      mainPageSubscribe,
+      mainPageUnsubscribe,
     } = this.props;
 
-    const action = subscribed ? unsubscribe(subkledditName) : subscribe(subkledditName);
-    action.then(() => getDefaultSubkleddits());
+    subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
   };
 
   isSubscribed = (subkledditName) => {
@@ -139,7 +137,7 @@ class LeftMainPageSidebar extends Component {
   };
 
   getSideButtonClassNames = () => {
-    return this.props.isLeftSidebarShown ? 'main-page-side-show-button' : 'main-page-side-hide-button';
+    return this.props.isLeftSidebarShown ? 'main-page-side-hide-button' : 'main-page-side-hide-button';
   };
 
   render() {
