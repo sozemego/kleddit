@@ -3,11 +3,11 @@ import {SubkledditService as subkledditService} from '../SubkledditService';
 import {makeActionCreator} from '../../state/utils';
 import {getSubscribedToSubkleddits} from '../../user/state/selectors';
 
-export const getDefaultSubkleddits = () => {
+export const getSubkleddits = () => {
   return (dispatch, getState) => {
 
-    return subkledditService.getDefaultSubkleddits()
-      .then((subkleddits => dispatch(setDefaultSubkleddits(subkleddits))));
+    return subkledditService.getSubkleddits()
+      .then((subkleddits => dispatch(setSubkleddits(subkleddits))));
 
   };
 };
@@ -37,8 +37,8 @@ export const loadSubmissions = () => {
   };
 };
 
-export const SET_DEFAULT_SUBKLEDDITS = 'SET_DEFAULT_SUBKLEDDITS';
-const setDefaultSubkleddits = makeActionCreator(SET_DEFAULT_SUBKLEDDITS, 'subkleddits');
+export const SET_SUBKLEDDITS = 'SET_SUBKLEDDITS';
+const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');
 
 export const SET_SUBMISSIONS = 'SET_SUBMISSIONS';
 const setSubmissions = makeActionCreator(SET_SUBMISSIONS, 'submissions');

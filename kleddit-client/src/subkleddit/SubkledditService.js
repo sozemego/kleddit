@@ -9,7 +9,7 @@ const subscribedToSubkleddits = '/submission/subscribed';
 
 export const SubkledditService = {};
 
-SubkledditService.getDefaultSubkleddits = function () {
+SubkledditService.getSubkleddits = function () {
   return networkService.get(`${basePath}${getAllPath}`);
 };
 

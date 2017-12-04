@@ -19,7 +19,7 @@ class HeaderContainer extends Component {
       navigateToProfile,
       isLoggedIn,
       navigateToRegister,
-      logout,
+      headerLogout,
       navigateToLogin
     } = this.props;
 
@@ -47,7 +47,7 @@ class HeaderContainer extends Component {
 
     if (isLoggedIn) {
       buttons.push(
-        <RaisedButton onClick={logout}
+        <RaisedButton onClick={headerLogout}
                       key={3}
                       primary={true}
                       className={buttonClasses}

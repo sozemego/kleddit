@@ -1,5 +1,5 @@
 import {
-  getDefaultSubkleddits,
+  getSubkleddits,
   loadSubmissions
 } from '../../subkleddit/state/actions';
 
@@ -13,7 +13,7 @@ export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR
 export const init = () => {
   return (dispatch, getState) => {
 
-    dispatch(getDefaultSubkleddits());
+    dispatch(getSubkleddits());
     dispatch(loadSubmissions());
 
   };
@@ -23,7 +23,7 @@ export const mainPageSubscribe = (subkleddit) => {
   return (dispatch, getState) => {
 
     return dispatch(subscribe(subkleddit))
-      .then(() => dispatch(getDefaultSubkleddits()))
+      .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()));
 
   };
@@ -33,7 +33,7 @@ export const mainPageUnsubscribe = (subkleddit) => {
   return (dispatch, getState) => {
 
     return dispatch(unsubscribe(subkleddit))
-      .then(() => dispatch(getDefaultSubkleddits()))
+      .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()));
 
   };

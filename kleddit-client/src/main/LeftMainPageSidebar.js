@@ -6,7 +6,7 @@ import * as userActions from '../user/state/actions';
 import * as subkledditsActions from '../subkleddit/state/actions';
 import * as mainPageActions from './state/actions';
 import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
-import {getDefaultSubkleddits} from '../subkleddit/state/selectors';
+import {getSubkleddits} from '../subkleddit/state/selectors';
 import {List, Subheader} from 'material-ui';
 import {isLeftSidebarShown} from './state/selectors';
 
@@ -81,9 +81,9 @@ class LeftMainPageSidebar extends Component {
       </svg>;
   };
 
-  getDefaultSubkledditElements = () => {
+  getSubkledditElements = () => {
     const {
-      defaultSubkleddits,
+      subkleddits,
     } = this.props;
 
     const {
@@ -101,7 +101,7 @@ class LeftMainPageSidebar extends Component {
       <Divider key={'B'} className="main-page-subkleddit-list-divider"/>
     );
 
-    const defaultSubkledditsElements = defaultSubkleddits.map((subkleddit, index) => {
+    const subkledditsElements = subkleddits.map((subkleddit, index) => {
       const subscribed = isSubscribed(subkleddit.name);
       return <div key={index} className="main-page-subkleddit-list-element-container">
         <div>{subkleddit.name}</div>
@@ -112,7 +112,7 @@ class LeftMainPageSidebar extends Component {
       </div>;
     });
 
-    elements = elements.concat(defaultSubkledditsElements);
+    elements = elements.concat(subkledditsElements);
 
     return elements;
   };
@@ -142,7 +142,7 @@ class LeftMainPageSidebar extends Component {
 
   render() {
     const {
-      getDefaultSubkledditElements,
+      getSubkledditElements,
       getListClassNames,
       getContainerClassNames,
       getSideButtonClassNames
@@ -153,7 +153,7 @@ class LeftMainPageSidebar extends Component {
     } = this.props;
 
     const children = [
-      ...getDefaultSubkledditElements(),
+      ...getSubkledditElements(),
     ];
 
     return (
@@ -163,10 +163,6 @@ class LeftMainPageSidebar extends Component {
              onClick={() => toggleLeftSidebarVisibility()}>
         </div>
       </div>
-
-      //<div className="main-page-subkleddit-list-container">
-      // {getDefaultSubkledditElements()}
-      // </div>
     );
   }
 
@@ -174,7 +170,7 @@ class LeftMainPageSidebar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    defaultSubkleddits: getDefaultSubkleddits(state),
+    subkleddits: getSubkleddits(state),
     subscribedToSubkleddits: getSubscribedToSubkleddits(state),
     isLoggedIn: isLoggedIn(state),
     isLeftSidebarShown: isLeftSidebarShown(state)

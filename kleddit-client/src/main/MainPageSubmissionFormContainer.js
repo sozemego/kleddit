@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {MainPageSubmissionFormComponent} from './MainPageSubmissionFormComponent';
-import {getDefaultSubkledditNames} from '../subkleddit/state/selectors';
+import {getSubkledditNames} from '../subkleddit/state/selectors';
 import * as subkledditActions from '../subkleddit/state/actions';
 import {getSubscribedToSubkleddits} from '../user/state/selectors';
 

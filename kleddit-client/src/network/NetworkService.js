@@ -36,3 +36,7 @@ NetworkService.setAuthorizationToken = function (token) {
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
+
+NetworkService.clearAuthorizationToken = function() {
+  delete axios.defaults.headers.common['Authorization'];
+};

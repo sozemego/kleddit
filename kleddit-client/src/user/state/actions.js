@@ -112,9 +112,10 @@ export const onLoginPasswordChange = (password) => {
 export const logout = () => {
   return (dispatch, getState) => {
     dispatch(setToken(null));
+    networkService.clearAuthorizationToken();
     dispatch(setUsername('Anonymous'));
     navigationService.refresh();
-    dispatch(clearForms());
+    return dispatch(clearForms());
   };
 };
 
@@ -134,6 +135,7 @@ const clearForms = () => {
     dispatch(loginError(null));
     dispatch(usernameRegistrationError(null));
     dispatch(passwordRegistrationError(null));
+    return Promise.resolve();
   };
 };
 
