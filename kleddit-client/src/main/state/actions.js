@@ -10,6 +10,12 @@ import {makeActionCreator} from '../../state/utils';
 export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
 export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR_VISIBILITY);
 
+export const FETCHING = 'FETCHING';
+export const fetching = makeActionCreator(FETCHING);
+
+export const STOP_FETCHING = 'STOP_FETCHING';
+export const stopFetching = makeActionCreator(STOP_FETCHING);
+
 export const init = () => {
   return (dispatch, getState) => {
 

@@ -6,7 +6,8 @@ import './header.css';
 import {isLoggedIn} from '../user/state/selectors';
 import * as userActions from '../user/state/actions';
 import * as headerActions from './actions';
-import {RaisedButton} from 'material-ui';
+import {LinearProgress, RaisedButton} from 'material-ui';
+import {isFetching} from '../main/state/selectors';
 
 class HeaderContainer extends Component {
 
@@ -20,7 +21,7 @@ class HeaderContainer extends Component {
       isLoggedIn,
       navigateToRegister,
       headerLogout,
-      navigateToLogin
+      navigateToLogin,
     } = this.props;
 
     const buttonClasses = ['header-button'].join(' ');
@@ -70,15 +71,16 @@ class HeaderContainer extends Component {
 
   render() {
     const {
-      navigateToMain
+      navigateToMain,
+      isFetching
     } = this.props;
 
     const {
       getButtons
     } = this;
 
-    return (
-      <div className="header-container">
+    return [
+      <div key={"A"} className="header-container">
         <div className="header-section header-invisible">
           A
         </div>
@@ -86,15 +88,17 @@ class HeaderContainer extends Component {
           <div className="link" onClick={navigateToMain}>KLEDDIT</div>
         </div>
         <div className="header-section header-buttons-container">{getButtons()}</div>
-      </div>
-    );
+      </div>,
+      isFetching ? <LinearProgress key={"B"} mode="indeterminate"/> : null
+    ]
   }
 
 }
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: isLoggedIn(state)
+    isLoggedIn: isLoggedIn(state),
+    isFetching: isFetching(state)
   };
 };
 

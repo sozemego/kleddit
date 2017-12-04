@@ -4,13 +4,15 @@ import {NetworkService as networkService} from '../../network/NetworkService';
 import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
 import {getUsername, getUserRoot} from './selectors';
+import {fetching, stopFetching} from '../../main/state/actions';
 
 const getRoot = getState => getUserRoot(getState());
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
 
-    userService.registerUser(username, password)
+    dispatch(fetching());
+    return userService.registerUser(username, password)
       .then(() => {
         return login(username, password);
       })
@@ -20,6 +22,7 @@ export const onRegister = (username, password) => {
         dispatch(clearForms());
         networkService.setAuthorizationToken(token);
         navigationService.mainPage();
+        dispatch(stopFetching());
       })
       .catch(error => {
         if (error.field === 'username') {
@@ -40,12 +43,14 @@ const checkUsernameAvailableTimer = (username, dispatch) => {
   clearTimeout(checkUsernameAvailableTimerId);
 
   checkUsernameAvailableTimerId = setTimeout(() => {
+    dispatch(fetching());
     userService.checkUsernameAvailability(username)
-    .then(isAvailable => {
-      if (!isAvailable) {
-        dispatch(usernameRegistrationError(`${username} already exists`));
-      }
-    });
+      .then(isAvailable => {
+        if (!isAvailable) {
+          dispatch(usernameRegistrationError(`${username} already exists`));
+        }
+        dispatch(stopFetching());
+      });
   }, 250);
 };
 
@@ -80,13 +85,15 @@ export const onRegisterPasswordChange = (username) => {
 export const onLogin = (username, password) => {
   return (dispatch, getState) => {
 
-    login(username, password)
+    dispatch(fetching());
+    return login(username, password)
       .then(token => {
         dispatch(setUsername(username));
         dispatch(setToken(token));
         networkService.setAuthorizationToken(token);
         navigationService.mainPage();
         dispatch(clearForms());
+        dispatch(stopFetching());
       })
       .catch(error => dispatch(loginError(error)));
 
@@ -122,10 +129,12 @@ export const logout = () => {
 export const deleteUser = () => {
   return (dispatch, getState) => {
 
-    userService
+    dispatch(fetching());
+    return userService
       .delete()
       .then(() => dispatch(logout()))
-      .then(() => navigationService.mainPage());
+      .then(() => navigationService.mainPage())
+      .then(() => dispatch(stopFetching()));
 
   };
 };
@@ -142,8 +151,10 @@ const clearForms = () => {
 export const subscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
+    dispatch(fetching());
     return subkledditService.subscribe(subkledditName)
       .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)))
+      .then(() => dispatch(stopFetching()));
 
   }
 };
@@ -151,8 +162,10 @@ export const subscribe = (subkledditName) => {
 export const unsubscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
+    dispatch(fetching());
     return subkledditService.unsubscribe(subkledditName)
-      .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)));
+      .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)))
+      .then(() => dispatch(stopFetching()));
   }
 };
 
@@ -160,9 +173,10 @@ export const getSubscribedToSubkleddits = () => {
   return (dispatch, getState) => {
 
     const username = getUsername(getState);
-
+    dispatch(fetching());
     return subkledditService.getSubscribedToSubkleddits(username)
-      .then(subkleddits => dispatch(setSubscribedToSubkleddits(subkleddits.map(subkleddit => subkleddit.name))));
+      .then(subkleddits => dispatch(setSubscribedToSubkleddits(subkleddits.map(subkleddit => subkleddit.name))))
+      .then(() => dispatch(stopFetching()));
   }
 };
 
