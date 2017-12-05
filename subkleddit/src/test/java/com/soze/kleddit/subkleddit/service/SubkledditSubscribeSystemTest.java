@@ -159,7 +159,7 @@ public class SubkledditSubscribeSystemTest {
 
     Response response = client.getPlainText(subkledditSubscriptions + "General");
     long subscriberCount = response.readEntity(Long.class);
-    assertEquals(5, subscriberCount);
+    assertEquals(1, subscriberCount);
   }
 
   @Test

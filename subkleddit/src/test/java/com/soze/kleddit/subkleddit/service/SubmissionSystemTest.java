@@ -315,6 +315,7 @@ public class SubmissionSystemTest {
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
 
     assertEquals(1, submissions.size());
+    assertEquals(true, submissions.get(0).isOwn());
   }
 
   private List<SubmissionSimpleDto> getSubmissions(Response response) {

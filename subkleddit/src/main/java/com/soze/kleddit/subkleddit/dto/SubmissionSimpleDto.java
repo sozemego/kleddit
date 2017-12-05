@@ -14,6 +14,7 @@ public class SubmissionSimpleDto {
   private final String title;
   private final String content;
   private final String subkleddit;
+  private final boolean own;
 
   @JsonCreator
   public SubmissionSimpleDto(@JsonProperty("submissionId") String submissionId,
@@ -21,7 +22,8 @@ public class SubmissionSimpleDto {
                              @JsonProperty("createdAt") long createdAt,
                              @JsonProperty("title") String title,
                              @JsonProperty("content") String content,
-                             @JsonProperty("subkleddit") String subkleddit
+                             @JsonProperty("subkleddit") String subkleddit,
+                             @JsonProperty("own") boolean own
   ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.author = Objects.requireNonNull(author);
@@ -29,6 +31,7 @@ public class SubmissionSimpleDto {
     this.title = Objects.requireNonNull(title);
     this.content = Objects.requireNonNull(content);
     this.subkleddit = Objects.requireNonNull(subkleddit);
+    this.own = Objects.requireNonNull(own);
   }
 
   public String getSubmissionId() {
@@ -53,5 +56,9 @@ public class SubmissionSimpleDto {
 
   public String getSubkleddit() {
     return subkleddit;
+  }
+
+  public boolean isOwn() {
+    return own;
   }
 }
