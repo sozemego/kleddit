@@ -79,7 +79,7 @@ class HeaderContainer extends Component {
       getButtons
     } = this;
 
-    return [
+    return (
       <div style={{display: "flex", flexDirection: "column", borderBottom: "1px solid white"}}>
         <div className="header-container">
           <div className="header-section header-invisible">
@@ -92,7 +92,7 @@ class HeaderContainer extends Component {
         </div>
         <LinearProgress mode="indeterminate" style={isFetching ? {}: {visibility: "hidden"}}/>
       </div>
-    ]
+    );
   }
 
 }
