@@ -6,6 +6,10 @@
     padding: 4px;
 }
 
+.submission-container-own {
+    border: 2px dashed rgba(25, 25, 200, 0.5);
+}
+
 .submission-title {
     font-size: 1.1em;
 }

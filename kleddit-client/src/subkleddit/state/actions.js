@@ -10,7 +10,7 @@ export const getSubkleddits = () => {
     return subkledditService.getSubkleddits()
       .then((subkleddits => dispatch(setSubkleddits(subkleddits))))
       .then(() => dispatch(stopFetching()))
-      .catch((error) => console.log(error));
+      .catch((error) => dispatch(setErrorMessage('Trouble getting subkleddits!')));
   };
 };
 
@@ -18,13 +18,14 @@ export const submit = (subkleddit, title, content) => {
   return (dispatch, getState) => {
 
     if(typeof subkleddit !== 'string') {
-      throw new Error("Subkleddit name has to be a string");
+      throw new Error('Subkleddit name has to be a string');
     }
 
     dispatch(fetching());
     return subkledditService.submit(randomSubmissionId(), new Date().getTime(), subkleddit, title, content)
       .then(() => dispatch(loadSubmissions()))
-      .then(() => dispatch(stopFetching()));
+      .then(() => dispatch(stopFetching()))
+      .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
   }
 };
 

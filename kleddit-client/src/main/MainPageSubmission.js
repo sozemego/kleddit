@@ -12,19 +12,25 @@ export class MainPageSubmission extends Component {
   }
 
   render() {
+    const { submission } = this.props;
     const {
-      submission,
-    } = this.props;
+      own,
+      title,
+      subkleddit,
+      author,
+      createdAt,
+      content
+    } = submission;
 
     return (
-      <Paper zDepth={2} className="submission-container">
+      <Paper zDepth={2} className={"submission-container " + (own ? "submission-container-own": "")}>
         <div className="submission-title">
-          {submission.title}
-          <span className="submission-subkleddit">{'\u0020'}[{submission.subkleddit}]</span>
+          {title}
+          <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
         </div>
-        <div>by <span className="submission-author">{submission.author}</span> {moment(submission.createdAt).fromNow()}</div>
+        <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
         <Divider />
-        <Paper className="submission-content" zDepth={1}>{submission.content}</Paper>
+        <Paper className="submission-content" zDepth={1}>{content}</Paper>
       </Paper>
     );
   }
@@ -32,10 +38,13 @@ export class MainPageSubmission extends Component {
 }
 
 MainPageSubmission.propTypes = {
-  submissionId: PropTypes.string,
-  author: PropTypes.string,
-  createdAt: PropTypes.number,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  subkleddit: PropTypes.string
+  submission: PropTypes.shape({
+    submissionId: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    createdAt: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    subkleddit: PropTypes.string.isRequired,
+    own: PropTypes.bool.isRequired
+  }).isRequired
 };
