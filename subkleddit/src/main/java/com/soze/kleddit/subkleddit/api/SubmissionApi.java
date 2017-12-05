@@ -36,16 +36,9 @@ public class SubmissionApi {
 
     List<Submission> submissions = submissionService.getSubmissions(subkledditName);
 
-    List<SubmissionSimpleDto> dtos = submissions.stream().map(submission ->
-      new SubmissionSimpleDto(
-        submission.getSubmissionId().toString(),
-        submission.getAuthor().getUsername(),
-        submission.getCreatedAt().getTime(),
-        submission.getTitle(),
-        submission.getContent(),
-        submission.getSubkleddit().getName()
-      )
-    ).collect(Collectors.toList());
+    List<SubmissionSimpleDto> dtos = submissions.stream()
+      .map(this::convertSubmission)
+      .collect(Collectors.toList());
 
     return Response.ok(dtos).build();
   }
@@ -58,16 +51,9 @@ public class SubmissionApi {
     String username = securityContext.getUserPrincipal().getName();
 
     List<Submission> submissions = submissionService.getSubmissionsForUser(username);
-    List<SubmissionSimpleDto> dtos = submissions.stream().map(
-      submission -> new SubmissionSimpleDto(
-        submission.getSubmissionId().toString(),
-        submission.getAuthor().getUsername(),
-        submission.getCreatedAt().getTime(),
-        submission.getTitle(),
-        submission.getContent(),
-        submission.getSubkleddit().getName()
-      )
-    ).collect(Collectors.toList());
+    List<SubmissionSimpleDto> dtos = submissions.stream()
+      .map(this::convertSubmission)
+      .collect(Collectors.toList());
 
     return Response.ok(dtos).build();
   }
@@ -83,6 +69,18 @@ public class SubmissionApi {
     submissionService.submit(username, form);
 
     return Response.status(201).build();
+  }
+
+  private SubmissionSimpleDto convertSubmission(Submission submission) {
+    Objects.requireNonNull(submission);
+    return new SubmissionSimpleDto(
+      submission.getSubmissionId().toString(),
+      submission.getAuthor().getNuked() ? "[DELETED]" : submission.getAuthor().getUsername(),
+      submission.getCreatedAt().getTime(),
+      submission.getTitle(),
+      submission.getContent(),
+      submission.getSubkleddit().getName()
+    );
   }
 
 }
