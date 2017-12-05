@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import {SubkledditService as subkledditService} from '../SubkledditService';
 import {makeActionCreator} from '../../state/utils';
-import {fetching, stopFetching} from '../../main/state/actions';
+import {fetching, setErrorMessage, stopFetching} from '../../main/state/actions';
 
 export const getSubkleddits = () => {
   return (dispatch, getState) => {
@@ -9,7 +9,8 @@ export const getSubkleddits = () => {
     dispatch(fetching());
     return subkledditService.getSubkleddits()
       .then((subkleddits => dispatch(setSubkleddits(subkleddits))))
-      .then(() => dispatch(stopFetching()));
+      .then(() => dispatch(stopFetching()))
+      .catch((error) => console.log(error));
   };
 };
 
@@ -37,7 +38,14 @@ export const loadSubmissions = () => {
     dispatch(fetching());
     return subkledditService.getSubmissionsForSubscribedSubkleddits()
       .then((submissions) => dispatch(setSubmissions(submissions)))
-      .then(() => dispatch(stopFetching()));
+      .then(() => dispatch(stopFetching()))
+      .catch((error) => {
+        dispatch(stopFetching());
+        if(error.response.status === 401) {
+          return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
+        }
+        dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
+      });
 
   };
 };

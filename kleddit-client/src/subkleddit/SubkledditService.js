@@ -14,6 +14,9 @@ SubkledditService.getSubkleddits = function () {
 };
 
 SubkledditService.getSubscribedToSubkleddits = function (username) {
+  if(!username) {
+    return Promise.resolve([]);
+  }
   return networkService.get(`${basePath}${subscribedSubkledditsPath}${username}`);
 };
 

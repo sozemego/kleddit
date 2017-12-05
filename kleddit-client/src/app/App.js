@@ -13,6 +13,7 @@ import ProfileContainer from '../user/profile/ProfileContainer';
 import HeaderContainer from '../header/HeaderContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
 import MainPageContainer from '../main/MainPageContainer';
+import ErrorDisplay from '../main/ErrorDisplay';
 
 const theme = getMuiTheme(darkBaseTheme);
 
@@ -30,6 +31,7 @@ class App extends Component {
                 <Route exact path="/profile" component={ProfileContainer}/>
                 <Route exact path="/login" component={LoginFormContainer}/>
                 <Route exact path="/" component={MainPageContainer}/>
+                <ErrorDisplay />
               </div>
             </div>
           </Provider>
