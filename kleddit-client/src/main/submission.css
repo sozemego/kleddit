@@ -10,8 +10,17 @@
     border: 2px dashed rgba(25, 25, 200, 0.5);
 }
 
+.submission-header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .submission-title {
     font-size: 1.1em;
+}
+
+.submission-icon-container {
+
 }
 
 .submission-subkleddit {

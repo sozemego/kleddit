@@ -51,6 +51,14 @@ export const loadSubmissions = () => {
   };
 };
 
+export const deleteSubmission = (submissionId) => {
+  return (dispatch, getState) => {
+
+
+
+  };
+};
+
 export const SET_SUBKLEDDITS = 'SET_SUBKLEDDITS';
 const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');
 
