@@ -1,26 +1,46 @@
 import axios from 'axios';
+import {store} from '../state/init';
+import {fetching, stopFetching} from '../main/state/actions';
+
+const fetch = () => store.dispatch(fetching());
+const fetched = (response) => {
+  store.dispatch(stopFetching());
+  return response;
+};
+
+const fetchedError = (error) => {
+  store.dispatch(stopFetching());
+  throw error;
+};
 
 export const NetworkService = {};
 
 NetworkService.delete = (path) => {
   validatePath(path);
 
+  fetch();
+
   return axios.delete(path)
-    .then(response => response.data);
+    .then(response => fetched(response.data))
+    .catch(error => fetchedError(error));
 };
 
 NetworkService.post = (path, payload) => {
   validatePath(path);
 
+  fetch();
   return axios.post(path, payload)
-    .then(response => response.data);
+    .then(response => fetched(response.data))
+    .catch(error => fetchedError(error));
 };
 
 NetworkService.get = (path) => {
   validatePath(path);
 
+  fetch();
   return axios.get(path)
-    .then(response => response.data); //TODO for now, extract data always. later, will throw custom errors
+    .then(response => fetched(response.data))
+    .catch(error => fetchedError(error)); //TODO for now, extract data always. later, will throw custom errors
 };
 
 const validatePath = (path) => {

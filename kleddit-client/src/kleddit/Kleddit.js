@@ -15,7 +15,14 @@ import './kleddit.css';
 
 class Kleddit extends Component {
 
+  /**
+   * Test for adding an invisible overlay over
+   * the app when fetching, so that users cannot do too many things at once.
+   * Turned off right now.
+   * @returns {*}
+   */
   getOverlay = () => {
+    return null;
     const { isFetching } = this.props;
     if (!isFetching) return null;
     return <div className="overlay"/>;

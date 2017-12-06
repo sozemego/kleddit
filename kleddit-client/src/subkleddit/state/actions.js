@@ -1,4 +1,5 @@
 import uuid from 'uuid/v4';
+import _ from 'lodash';
 import {SubkledditService as subkledditService} from '../SubkledditService';
 import {makeActionCreator} from '../../state/utils';
 import {fetching, setErrorMessage, stopFetching} from '../../main/state/actions';
@@ -36,13 +37,10 @@ const randomSubmissionId = () => {
 export const loadSubmissions = () => {
   return (dispatch, getState) => {
 
-    dispatch(fetching());
     return subkledditService.getSubmissionsForSubscribedSubkleddits()
       .then((submissions) => dispatch(setSubmissions(submissions)))
-      .then(() => dispatch(stopFetching()))
       .catch((error) => {
-        dispatch(stopFetching());
-        if(error.response.status === 401) {
+        if(_.get(error, 'response.status', 500) === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));

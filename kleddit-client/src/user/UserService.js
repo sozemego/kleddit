@@ -1,4 +1,4 @@
-import {NetworkService as networkService} from '../network/NetworkService';
+import networkService from '../network/NetworkServiceFactory';
 
 const basePath = 'http://localhost:8080/api/0.1/user';
 const registerPath = '/register';
