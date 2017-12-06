@@ -11,10 +11,6 @@ import {isLeftSidebarShown} from './state/selectors';
 
 class MainPageContainer extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     this.props.init();
   }

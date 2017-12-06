@@ -5,10 +5,6 @@ import Divider from 'material-ui/Divider';
 
 export class Form extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       title,

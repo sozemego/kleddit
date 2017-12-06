@@ -5,10 +5,6 @@ import {RaisedButton} from 'material-ui';
 
 export class FormSubmitButton extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       onClick,

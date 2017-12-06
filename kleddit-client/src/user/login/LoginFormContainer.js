@@ -5,16 +5,10 @@ import './login.css';
 import {LoginFormComponent} from './LoginFormComponent';
 import {
   getLoginError,
-  getUserRoot
 } from '../state/selectors';
 import * as userActions from '../state/actions';
-import {bindActionCreators} from 'redux';
 
 class LoginFormContainer extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const {

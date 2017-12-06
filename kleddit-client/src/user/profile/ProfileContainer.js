@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider';
-import {bindActionCreators} from 'redux';
 
 import './profile.css';
-import {getUsername, isLoggedIn, getUserRoot} from '../state/selectors';
+import {getUsername, isLoggedIn} from '../state/selectors';
 import * as userActions from '../state/actions';
 import {RaisedButton} from 'material-ui';
 

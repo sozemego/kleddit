@@ -12,10 +12,6 @@ import {isLeftSidebarShown} from './state/selectors';
 
 class LeftMainPageSidebar extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     this.props.getSubscribedToSubkleddits();
   }

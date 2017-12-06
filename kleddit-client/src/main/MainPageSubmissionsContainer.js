@@ -6,10 +6,6 @@ import {MainPageSubmission} from './MainPageSubmission';
 
 class MainPageSubmissionsContainer extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       submissions

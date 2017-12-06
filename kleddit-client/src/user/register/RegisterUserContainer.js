@@ -12,10 +12,6 @@ import * as userActions from '../state/actions';
 
 export class RegisterUserContainer extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       onRegister,

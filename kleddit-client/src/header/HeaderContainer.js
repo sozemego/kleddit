@@ -11,10 +11,6 @@ import {isFetching} from '../main/state/selectors';
 
 class HeaderContainer extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   getButtons = () => {
     const {
       navigateToProfile,

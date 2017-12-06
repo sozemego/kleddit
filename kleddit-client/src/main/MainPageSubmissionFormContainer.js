@@ -2,15 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {MainPageSubmissionFormComponent} from './MainPageSubmissionFormComponent';
-import {getSubkledditNames} from '../subkleddit/state/selectors';
 import * as subkledditActions from '../subkleddit/state/actions';
 import {getSubscribedToSubkleddits} from '../user/state/selectors';
 
 class MainPageSubmissionFormContainer extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const {
