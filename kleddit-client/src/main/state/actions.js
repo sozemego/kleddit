@@ -34,7 +34,7 @@ export const mainPageSubscribe = (subkleddit) => {
     return dispatch(subscribe(subkleddit))
       .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()))
-      .catch(() => null);
+      .catch(() => null)
 
   };
 };
