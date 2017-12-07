@@ -155,7 +155,7 @@ class LeftMainPageSidebar extends Component {
   };
 
   getSideButtonClassNames = () => {
-    return this.props.isLeftSidebarShown ? 'main-page-side-hide-button' : 'main-page-side-hide-button';
+    return this.props.isLeftSidebarShown ? 'main-page-side-hide-button' : 'main-page-side-show-button';
   };
 
   render() {
