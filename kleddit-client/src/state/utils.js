@@ -13,7 +13,7 @@ export const rootSelector = (rootName) => (state) => {
 };
 
 export const createReducer = (initialState, handlers) => {
-  return (state, action) => {
+  return (state = initialState, action) => {
     if (handlers.hasOwnProperty(action.type)) {
       return handlers[action.type](state, action);
     } else {
