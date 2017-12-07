@@ -1,4 +1,5 @@
-import {SET_SUBKLEDDITS, SET_SUBMISSIONS} from './actions';
+import * as SUBKLEDDIT_ACTIONS from './actions';
+import {createReducer} from '../../state/utils';
 
 const initialState = {
 
@@ -7,17 +8,17 @@ const initialState = {
 
 };
 
-const subkleddits = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_SUBKLEDDITS: {
-      return {...state, subkleddits: action.subkleddits}
-    }
-    case SET_SUBMISSIONS: {
-      return {...state, submissions: action.submissions};
-    }
-    default:
-      return state;
-  }
+const setSubkleddits = (state, action) => {
+  return {...state, subkleddits: action.subkleddits}
 };
+
+const setSubmissions = (state, action) => {
+  return {...state, submissions: action.submissions};
+};
+
+const subkleddits = createReducer(initialState, {
+  [SUBKLEDDIT_ACTIONS.SET_SUBKLEDDITS]: setSubkleddits,
+  [SUBKLEDDIT_ACTIONS.SET_SUBMISSIONS]: setSubmissions
+});
 
 export default subkleddits;
