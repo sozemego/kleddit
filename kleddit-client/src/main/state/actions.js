@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {
   getSubkleddits,
   loadSubmissions
@@ -34,7 +36,7 @@ export const mainPageSubscribe = (subkleddit) => {
     return dispatch(subscribe(subkleddit))
       .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()))
-      .catch(() => null)
+      .catch(_.noop)
 
   };
 };
@@ -45,7 +47,7 @@ export const mainPageUnsubscribe = (subkleddit) => {
     return dispatch(unsubscribe(subkleddit))
       .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()))
-      .catch(() => null);
+      .catch(_.noop);
 
   };
 };
