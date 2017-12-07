@@ -59,13 +59,13 @@ const setSubscribedToSubkleddits = (state, action) => {
 };
 
 const addSubscribedToSubkleddit = (state, action) => {
-  const nextSubkleddits = [...state.subscribedToSubkleddits, action.subkledditName];
+  const nextSubkleddits = [...state.subscribedToSubkleddits, action.subkleddit];
   return {...state, subscribedToSubkleddits: nextSubkleddits}
 };
 
 const removeSubscribedToSubkleddit = (state, action) => {
   const subscribedToSubkleddits = [...state.subscribedToSubkleddits];
-  _.remove(subscribedToSubkleddits, n => n === action.subkledditName);
+  _.remove(subscribedToSubkleddits, n => n === action.subkleddit);
   return {...state, subscribedToSubkleddits}
 };
 
