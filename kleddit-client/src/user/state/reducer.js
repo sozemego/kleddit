@@ -1,15 +1,8 @@
-import {
-  ADD_SUBSCRIBED_TO_SUBKLEDDIT,
-  LOGIN_ERROR,
-  PASSWORD_REGISTRATION_ERROR,
-  REMOVE_SUBSCRIBED_TO_SUBKLEDDIT,
-  SET_SUBSCRIBED_TO_SUBKLEDDITS,
-  SET_TOKEN,
-  SET_USERNAME,
-  USERNAME_REGISTRATION_ERROR
-} from './actions';
+import * as USER_ACTIONS from './actions';
+import _ from 'lodash';
 
 import {NetworkService as networkService} from '../../network/NetworkService';
+import {createReducer} from '../../state/utils';
 
 const anonymousUser = {
   name: null,
@@ -26,7 +19,6 @@ const _getCurrentUser = () => {
   }
 
   networkService.setAuthorizationToken(token);
-
   return {name, token};
 };
 
@@ -40,49 +32,52 @@ const initialState = {
 
 };
 
-const user = (state = initialState, action) => {
-  switch (action.type) {
-    case USERNAME_REGISTRATION_ERROR: {
-      return {...state, usernameRegistrationError: action.message};
-    }
-    case PASSWORD_REGISTRATION_ERROR: {
-      return {...state, passwordRegistrationError: action.message};
-    }
-    case LOGIN_ERROR: {
-      return {...state, loginError: action.message};
-    }
-    case SET_USERNAME: {
-      action.username ? localStorage.setItem('username', action.username) : localStorage.removeItem('username');
-      return {...state, currentUser: {...state.currentUser, name: action.username}};
-    }
-    case SET_TOKEN: {
-      action.token ? localStorage.setItem('jwt', action.token) : localStorage.removeItem('jwt');
-      return {...state, currentUser: {...state.currentUser, token: action.token}};
-    }
-    case SET_SUBSCRIBED_TO_SUBKLEDDITS: {
-      return {...state, subscribedToSubkleddits: [...action.subkleddits]}
-    }
-    case ADD_SUBSCRIBED_TO_SUBKLEDDIT: {
-      return {...state, subscribedToSubkleddits: addSubkleddit(state.subscribedToSubkleddits, action.subkleddit)}
-    }
-    case REMOVE_SUBSCRIBED_TO_SUBKLEDDIT: {
-      return {...state, subscribedToSubkleddits: removeSubkleddit(state.subscribedToSubkleddits, action.subkleddit)}
-    }
-    default:
-      return state;
-  }
+const setUsernameRegistrationError = (state, action) => {
+  return {...state, usernameRegistrationError: action.message};
 };
 
-const addSubkleddit = (subkleddits, subkledditName) => {
-  return [...subkleddits, subkledditName];
+const setPasswordRegistrationError = (state, action) => {
+  return {...state, passwordRegistrationError: action.message};
 };
 
-const removeSubkleddit = (subkleddits, subkledditName) => {
-  const index = subkleddits.findIndex(subkleddit => subkleddit === subkledditName);
-  if(index > -1) {
-    subkleddits.splice(index, 1);
-  }
-  return [...subkleddits];
+const setLoginError = (state, action) => {
+  return {...state, loginError: action.message};
 };
+
+const setUsername = (state, action) => {
+  action.username ? localStorage.setItem('username', action.username) : localStorage.removeItem('username');
+  return {...state, currentUser: {...state.currentUser, name: action.username}};
+};
+
+const setToken = (state, action) => {
+  action.token ? localStorage.setItem('jwt', action.token) : localStorage.removeItem('jwt');
+  return {...state, currentUser: {...state.currentUser, token: action.token}};
+};
+
+const setSubscribedToSubkleddits = (state, action) => {
+  return {...state, subscribedToSubkleddits: [...action.subkleddits]}
+};
+
+const addSubscribedToSubkleddit = (state, action) => {
+  const nextSubkleddits = [...state.subscribedToSubkleddits, action.subkledditName];
+  return {...state, subscribedToSubkleddits: nextSubkleddits}
+};
+
+const removeSubscribedToSubkleddit = (state, action) => {
+  const subscribedToSubkleddits = [...state.subscribedToSubkleddits];
+  _.remove(subscribedToSubkleddits, n => n === action.subkledditName);
+  return {...state, subscribedToSubkleddits}
+};
+
+const user = createReducer(initialState, {
+  [USER_ACTIONS.USERNAME_REGISTRATION_ERROR]: setUsernameRegistrationError,
+  [USER_ACTIONS.PASSWORD_REGISTRATION_ERROR]: setPasswordRegistrationError,
+  [USER_ACTIONS.LOGIN_ERROR]: setLoginError,
+  [USER_ACTIONS.SET_USERNAME]: setUsername,
+  [USER_ACTIONS.SET_TOKEN]: setToken,
+  [USER_ACTIONS.SET_SUBSCRIBED_TO_SUBKLEDDITS]: setSubscribedToSubkleddits,
+  [USER_ACTIONS.ADD_SUBSCRIBED_TO_SUBKLEDDIT]: addSubscribedToSubkleddit,
+  [USER_ACTIONS.REMOVE_SUBSCRIBED_TO_SUBKLEDDIT]: removeSubscribedToSubkleddit
+});
 
 export default user;

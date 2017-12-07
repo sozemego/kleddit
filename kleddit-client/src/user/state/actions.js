@@ -4,7 +4,6 @@ import {NetworkService as networkService} from '../../network/NetworkService';
 import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
 import {getUsername} from './selectors';
-import {fetching, stopFetching} from '../../main/state/actions';
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {

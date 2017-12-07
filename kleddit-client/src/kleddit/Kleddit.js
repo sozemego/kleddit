@@ -15,21 +15,7 @@ import './kleddit.css';
 
 class Kleddit extends Component {
 
-  /**
-   * Test for adding an invisible overlay over
-   * the app when fetching, so that users cannot do too many things at once.
-   * Turned off right now.
-   * @returns {*}
-   */
-  getOverlay = () => {
-    return null;
-    const { isFetching } = this.props;
-    if (!isFetching) return null;
-    return <div className="overlay"/>;
-  };
-
   render() {
-    const {getOverlay} = this;
     return (
       <Router>
         <div>
@@ -40,7 +26,6 @@ class Kleddit extends Component {
             <Route exact path="/login" component={LoginFormContainer}/>
             <Route exact path="/" component={MainPageContainer}/>
             <ErrorDisplay/>
-            {getOverlay()}
           </div>
         </div>
       </Router>
