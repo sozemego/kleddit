@@ -110,6 +110,21 @@
     opacity: 0.65;
 }
 
+.main-page-subkleddit-list-subscribe-icon-loading {
+    animation-name: subscribe-icon-loading-animation;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes subscribe-icon-loading-animation {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .main-page-subkleddit-list-subscribe-icon:hover {
     opacity: 1;
 }

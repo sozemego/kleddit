@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Divider from 'material-ui/Divider';
+import _ from 'lodash';
 
 import * as userActions from '../user/state/actions';
 import * as subkledditsActions from '../subkleddit/state/actions';
@@ -12,6 +13,14 @@ import {isLeftSidebarShown} from './state/selectors';
 
 class LeftMainPageSidebar extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loadingSubscribeIcons: []
+    }
+  }
+
   componentWillMount() {
     this.props.getSubscribedToSubkleddits();
   }
@@ -22,7 +31,15 @@ class LeftMainPageSidebar extends Component {
       mainPageUnsubscribe,
     } = this.props;
 
-    subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
+    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
+    loadingSubscribeIcons.push(subkledditName);
+    this.setState({loadingSubscribeIcons: [...loadingSubscribeIcons]});
+
+    const action = subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
+    action.then(() => {
+      _.remove(loadingSubscribeIcons, n => n === subkledditName);
+      this.setState({loadingSubscribeIcons});
+    });
   };
 
   isSubscribed = (subkledditName) => {
@@ -30,7 +47,11 @@ class LeftMainPageSidebar extends Component {
       subscribedToSubkleddits
     } = this.props;
 
-    return subscribedToSubkleddits.findIndex(subscription => subscription === subkledditName) > -1;
+    return subscribedToSubkleddits.includes(subkledditName);
+  };
+
+  _isLoadingSubscribeIcon = (subkledditName) => {
+    return this.state.loadingSubscribeIcons.includes(subkledditName);
   };
 
   getSubscribeIcon = (subscribed, subkledditName) => {
@@ -43,14 +64,15 @@ class LeftMainPageSidebar extends Component {
     }
 
     const {
-      onSubscribeClicked
+      onSubscribeClicked,
     } = this;
 
     const onClick = () => onSubscribeClicked(subscribed, subkledditName);
-
+    const isLoading = this._isLoadingSubscribeIcon(subkledditName);
+    const classNames = "main-page-subkleddit-list-subscribe-icon " + (isLoading ? "main-page-subkleddit-list-subscribe-icon-loading": "")
     // inline svg because it's much easier to change svg colors this way
     return subscribed ?
-      <svg className="main-page-subkleddit-list-subscribe-icon"
+      <svg className={classNames}
            fill="red"
            height="24"
            viewBox="0 0 24 24"
@@ -64,7 +86,7 @@ class LeftMainPageSidebar extends Component {
       </svg>
       :
       <svg
-        className="main-page-subkleddit-list-subscribe-icon"
+        className={classNames}
         fill="#3f51b5"
         height="24"
         viewBox="0 0 24 24"
