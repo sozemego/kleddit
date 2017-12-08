@@ -26,27 +26,29 @@ class LeftMainPageSidebar extends Component {
   }
 
   onSubscribeClicked = (subscribed, subkledditName) => {
-    const {
-      mainPageSubscribe,
-      mainPageUnsubscribe,
-    } = this.props;
+    const { mainPageSubscribe, mainPageUnsubscribe } = this.props;
+    const { addLoadingSubkleddit, removeLoadingSubkleddit } = this;
 
-    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
-    loadingSubscribeIcons.push(subkledditName);
-    this.setState({loadingSubscribeIcons: [...loadingSubscribeIcons]});
+    addLoadingSubkleddit(subkledditName);
 
     const action = subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
-    action.then(() => {
-      _.remove(loadingSubscribeIcons, n => n === subkledditName);
-      this.setState({loadingSubscribeIcons});
-    });
+    action.then(() => removeLoadingSubkleddit(subkledditName));
+  };
+
+  addLoadingSubkleddit = (subkledditName) => {
+    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
+    loadingSubscribeIcons.push(subkledditName);
+    this.setState({loadingSubscribeIcons});
+  };
+
+  removeLoadingSubkleddit = (subkledditName) => {
+    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
+    _.remove(loadingSubscribeIcons, n => n === subkledditName);
+    this.setState({loadingSubscribeIcons});
   };
 
   isSubscribed = (subkledditName) => {
-    const {
-      subscribedToSubkleddits
-    } = this.props;
-
+    const { subscribedToSubkleddits } = this.props;
     return subscribedToSubkleddits.includes(subkledditName);
   };
 
