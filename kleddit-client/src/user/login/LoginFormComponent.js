@@ -44,7 +44,7 @@ export class LoginFormComponent extends Component {
       password
     } = this.state;
 
-    onSubmit(username, password);
+    return onSubmit(username, password);
   };
 
   render() {
@@ -77,6 +77,7 @@ export class LoginFormComponent extends Component {
         />
         <FormSubmitButton onClick={onSubmit}
                           label="Login"
+                          secondary
         />
       </Form>
     );

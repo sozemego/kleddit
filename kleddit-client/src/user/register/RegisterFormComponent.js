@@ -45,7 +45,7 @@ export class RegisterFormComponent extends Component {
       password
     } = this.state;
 
-    onSubmit(username, password);
+    return onSubmit(username, password);
   };
 
   render() {
