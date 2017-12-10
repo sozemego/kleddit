@@ -30,7 +30,6 @@ public class Submission {
   private String content;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "subkleddit_id")
   private Subkleddit subkleddit;
 
   public Submission() {
@@ -83,5 +82,20 @@ public class Submission {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Submission that = (Submission) o;
+
+    return getSubmissionId().equals(that.getSubmissionId());
+  }
+
+  @Override
+  public int hashCode() {
+    return getSubmissionId().hashCode();
   }
 }

@@ -6,6 +6,7 @@ const subscribedSubkledditsPath = '/subscription/user/subkleddits/';
 const subscribePath = '/subscription/subscribe';
 const submitPath = '/submission/submit';
 const subscribedToSubkleddits = '/submission/subscribed';
+const deleteSubmission = '/submission/delete/';
 
 export const SubkledditService = {};
 
@@ -46,4 +47,8 @@ SubkledditService.submit = function (submissionId, submissionTime, subkledditNam
 
 SubkledditService.getSubmissionsForSubscribedSubkleddits = function() {
   return networkService.get(`${basePath}${subscribedToSubkleddits}`);
+};
+
+SubkledditService.deleteSubmission = function(submissionId) {
+  return networkService.delete(`${basePath}${deleteSubmission}${submissionId}`);
 };

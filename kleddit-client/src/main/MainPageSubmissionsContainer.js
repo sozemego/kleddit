@@ -2,19 +2,21 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getSubmissions} from '../subkleddit/state/selectors';
+import * as subkledditActions from '../subkleddit/state/actions';
 import {MainPageSubmission} from './MainPageSubmission';
 
 class MainPageSubmissionsContainer extends Component {
 
   render() {
     const {
-      submissions
+      submissions,
+      deleteSubmission
     } = this.props;
 
     return (
       <div className="main-page-submissions-container">
         {submissions.map((submission, index) => {
-          return <MainPageSubmission key={index} submission={submission}/>;
+          return <MainPageSubmission key={index} submission={submission} onDelete={deleteSubmission}/>;
         })}
       </div>
     )
@@ -23,7 +25,8 @@ class MainPageSubmissionsContainer extends Component {
 }
 
 MainPageSubmissionsContainer.propTypes = {
-  submissions: PropTypes.array
+  submissions: PropTypes.array.isRequired,
+  deleteSubmission: PropTypes.func.isRequired
 };
 
 MainPageSubmissionsContainer.defaultProps = {
@@ -36,4 +39,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(MainPageSubmissionsContainer);
+export default connect(mapStateToProps, subkledditActions)(MainPageSubmissionsContainer);

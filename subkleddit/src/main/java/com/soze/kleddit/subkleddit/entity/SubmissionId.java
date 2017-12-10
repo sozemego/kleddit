@@ -1,7 +1,5 @@
 package com.soze.kleddit.subkleddit.entity;
 
-import javax.persistence.Embeddable;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -33,6 +31,10 @@ public class SubmissionId implements Serializable {
 
   public static SubmissionId randomId() {
     return new SubmissionId(UUID.randomUUID());
+  }
+
+  public static SubmissionId fromString(String submissionId) {
+    return new SubmissionId(submissionId);
   }
 
   @Override

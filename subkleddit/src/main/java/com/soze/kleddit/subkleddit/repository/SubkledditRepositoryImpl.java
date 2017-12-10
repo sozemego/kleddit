@@ -1,6 +1,8 @@
 package com.soze.kleddit.subkleddit.repository;
 
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
+import com.soze.kleddit.subkleddit.entity.Submission;
+import com.soze.kleddit.subkleddit.entity.SubmissionId;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,5 +56,22 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
   public void updateSubkleddit(Subkleddit subkleddit) {
     Objects.requireNonNull(subkleddit);
     em.merge(subkleddit);
+  }
+
+  @Override
+  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+    Query query = em.createQuery("SELECT s FROM Submission s WHERE s.submissionId = :submissionId");
+    query.setParameter("submissionId", submissionId);
+    try {
+      return Optional.of((Submission) query.getSingleResult());
+    } catch (NoResultException e) {
+      return Optional.empty();
+    }
+  }
+
+  @Override
+  public void updateSubmission(Submission submission) {
+    Objects.requireNonNull(submission);
+    em.merge(submission);
   }
 }

@@ -16,10 +16,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -37,9 +34,6 @@ public class SubmissionServiceImpl implements SubmissionService {
 
   @Inject
   private UserService userService;
-
-  @Inject
-  private SubmissionService submissionService;
 
   @Override
   public void submit(String username, SubmissionForm form) {
@@ -149,6 +143,38 @@ public class SubmissionServiceImpl implements SubmissionService {
       .stream()
       .flatMap(subkleddit -> subkleddit.getSubmissions().stream())
       .collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteSubmission(String username, SubmissionId submissionId) {
+    Objects.requireNonNull(username);
+    Objects.requireNonNull(submissionId);
+
+    Optional<Submission> optionalSubmission = getSubmissionById(submissionId);
+    if(!optionalSubmission.isPresent()) {
+      LOG.info("Tried to delete submission with id [{}], but it does not exist.", submissionId);
+      throw new IllegalArgumentException("Submission id does not exist.");
+    }
+
+    Submission submission = optionalSubmission.get();
+    String authorName = submission.getAuthor().getUsername();
+    if(!authorName.equalsIgnoreCase(username)) {
+      LOG.info("User [{}]  is trying to delete user [{}]'s submission.", username, authorName);
+      throw new IllegalArgumentException("Submission id does not exist.");
+    }
+
+    Subkleddit subkleddit = submission.getSubkleddit();
+    HashSet<Submission> submissions = new HashSet<>(subkleddit.getSubmissions());
+    submissions.remove(submission);
+    subkleddit.setSubmissions(new ArrayList<>(submissions));
+    submission.setSubkleddit(null);
+    subkledditService.updateSubmission(submission);
+    subkledditService.updateSubkleddit(subkleddit);
+  }
+
+  @Override
+  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+    return subkledditService.getSubmissionById(submissionId);
   }
 
 }

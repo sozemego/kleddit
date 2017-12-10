@@ -52,7 +52,12 @@ export const loadSubmissions = () => {
 export const deleteSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
+    if(!submissionId) {
+      throw new Error('Needs to a defined submission id', submissionId);
+    }
 
+    return subkledditService.deleteSubmission(submissionId)
+      .then(() => dispatch(loadSubmissions()));
 
   };
 };

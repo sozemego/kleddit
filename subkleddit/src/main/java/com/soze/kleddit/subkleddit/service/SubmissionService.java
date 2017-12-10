@@ -2,8 +2,10 @@ package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
+import com.soze.kleddit.subkleddit.entity.SubmissionId;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubmissionService {
 
@@ -26,5 +28,12 @@ public interface SubmissionService {
    * @return list of submissions
    */
   List<Submission> getSubmissionsForUser(String username);
+
+  /**
+   * Given user attempts to delete a submission with submissionId.
+   */
+  void deleteSubmission(String username, SubmissionId submissionId);
+
+  Optional<Submission> getSubmissionById(SubmissionId submissionId);
 
 }

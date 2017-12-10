@@ -2,6 +2,8 @@ package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.SubkledditId;
+import com.soze.kleddit.subkleddit.entity.Submission;
+import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.exceptions.IllegalSubkledditSearchException;
 import com.soze.kleddit.subkleddit.repository.SubkledditRepository;
 import org.slf4j.Logger;
@@ -50,6 +52,18 @@ public class SubkledditServiceImpl implements SubkledditService {
   public void updateSubkleddit(Subkleddit subkleddit) {
     Objects.requireNonNull(subkleddit);
     repository.updateSubkleddit(subkleddit);
+  }
+
+  @Override
+  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+    Objects.requireNonNull(submissionId);
+    return repository.getSubmissionById(submissionId);
+  }
+
+  @Override
+  public void updateSubmission(Submission submission) {
+    Objects.requireNonNull(submission);
+    repository.updateSubmission(submission);
   }
 
   @Override
