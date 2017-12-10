@@ -38,8 +38,7 @@
 }
 
 .form-submit-button {
-    /*margin: 6px auto 6px auto;*/
-    /*width: 50%;*/
+    margin: 24px auto 6px auto !important;
 }
 
 .form-input-field-error {
