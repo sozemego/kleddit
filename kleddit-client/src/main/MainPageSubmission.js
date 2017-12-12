@@ -10,7 +10,7 @@ export class MainPageSubmission extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteIconHover: false
+      deleteIconHover: false,
     };
   }
 
@@ -38,11 +38,15 @@ export class MainPageSubmission extends Component {
       subkleddit,
       author,
       createdAt,
-      content
+      content,
+      deleting
     } = submission;
 
     return (
-      <Paper zDepth={2} className={"submission-container " + (own ? "submission-container-own": "")}>
+      <Paper zDepth={2}
+             className={
+               `submission-container " + ${own ? "submission-container-own": ""}
+               ${deleting ? "submission-deleting" : ""}`}>
         <div className="submission-header-container">
           <div className="submission-title">
             {title}

@@ -16,7 +16,7 @@ class MainPageSubmissionsContainer extends Component {
     return (
       <div className="main-page-submissions-container">
         {submissions.map((submission, index) => {
-          return <MainPageSubmission key={index} submission={submission} onDelete={deleteSubmission}/>;
+          return <MainPageSubmission key={submission.submissionId} submission={submission} onDelete={deleteSubmission}/>;
         })}
       </div>
     )

@@ -67,3 +67,6 @@ const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');
 
 export const SET_SUBMISSIONS = 'SET_SUBMISSIONS';
 const setSubmissions = makeActionCreator(SET_SUBMISSIONS, 'submissions');
+
+export const MARK_SUBMISSION_DELETING = 'MARK_SUBMISSION_DELETING';
+export const markSubmissionDeleting = makeActionCreator(MARK_SUBMISSION_DELETING, 'submissionId');
