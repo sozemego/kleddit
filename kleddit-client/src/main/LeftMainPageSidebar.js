@@ -30,8 +30,9 @@ class LeftMainPageSidebar extends Component {
     const { addLoadingSubkleddit, removeLoadingSubkleddit } = this;
 
     addLoadingSubkleddit(subkledditName);
-
+    console.log(mainPageSubscribe);
     const action = subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
+    console.log(action);
     action.then(() => removeLoadingSubkleddit(subkledditName));
   };
 

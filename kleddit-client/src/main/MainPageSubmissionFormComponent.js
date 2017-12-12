@@ -35,13 +35,30 @@ export class MainPageSubmissionFormComponent extends Component {
     })
   };
 
+  onContentChange = (content) => {
+    const { onChange } = this.props;
+    const nextState = {...this.state, content};
+    onChange(nextState);
+    this.setState(nextState);
+  };
+
+  onTitleChange = (title) => {
+    const { onChange } = this.props;
+    const nextState = {...this.state, title};
+    onChange(nextState);
+    this.setState(nextState);
+  };
+
   render() {
     const {
-      onSubmit
+      onSubmit,
+      onTitleChange,
+      onContentChange
     } = this;
 
     const {
       subkleddits = [],
+      submissionErrors
     } = this.props;
 
     if(subkleddits.length === 0) {
@@ -78,7 +95,8 @@ export class MainPageSubmissionFormComponent extends Component {
             className="submission-form-title-input"
             style={{margin: "4px"}}
             value={title}
-            onChange={(event, title) => this.setState({title})}
+            errorText={submissionErrors.title}
+            onChange={(event, title) => onTitleChange(title)}
           />
         </div>
         <div className="submission-form-content-input-container">
@@ -88,7 +106,8 @@ export class MainPageSubmissionFormComponent extends Component {
             multiLine={true}
             style={{margin: "4px"}}
             value={content}
-            onChange={(event, content) => this.setState({content})}
+            errorText={submissionErrors.content}
+            onChange={(event, content) => onContentChange(content)}
           />
         </div>
         <div className="submission-form-button-input-container">

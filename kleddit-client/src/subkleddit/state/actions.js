@@ -25,6 +25,7 @@ export const submit = (subkleddit, title, content) => {
     dispatch(fetching());
     return subkledditService.submit(randomSubmissionId(), new Date().getTime(), subkleddit, title, content)
       .then(() => dispatch(loadSubmissions()))
+      .then(() => dispatch(setSubmissionErrors({})))
       .then(() => dispatch(stopFetching()))
       .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
   }
@@ -70,3 +71,9 @@ const setSubmissions = makeActionCreator(SET_SUBMISSIONS, 'submissions');
 
 export const MARK_SUBMISSION_DELETING = 'MARK_SUBMISSION_DELETING';
 export const markSubmissionDeleting = makeActionCreator(MARK_SUBMISSION_DELETING, 'submissionId');
+
+export const VALIDATE_SUBMISSION = 'VALIDATE_SUBMISSION';
+export const validateSubmission = makeActionCreator(VALIDATE_SUBMISSION, 'payload');
+
+export const SET_SUBMISSION_ERRORS = 'SET_SUBMISSION_ERRORS';
+export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'submissionErrors');
