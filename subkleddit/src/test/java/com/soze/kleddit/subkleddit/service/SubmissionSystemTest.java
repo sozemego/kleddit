@@ -9,6 +9,7 @@ import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
+import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,7 @@ public class SubmissionSystemTest {
 
   @Before
   public void setup() throws Exception {
+    DatabaseReset.resetDatabase();
     //TODO extract to files
     client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
     authHelper = new HttpClientTestAuthHelper("http://localhost:8080/");
@@ -213,7 +215,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(1, submissions.size());
+    assertEquals(0, submissions.size());
   }
 
   @Test
@@ -238,7 +240,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(1, submissions.size());
+    assertEquals(0, submissions.size());
   }
 
   @Test
@@ -263,7 +265,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(1, submissions.size());
+    assertEquals(0, submissions.size());
   }
 
   @Test
@@ -288,7 +290,7 @@ public class SubmissionSystemTest {
 
     response = client.get(getAllSubmissions + subkledditName);
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(1, submissions.size());
+    assertEquals(0, submissions.size());
   }
 
   @Test

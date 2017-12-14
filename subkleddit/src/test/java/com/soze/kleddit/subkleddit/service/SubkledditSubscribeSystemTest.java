@@ -6,6 +6,7 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionType;
 import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
+import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +27,7 @@ public class SubkledditSubscribeSystemTest {
 
   @Before
   public void setup() throws Exception {
+    DatabaseReset.resetDatabase();
     //TODO load paths from file
     client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
     authHelper = new HttpClientTestAuthHelper("http://localhost:8080/");
@@ -47,7 +49,7 @@ public class SubkledditSubscribeSystemTest {
     assertEquals(subkledditName, subkleddits.get(0).getName());
     response = client.getPlainText(subkledditSubscriptions + subkledditName);
     long subscriberCount = response.readEntity(Long.class);
-    assertEquals(6L, subscriberCount);
+    assertEquals(1, subscriberCount);
   }
 
   @Test
@@ -94,7 +96,7 @@ public class SubkledditSubscribeSystemTest {
     assertEquals(subkledditName, subkleddits.get(0).getName());
     response = client.getPlainText(subkledditSubscriptions + subkledditName);
     long subscriberCount = response.readEntity(Long.class);
-    assertEquals(2L, subscriberCount);
+    assertEquals(1L, subscriberCount);
 
     form = new SubscriptionForm(subkledditName, SubscriptionType.UNSUBSCRIBE);
     response = client.post(form, subscribe);
@@ -105,7 +107,7 @@ public class SubkledditSubscribeSystemTest {
     assertEquals(0, subkleddits.size());
     response = client.getPlainText(subkledditSubscriptions + subkledditName);
     subscriberCount = response.readEntity(Long.class);
-    assertEquals(1L, subscriberCount);
+    assertEquals(0L, subscriberCount);
   }
 
   @Test
@@ -149,7 +151,7 @@ public class SubkledditSubscribeSystemTest {
 
     Response response = client.getPlainText(subkledditSubscriptions + "General");
     long subscriberCount = response.readEntity(Long.class);
-    assertEquals(5, subscriberCount);
+    assertEquals(4, subscriberCount);
   }
 
   @Test

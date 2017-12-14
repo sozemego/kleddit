@@ -4,6 +4,7 @@ import com.soze.kleddit.subkleddit.dto.SubkledditSimpleDto;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
+import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,7 @@ public class SubkledditSystemTest {
 
   @Before
   public void setup() {
+    DatabaseReset.resetDatabase();
     //TODO extract path to file
     client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
   }

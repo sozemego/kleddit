@@ -28,7 +28,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
 
   private static final Logger LOG = LoggerFactory.getLogger(SubkledditSubscriptionServiceImpl.class);
 
-  @EJB
+  @EJB(beanName = "SubkledditSubscriberCountDb")
   private SubkledditSubscriberCount subkledditSubscriberCount;
 
   @Inject
@@ -72,16 +72,22 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     }
 
     String subkledditName = form.getSubkledditName();
+    Optional<Subkleddit> subkleddit = subkledditRepository.getSubkledditByName(subkledditName);
+    if (!subkleddit.isPresent()) {
+      LOG.info("User [{}] tried to subscribe to a subkleddit which does not exist! [{}]", username, subkledditName);
+      throw new SubscriptionException("User [" + username + "] tried to subscribe to a subkleddit which does not exist! [" + subkledditName + "]");
+
+    }
 
     User user = userOptional.get();
     UserId userId = user.getUserId();
 
     SubkledditSubscription subscription = new SubkledditSubscription();
-    subscription.setSubkledditName(subkledditName);
+    subscription.setSubkledditName(subkledditName.toLowerCase());
     subscription.setUserId(userId);
 
-    if(form.getSubscriptionType() == SubscriptionType.SUBSCRIBE) {
-      if(subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
+    if (form.getSubscriptionType() == SubscriptionType.SUBSCRIBE) {
+      if (subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
         throw new SubscriptionException("User with name [" + user.getUsername() + "] already subscribed to [" + subkledditName + "]");
       }
 
@@ -89,8 +95,8 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
       subkledditSubscriptionRepository.addSubscription(subscription);
     }
 
-    if(form.getSubscriptionType() == SubscriptionType.UNSUBSCRIBE) {
-      if(!subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
+    if (form.getSubscriptionType() == SubscriptionType.UNSUBSCRIBE) {
+      if (!subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
         throw new SubscriptionException("User with name [" + user.getUsername() + "] was not subscribed to [" + subkledditName + "]");
       }
 
@@ -105,7 +111,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     Objects.requireNonNull(username);
 
     Optional<User> userOptional = userService.getUserByUsername(username);
-    if(!userOptional.isPresent()) {
+    if (!userOptional.isPresent()) {
       throw new AuthUserDoesNotExistException(username + " does not exist.");
     }
 

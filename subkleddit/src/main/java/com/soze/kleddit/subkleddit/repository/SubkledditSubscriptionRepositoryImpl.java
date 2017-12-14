@@ -21,16 +21,16 @@ public class SubkledditSubscriptionRepositoryImpl implements SubkledditSubscript
 
   @Override
   public List<SubkledditSubscription> getSubscriptions(String subkledditName) {
-    Query query = em.createQuery("SELECT s from SubkledditSubscription s WHERE s.subkledditName = :subkledditName");
-    query.setParameter("subkledditName", subkledditName);
+    Query query = em.createQuery("SELECT s from SubkledditSubscription s WHERE UPPER(s.subkledditName) = :subkledditName");
+    query.setParameter("subkledditName", subkledditName.toUpperCase());
     return query.getResultList();
   }
 
   @Override
   public boolean isSubscribed(UserId userId, String subkledditName) {
-    Query query= em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId AND s.subkledditName = :subkledditName");
+    Query query= em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId AND UPPER(s.subkledditName) = :subkledditName");
     query.setParameter("userId", userId);
-    query.setParameter("subkledditName", subkledditName);
+    query.setParameter("subkledditName", subkledditName.toUpperCase());
 
     try {
       return query.getSingleResult() != null;
@@ -53,9 +53,9 @@ public class SubkledditSubscriptionRepositoryImpl implements SubkledditSubscript
       em.remove(subscription);
     }
 
-    Query query= em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId AND s.subkledditName = :subkledditName");
+    Query query= em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId AND UPPER(s.subkledditName) = :subkledditName");
     query.setParameter("userId", subscription.getUserId());
-    query.setParameter("subkledditName", subscription.getSubkledditName());
+    query.setParameter("subkledditName", subscription.getSubkledditName().toUpperCase());
 
     try {
       SubkledditSubscription subscription1 = (SubkledditSubscription) query.getSingleResult();

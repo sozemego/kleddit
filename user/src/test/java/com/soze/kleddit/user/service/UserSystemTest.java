@@ -7,6 +7,7 @@ import com.soze.kleddit.user.dto.SimpleUserDto;
 import com.soze.kleddit.utils.http.ErrorResponse;
 import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.json.JsonUtils;
+import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +29,7 @@ public class UserSystemTest {
 
   @Before
   public void setup() {
+    DatabaseReset.resetDatabase();
     client = new HttpClient("http://localhost:8080/api/0.1/user/");
   }
 

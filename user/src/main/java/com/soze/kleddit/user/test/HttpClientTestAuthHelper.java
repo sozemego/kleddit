@@ -40,7 +40,6 @@ public class HttpClientTestAuthHelper {
       LoginForm form = new LoginForm(username, userPasswordMap.get(username).toCharArray());
       Response response = httpClient.post(form, LOGIN_PATH);
       Jwt token = JsonUtils.jsonToObject(response.readEntity(String.class), Jwt.class);
-      System.out.println("TOKEN " + token);
       return token.getJwt();
     });
 
