@@ -30,7 +30,7 @@ public class UserSystemTest {
   @Before
   public void setup() {
     DatabaseReset.resetDatabase();
-    client = new HttpClient("http://localhost:8080/api/0.1/user/");
+    client = new HttpClient("http://localhost:8180/api/0.1/user/");
   }
 
   @Test

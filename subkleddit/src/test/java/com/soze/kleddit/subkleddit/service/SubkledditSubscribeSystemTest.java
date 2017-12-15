@@ -29,8 +29,8 @@ public class SubkledditSubscribeSystemTest {
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();
     //TODO load paths from file
-    client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
-    authHelper = new HttpClientTestAuthHelper("http://localhost:8080/");
+    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
+    authHelper = new HttpClientTestAuthHelper("http://localhost:8180/");
   }
 
   @Test

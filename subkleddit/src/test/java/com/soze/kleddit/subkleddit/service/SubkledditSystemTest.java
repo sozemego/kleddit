@@ -27,7 +27,7 @@ public class SubkledditSystemTest {
   public void setup() {
     DatabaseReset.resetDatabase();
     //TODO extract path to file
-    client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
+    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
   }
 
   @Test

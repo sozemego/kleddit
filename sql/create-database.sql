@@ -1,5 +1,5 @@
-ALTER TABLE public.submissions DROP CONSTRAINT submissions_author_id_fkey;
-ALTER TABLE public.submissions DROP CONSTRAINT submissions_subkleddit_subkleddit_id_fkey;
+ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_author_id_fkey;
+ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_subkleddit_subkleddit_id_fkey;
 DROP TABLE public.submissions;
 DROP TABLE public.users;
 DROP TABLE public.subkleddits;
@@ -39,11 +39,11 @@ create table submissions
 );
 
 INSERT INTO subkleddits (subkleddit_id, name) VALUES
-(gen_random_uuid(), 'General'),
-(gen_random_uuid(), 'Casual'),
-(gen_random_uuid(), 'News'),
-(gen_random_uuid(), 'Porn'),
-(gen_random_uuid(), 'Pictures'),
-(gen_random_uuid(), 'Videos'),
-(gen_random_uuid(), 'Gifs');
+  (gen_random_uuid(), 'General'),
+  (gen_random_uuid(), 'Casual'),
+  (gen_random_uuid(), 'News'),
+  (gen_random_uuid(), 'Porn'),
+  (gen_random_uuid(), 'Pictures'),
+  (gen_random_uuid(), 'Videos'),
+  (gen_random_uuid(), 'Gifs');
 

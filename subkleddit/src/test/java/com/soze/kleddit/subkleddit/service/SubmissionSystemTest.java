@@ -35,8 +35,8 @@ public class SubmissionSystemTest {
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();
     //TODO extract to files
-    client = new HttpClient("http://localhost:8080/api/0.1/subkleddit/");
-    authHelper = new HttpClientTestAuthHelper("http://localhost:8080/");
+    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
+    authHelper = new HttpClientTestAuthHelper("http://localhost:8180/");
   }
 
   @Test

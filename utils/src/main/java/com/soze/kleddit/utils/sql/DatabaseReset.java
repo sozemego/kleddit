@@ -18,7 +18,7 @@ public class DatabaseReset {
 
   private static final String DB_USER = System.getenv("KLEDDIT_DB_USER");
   private static final String DB_PASS = System.getenv("KLEDDIT_DB_PASS");
-  private static final String CONNECTION_STRING = "jdbc:postgresql://127.0.0.1:5432/kleddit";
+  private static final String CONNECTION_STRING = "jdbc:postgresql://127.0.0.1:5432/kleddit-test";
 
   /**
    * This method will load a .sql script located at /sql
