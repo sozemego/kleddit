@@ -39,27 +39,25 @@ export class MainPageSubmission extends Component {
       author,
       createdAt,
       content,
-      deleting
     } = submission;
 
     return (
-      <Paper zDepth={2}
-             className={
-               `submission-container " + ${own ? "submission-container-own": ""}
-               ${deleting ? "submission-deleting" : ""}`}>
-        <div className="submission-header-container">
-          <div className="submission-title">
-            {title}
-            <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
+        <Paper zDepth={2}
+               className={`submission-container ${own ? "submission-container-own": ""}`}
+        >
+          <div className="submission-header-container">
+            <div className="submission-title">
+              {title}
+              <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
+            </div>
+            <div className="submission-icon-container">
+              {own ? getDeleteIcon() : null}
+            </div>
           </div>
-          <div className="submission-icon-container">
-            {own ? getDeleteIcon() : null}
-          </div>
-        </div>
-        <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
-        <Divider />
-        <Paper className="submission-content" zDepth={1}>{content}</Paper>
-      </Paper>
+          <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
+          <Divider />
+          <Paper className="submission-content" zDepth={1}>{content}</Paper>
+        </Paper>
     );
   }
 

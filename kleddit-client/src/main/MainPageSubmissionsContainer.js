@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {getSubmissions} from '../subkleddit/state/selectors';
 import * as subkledditActions from '../subkleddit/state/actions';
 import {MainPageSubmission} from './MainPageSubmission';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -14,12 +15,21 @@ class MainPageSubmissionsContainer extends Component {
     } = this.props;
 
     return (
-      <div className="main-page-submissions-container">
+      <ReactCSSTransitionGroup
+        transitionName="submission"
+        transitionAppear={true}
+        transitionAppearTimeout={250}
+        transitionEnterTimeout={250}
+        transitionLeaveTimeout={250}
+        component="div"
+        className="main-page-submissions-container"
+      >
         {submissions.map((submission, index) => {
-          return <MainPageSubmission key={submission.submissionId} submission={submission} onDelete={deleteSubmission}/>;
+          return <MainPageSubmission key={submission.submissionId} submission={submission}
+                                     onDelete={deleteSubmission}/>;
         })}
-      </div>
-    )
+      </ReactCSSTransitionGroup>
+    );
   }
 
 }
