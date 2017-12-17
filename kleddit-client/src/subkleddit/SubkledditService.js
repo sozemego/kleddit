@@ -1,4 +1,5 @@
 import networkService from '../network/NetworkServiceFactory';
+import {QueryBuilder} from '../network/QueryFilter';
 
 const basePath = 'http://localhost:8080/api/0.1/subkleddit';
 const getAllPath = '/all';
@@ -45,8 +46,13 @@ SubkledditService.submit = function (submissionId, submissionTime, subkledditNam
   });
 };
 
-SubkledditService.getSubmissionsForSubscribedSubkleddits = function() {
-  return networkService.get(`${basePath}${subscribedToSubkleddits}`);
+SubkledditService.getSubmissionsForSubscribedSubkleddits = function(page = 1, limit = 15) {
+  const url = QueryBuilder.create(`${basePath}${subscribedToSubkleddits}`)
+    .withPage(page)
+    .withLimit(limit)
+    .getUrl();
+
+  return networkService.get(url);
 };
 
 SubkledditService.deleteSubmission = function(submissionId) {

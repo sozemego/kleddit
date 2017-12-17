@@ -5,6 +5,9 @@ export const subkledditRoot = rootSelector('subkleddits');
 
 export const getSubkleddits = (state) => subkledditRoot(state).subkleddits;
 export const getSubkledditNames = (state) => subkledditRoot(state).subkleddits.map(subkleddit => subkleddit.name);
+export const isFetchingNextPage = (state) => subkledditRoot(state).isFetchingNextPage;
+export const getCurrentPage = (state) => subkledditRoot(state).page;
+export const getCurrentPerPage = (state) => subkledditRoot(state).perPage;
 
 export const getSubmissions = (state) => {
   const submissions = [...subkledditRoot(state).submissions];

@@ -8,6 +8,20 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class MainPageSubmissionsContainer extends Component {
 
+  componentWillMount = () => {
+    window.addEventListener('scroll', this.onScroll);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener('scroll', this.onScroll);
+  };
+
+  onScroll = (event) => {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      this.props.onScrollBottom();
+    }
+  };
+
   render() {
     const {
       submissions,
@@ -36,7 +50,8 @@ class MainPageSubmissionsContainer extends Component {
 
 MainPageSubmissionsContainer.propTypes = {
   submissions: PropTypes.array.isRequired,
-  deleteSubmission: PropTypes.func.isRequired
+  deleteSubmission: PropTypes.func.isRequired,
+  onScrollBottom: PropTypes.func.isRequired
 };
 
 MainPageSubmissionsContainer.defaultProps = {
