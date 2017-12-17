@@ -61,9 +61,27 @@ public class SubkledditServiceImpl implements SubkledditService {
   }
 
   @Override
+  public List<Submission> getSubmissionsForSubkleddit(String subkledditName) {
+    Objects.requireNonNull(subkledditName);
+    return repository.getSubmissionsForSubkleddit(subkledditName);
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames) {
+    Objects.requireNonNull(subkledditNames);
+    return repository.getSubmissionsForSubkleddits(subkledditNames);
+  }
+
+  @Override
   public void updateSubmission(Submission submission) {
     Objects.requireNonNull(submission);
     repository.updateSubmission(submission);
+  }
+
+  @Override
+  public void removeSubmission(Submission submission) {
+    Objects.requireNonNull(submission);
+    repository.removeSubmission(submission);
   }
 
   @Override

@@ -18,7 +18,7 @@ public class Subkleddit {
   @Column(name = "name")
   private String name;
 
-  @OneToMany(mappedBy = "subkleddit", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "subkleddit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Submission> submissions = new ArrayList<>();
 
   public Subkleddit() {

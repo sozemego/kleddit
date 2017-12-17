@@ -23,4 +23,10 @@ public interface SubkledditRepository {
   Optional<Submission> getSubmissionById(SubmissionId submissionId);
 
   void updateSubmission(Submission submission);
+
+  void removeSubmission(Submission submission);
+
+  List<Submission> getSubmissionsForSubkleddit(String subkledditName);
+
+  List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames);
 }

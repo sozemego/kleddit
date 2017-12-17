@@ -36,5 +36,11 @@ public interface SubkledditService {
 
   Optional<Submission> getSubmissionById(SubmissionId submissionId);
 
+  List<Submission> getSubmissionsForSubkleddit(String subkledditName);
+
+  List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames);
+
   void updateSubmission(Submission submission);
+
+  void removeSubmission(Submission submission);
 }

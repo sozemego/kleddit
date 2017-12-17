@@ -121,7 +121,7 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
 
-    List<Submission> submissions = subkledditOptional.get().getSubmissions();
+    List<Submission> submissions = subkledditService.getSubmissionsForSubkleddit(subkledditName);
     LOG.info("Retrieved [{}] submissions for subkleddit [{}]", submissions.size(), subkledditName);
 
     return new ArrayList<>(submissions);
@@ -137,12 +137,15 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new AuthUserDoesNotExistException(username);
     }
 
+    //TODO make this a sql call
     List<Subkleddit> subscriptions = subkledditSubscriptionService.getSubscribedSubkleddits(username);
+    List<String> subkledditNames = subscriptions.stream().map(Subkleddit::getName).collect(Collectors.toList());
+    return subkledditService.getSubmissionsForSubkleddits(subkledditNames);
 
-    return subscriptions
-      .stream()
-      .flatMap(subkleddit -> subkleddit.getSubmissions().stream())
-      .collect(Collectors.toList());
+//    return subscriptions
+//      .stream()
+//      .flatMap(subkleddit -> subkleddit.getSubmissions().stream().limit(25))
+//      .collect(Collectors.toList());
   }
 
   @Override
@@ -168,7 +171,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     submissions.remove(submission);
     subkleddit.setSubmissions(new ArrayList<>(submissions));
     submission.setSubkleddit(null);
-    subkledditService.updateSubmission(submission);
+//    subkledditService.updateSubmission(submission);
+    subkledditService.removeSubmission(submission);
     subkledditService.updateSubkleddit(subkleddit);
   }
 
