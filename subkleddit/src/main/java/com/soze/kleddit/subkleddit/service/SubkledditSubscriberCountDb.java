@@ -13,6 +13,7 @@ public class SubkledditSubscriberCountDb implements SubkledditSubscriberCount {
 
   @Override
   public long getSubscriberCountBySubkledditName(String name) {
+    //TODO make this not suck
     return subkledditSubscriptionRepository.getSubscriptions(name).size();
   }
 
