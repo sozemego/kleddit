@@ -124,7 +124,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     List<Submission> submissions = subkledditService.getSubmissionsForSubkleddit(subkledditName);
     LOG.info("Retrieved [{}] submissions for subkleddit [{}]", submissions.size(), subkledditName);
 
-    return new ArrayList<>(submissions);
+    return submissions;
   }
 
   @Override
@@ -137,7 +137,6 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new AuthUserDoesNotExistException(username);
     }
 
-    //TODO make this a sql call
     List<Subkleddit> subscriptions = subkledditSubscriptionService.getSubscribedSubkleddits(username);
     List<String> subkledditNames = subscriptions.stream().map(Subkleddit::getName).collect(Collectors.toList());
     return subkledditService.getSubmissionsForSubkleddits(subkledditNames);
