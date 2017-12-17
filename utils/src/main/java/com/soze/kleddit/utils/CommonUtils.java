@@ -40,4 +40,12 @@ public class CommonUtils {
     return ThreadLocalRandom.current().nextInt(min, max);
   }
 
+  public static int parseInt(String str, int defaultValue) {
+    try {
+      return Integer.parseInt(str);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
+
 }

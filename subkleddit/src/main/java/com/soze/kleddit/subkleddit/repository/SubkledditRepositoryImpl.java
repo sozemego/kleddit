@@ -3,6 +3,8 @@ package com.soze.kleddit.subkleddit.repository;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
+import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.soze.kleddit.utils.jpa.QueryUtils.applyPagination;
 
 @Stateless
 public class SubkledditRepositoryImpl implements SubkledditRepository {
@@ -86,22 +90,34 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
   @Override
   public List<Submission> getSubmissionsForSubkleddit(String subkledditName) {
     Objects.requireNonNull(subkledditName);
+    return getSubmissionsForSubkleddit(subkledditName, PaginationFactory.createPagination());
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForSubkleddit(String subkledditName, Pagination pagination) {
+    Objects.requireNonNull(subkledditName);
     Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) = :subkledditName");
     query.setParameter("subkledditName", subkledditName.toUpperCase());
-    query.setMaxResults(15);
+    applyPagination(query, pagination);
     return query.getResultList();
   }
 
   @Override
   public List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames) {
+    return getSubmissionsForSubkleddits(subkledditNames, PaginationFactory.createPagination());
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames, Pagination pagination) {
     Objects.requireNonNull(subkledditNames);
+    Objects.requireNonNull(pagination);
     if (subkledditNames.isEmpty()) {
       return new ArrayList<>();
     }
 
     Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) IN (:subkleddits)");
     query.setParameter("subkleddits", subkledditNames.stream().map(String::toUpperCase).collect(Collectors.toList()));
-    query.setMaxResults(15);
+    applyPagination(query, pagination);
     return query.getResultList();
   }
 }

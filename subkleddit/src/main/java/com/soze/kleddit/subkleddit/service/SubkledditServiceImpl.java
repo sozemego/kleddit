@@ -6,6 +6,8 @@ import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.exceptions.IllegalSubkledditSearchException;
 import com.soze.kleddit.subkleddit.repository.SubkledditRepository;
+import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,13 +65,26 @@ public class SubkledditServiceImpl implements SubkledditService {
   @Override
   public List<Submission> getSubmissionsForSubkleddit(String subkledditName) {
     Objects.requireNonNull(subkledditName);
-    return repository.getSubmissionsForSubkleddit(subkledditName);
+    return getSubmissionsForSubkleddit(subkledditName, PaginationFactory.createPagination());
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForSubkleddit(String subkledditName, Pagination pagination) {
+    Objects.requireNonNull(subkledditName);
+    Objects.requireNonNull(pagination);
+    return repository.getSubmissionsForSubkleddit(subkledditName, pagination);
   }
 
   @Override
   public List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames) {
+    return getSubmissionsForSubkleddits(subkledditNames, PaginationFactory.createPagination());
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames, Pagination pagination) {
     Objects.requireNonNull(subkledditNames);
-    return repository.getSubmissionsForSubkleddits(subkledditNames);
+    Objects.requireNonNull(pagination);
+    return repository.getSubmissionsForSubkleddits(subkledditNames, pagination);
   }
 
   @Override

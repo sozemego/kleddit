@@ -9,6 +9,8 @@ import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
+import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +115,16 @@ public class SubmissionServiceImpl implements SubmissionService {
   @Override
   public List<Submission> getSubmissions(String subkledditName) {
     Objects.requireNonNull(subkledditName);
-    LOG.info("Retrieving submissions for [{}]", subkledditName);
+    Pagination pagination = PaginationFactory.createPagination();
+    return getSubmissions(subkledditName, pagination);
+  }
+
+  @Override
+  public List<Submission> getSubmissions(String subkledditName, Pagination pagination) {
+    Objects.requireNonNull(subkledditName);
+    Objects.requireNonNull(pagination);
+
+    LOG.info("Retrieving submissions for [{}] with pagination [{}]", subkledditName, pagination);
     Optional<Subkleddit> subkledditOptional = subkledditService.getSubkledditByName(subkledditName);
 
     if (!subkledditOptional.isPresent()) {
@@ -121,7 +132,7 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
 
-    List<Submission> submissions = subkledditService.getSubmissionsForSubkleddit(subkledditName);
+    List<Submission> submissions = subkledditService.getSubmissionsForSubkleddit(subkledditName, pagination);
     LOG.info("Retrieved [{}] submissions for subkleddit [{}]", submissions.size(), subkledditName);
 
     return submissions;
@@ -130,6 +141,13 @@ public class SubmissionServiceImpl implements SubmissionService {
   @Override
   public List<Submission> getSubmissionsForUser(String username) {
     Objects.requireNonNull(username);
+    return getSubmissionsForUser(username, PaginationFactory.createPagination());
+  }
+
+  @Override
+  public List<Submission> getSubmissionsForUser(String username, Pagination pagination) {
+    Objects.requireNonNull(username);
+    Objects.requireNonNull(pagination);
 
     Optional<User> userOptional = userService.getUserByUsername(username);
     if(!userOptional.isPresent()) {
@@ -139,12 +157,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     List<Subkleddit> subscriptions = subkledditSubscriptionService.getSubscribedSubkleddits(username);
     List<String> subkledditNames = subscriptions.stream().map(Subkleddit::getName).collect(Collectors.toList());
-    return subkledditService.getSubmissionsForSubkleddits(subkledditNames);
-
-//    return subscriptions
-//      .stream()
-//      .flatMap(subkleddit -> subkleddit.getSubmissions().stream().limit(25))
-//      .collect(Collectors.toList());
+    return subkledditService.getSubmissionsForSubkleddits(subkledditNames, pagination);
   }
 
   @Override

@@ -6,6 +6,8 @@ import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.service.SubmissionService;
 import com.soze.kleddit.user.api.Authenticated;
+import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import com.soze.kleddit.utils.filters.Log;
 
 import javax.inject.Inject;
@@ -32,10 +34,13 @@ public class SubmissionApi {
   @Path("/subkleddit/{subkledditName}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getSubmissions(@PathParam("subkledditName") String subkledditName) {
+  public Response getSubmissions(@PathParam("subkledditName") String subkledditName,
+                                 @QueryParam("page") String page,
+                                 @QueryParam("limit") String limit) {
     Objects.requireNonNull(subkledditName);
 
-    List<Submission> submissions = submissionService.getSubmissions(subkledditName);
+    Pagination pagination = PaginationFactory.createPagination(page, limit);
+    List<Submission> submissions = submissionService.getSubmissions(subkledditName, pagination);
 
     List<SubmissionSimpleDto> dtos = submissions.stream()
       .map(this::convertSubmission)
@@ -48,10 +53,12 @@ public class SubmissionApi {
   @Path("/subscribed")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getSubmissionsForSubscribedSubkleddits() {
+  public Response getSubmissionsForSubscribedSubkleddits(@QueryParam("page") String page,
+                                                         @QueryParam("limit") String limit) {
     String username = securityContext.getUserPrincipal().getName();
 
-    List<Submission> submissions = submissionService.getSubmissionsForUser(username);
+    Pagination pagination = PaginationFactory.createPagination(page, limit);
+    List<Submission> submissions = submissionService.getSubmissionsForUser(username, pagination);
     List<SubmissionSimpleDto> dtos = submissions.stream()
       .map(this::convertSubmission)
       .collect(Collectors.toList());

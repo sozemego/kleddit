@@ -3,6 +3,7 @@ package com.soze.kleddit.subkleddit.service;
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
+import com.soze.kleddit.utils.api.pagination.Pagination;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +24,20 @@ public interface SubmissionService {
   List<Submission> getSubmissions(String subkledditName);
 
   /**
+   * Returns a paginated list of
+   * @param subkledditName subkleddit name
+   * @param pagination pagination options
+   */
+  List<Submission> getSubmissions(String subkledditName, Pagination pagination);
+
+  /**
    * Returns a list of submissions from subkleddits a given user is subscribed to.
    * @param username username
    * @return list of submissions
    */
   List<Submission> getSubmissionsForUser(String username);
+
+  List<Submission> getSubmissionsForUser(String username, Pagination pagination);
 
   /**
    * Given user attempts to delete a submission with submissionId.

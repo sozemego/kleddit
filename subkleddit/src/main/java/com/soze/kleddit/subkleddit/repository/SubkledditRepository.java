@@ -4,6 +4,7 @@ package com.soze.kleddit.subkleddit.repository;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionId;
+import com.soze.kleddit.utils.api.pagination.Pagination;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,5 +29,11 @@ public interface SubkledditRepository {
 
   List<Submission> getSubmissionsForSubkleddit(String subkledditName);
 
+  List<Submission> getSubmissionsForSubkleddit(String subkledditName, Pagination pagination);
+
   List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames);
+
+  List<Submission> getSubmissionsForSubkleddits(List<String> subkledditNames, Pagination pagination);
+
+
 }

@@ -8,6 +8,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Objects;
 
 @Log
 @Provider
@@ -17,9 +18,10 @@ public class ResponseLoggingFilter implements ContainerResponseFilter {
 
   @Override
   public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-    LOG.info("For API call at: [{}] status code was: [{}]",
+    LOG.info("For API call at: [{}] status code was: [{}]. Response body was [{}]",
       requestContext.getUriInfo().getAbsolutePath(),
-      responseContext.getStatus()
+      responseContext.getStatus(),
+      Objects.toString(responseContext.getEntity())
     );
 
   }
