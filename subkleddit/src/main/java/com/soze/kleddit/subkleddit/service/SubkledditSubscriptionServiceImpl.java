@@ -43,7 +43,6 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
   @Override
   public long getSubkledditSubscriberCount(String name) {
     Objects.requireNonNull(name);
-
     return subkledditSubscriberCount.getSubscriberCountBySubkledditName(name);
   }
 
@@ -57,30 +56,46 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     return new ArrayList<>();
   }
 
-  @Override
-  public void subscribe(String username, SubscriptionForm form) {
+  /**
+   * Tries to find a user with given name.
+   * Throws SubscriptionException if user is not found.
+   * @param username username
+   * @return user
+   * @throws SubscriptionException if user with given name is not found
+   */
+  private User getUserForSubscription(String username) {
     Objects.requireNonNull(username);
-    Objects.requireNonNull(form);
 
-    Optional<User> userOptional = userService.getUserByUsername(username);
-
-    LOG.info("[{}] is trying to [{}] to [{}]", username, form.getSubscriptionType(), form.getSubkledditName());
-
-    if (!userOptional.isPresent()) {
+    return userService.getUserByUsername(username).orElseThrow(() -> {
       LOG.info("User with name [{}] does not exist.", username);
       throw new SubscriptionException("User with name [" + username + "] does not exist.");
-    }
+    });
+  }
+
+  /**
+   * Tries to find a user id for given username.
+   * Throws SubscriptionException if user is not found.
+   * @param username username
+   * @return userId
+   * @throws SubscriptionException if user with given name is not found
+   */
+  private UserId getUserIdForSubscription(String username) {
+    return getUserForSubscription(username).getUserId();
+  }
+
+  @Override
+  public void subscribe(String username, SubscriptionForm form) {
+    Objects.requireNonNull(form);
+
+    LOG.info("[{}] is trying to [{}] to [{}]", username, form.getSubscriptionType(), form.getSubkledditName());
+    UserId userId = getUserIdForSubscription(username);
 
     String subkledditName = form.getSubkledditName();
     Optional<Subkleddit> subkleddit = subkledditRepository.getSubkledditByName(subkledditName);
     if (!subkleddit.isPresent()) {
       LOG.info("User [{}] tried to subscribe to a subkleddit which does not exist! [{}]", username, subkledditName);
       throw new SubscriptionException("User [" + username + "] tried to subscribe to a subkleddit which does not exist! [" + subkledditName + "]");
-
     }
-
-    User user = userOptional.get();
-    UserId userId = user.getUserId();
 
     SubkledditSubscription subscription = new SubkledditSubscription();
     subscription.setSubkledditName(subkledditName.toLowerCase());
@@ -88,7 +103,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
 
     if (form.getSubscriptionType() == SubscriptionType.SUBSCRIBE) {
       if (subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
-        throw new SubscriptionException("User with name [" + user.getUsername() + "] already subscribed to [" + subkledditName + "]");
+        throw new SubscriptionException("User with name [" + username + "] already subscribed to [" + subkledditName + "]");
       }
 
       subkledditSubscriberCount.incrementSubscriberCount(subkledditName);
@@ -97,7 +112,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
 
     if (form.getSubscriptionType() == SubscriptionType.UNSUBSCRIBE) {
       if (!subkledditSubscriptionRepository.isSubscribed(userId, subkledditName)) {
-        throw new SubscriptionException("User with name [" + user.getUsername() + "] was not subscribed to [" + subkledditName + "]");
+        throw new SubscriptionException("User with name [" + username + "] was not subscribed to [" + subkledditName + "]");
       }
 
       subkledditSubscriberCount.decrementSubscriberCount(subkledditName);
