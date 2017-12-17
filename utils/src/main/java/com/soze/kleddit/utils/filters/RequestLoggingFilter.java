@@ -23,7 +23,7 @@ public class RequestLoggingFilter implements ContainerRequestFilter {
   public void filter(ContainerRequestContext requestContext) throws IOException {
     LOG.info("API CALL. Method: [{}] at [{}]. Media type [{}]",
       requestContext.getMethod(),
-      requestContext.getUriInfo().getAbsolutePath(),
+      requestContext.getUriInfo().getRequestUri(),
       requestContext.getMediaType()
     );
     LOG.info("Api className [{}]", resourceInfo.getResourceClass());
