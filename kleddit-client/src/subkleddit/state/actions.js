@@ -2,15 +2,13 @@ import uuid from 'uuid/v4';
 import _ from 'lodash';
 import {SubkledditService as subkledditService} from '../SubkledditService';
 import {makeActionCreator} from '../../state/utils';
-import {fetching, setErrorMessage, stopFetching} from '../../main/state/actions';
+import { setErrorMessage } from '../../main/state/actions';
 
 export const getSubkleddits = () => {
   return (dispatch, getState) => {
 
-    dispatch(fetching());
     return subkledditService.getSubkleddits()
       .then((subkleddits => dispatch(setSubkleddits(subkleddits))))
-      .then(() => dispatch(stopFetching()))
       .catch((error) => dispatch(setErrorMessage('Trouble getting subkleddits!')));
   };
 };
@@ -22,11 +20,9 @@ export const submit = (subkleddit, title, content) => {
       throw new Error('Subkleddit name has to be a string');
     }
 
-    dispatch(fetching());
     return subkledditService.submit(randomSubmissionId(), new Date().getTime(), subkleddit, title, content)
       .then(() => dispatch(loadSubmissions()))
       .then(() => dispatch(setSubmissionErrors({})))
-      .then(() => dispatch(stopFetching()))
       .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
   }
 };
