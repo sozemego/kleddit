@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {SubkledditService as subkledditService} from '../SubkledditService';
 import {makeActionCreator} from '../../state/utils';
 import { setErrorMessage } from '../../main/state/actions';
-import {getCurrentPage, getCurrentPerPage, isFetchingNextPage} from './selectors';
+import {getCurrentPage, getCurrentPerPage, getSubmissions, isFetchingNextPage} from './selectors';
 
 export const getSubkleddits = () => {
   return (dispatch, getState) => {
@@ -35,13 +35,22 @@ const randomSubmissionId = () => {
 export const loadSubmissions = () => {
   return (dispatch, getState) => {
 
+    dispatch(fetchingNextPage(true));
+    dispatch(setPage(1));
+
     return subkledditService.getSubmissionsForSubscribedSubkleddits()
-      .then((submissions) => dispatch(setSubmissions(submissions)))
+      .then((submissions) => {
+        dispatch(setSubmissions(submissions));
+        setTimeout(() => {
+          dispatch(fetchingNextPage(false));
+        }, 25);
+      })
       .catch((error) => {
         if(_.get(error, 'response.status', 500) === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
+        dispatch(fetchingNextPage(false));
       });
 
   };
@@ -64,6 +73,10 @@ export const onScrollBottom = () => {
   return (dispatch, getState) => {
 
     if(isFetchingNextPage(getState)) {
+      return Promise.resolve();
+    }
+
+    if(getSubmissions(getState).length === 0) {
       return Promise.resolve();
     }
 

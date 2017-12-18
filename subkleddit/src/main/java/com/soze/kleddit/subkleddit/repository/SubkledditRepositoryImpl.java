@@ -96,7 +96,8 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
   @Override
   public List<Submission> getSubmissionsForSubkleddit(String subkledditName, Pagination pagination) {
     Objects.requireNonNull(subkledditName);
-    Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) = :subkledditName");
+    Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) = :subkledditName" +
+      " ORDER BY s.createdAt DESC");
     query.setParameter("subkledditName", subkledditName.toUpperCase());
     applyPagination(query, pagination);
     return query.getResultList();
@@ -115,7 +116,8 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
       return new ArrayList<>();
     }
 
-    Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) IN (:subkleddits)");
+    Query query = em.createQuery("SELECT s FROM Submission s WHERE UPPER(s.subkleddit.name) IN (:subkleddits) " +
+      "ORDER BY s.createdAt DESC");
     query.setParameter("subkleddits", subkledditNames.stream().map(String::toUpperCase).collect(Collectors.toList()));
     applyPagination(query, pagination);
     return query.getResultList();
