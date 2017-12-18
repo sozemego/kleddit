@@ -8,6 +8,9 @@ import SubmissionFormContainer from './MainPageSubmissionFormContainer';
 import SubmissionsContainer from './MainPageSubmissionsContainer';
 import {Col, Grid, Row} from 'react-flexbox-grid';
 import {isLeftSidebarShown} from './state/selectors';
+import {fetchingNextPage} from '../subkleddit/state/actions';
+import {isFetchingNextPage} from '../subkleddit/state/selectors';
+import {CircularProgress, LinearProgress} from 'material-ui';
 
 class MainPageContainer extends Component {
 
@@ -17,7 +20,8 @@ class MainPageContainer extends Component {
 
   render() {
     const {
-      isLeftSidebarShown
+      isLeftSidebarShown,
+      isFetchingNextPage
     } = this.props;
 
     return (
@@ -31,6 +35,9 @@ class MainPageContainer extends Component {
               <Col lg={12}>
                 <SubmissionFormContainer />
                 <SubmissionsContainer />
+                <div style={{minHeight: "64px", display: "flex", justifyContent: "center"}}>
+                  {isFetchingNextPage ? <CircularProgress style={{minHeight: "60px"}} size={48} thickness={5} /> : null}
+                </div>
               </Col>
             </Grid>
           </Col>
@@ -43,7 +50,8 @@ class MainPageContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLeftSidebarShown: isLeftSidebarShown(state)
+    isLeftSidebarShown: isLeftSidebarShown(state),
+    isFetchingNextPage: isFetchingNextPage(state)
   };
 };
 

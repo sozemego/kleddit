@@ -71,7 +71,6 @@ export const onScrollBottom = () => {
     dispatch(fetchingNextPage(true));
     const currentPage = getCurrentPage(getState);
     const currentPerPage = getCurrentPerPage(getState);
-    console.log(currentPage);
 
     return subkledditService.getSubmissionsForSubscribedSubkleddits(currentPage, currentPerPage)
       .then((submissions) => {
