@@ -8,9 +8,9 @@ import com.soze.kleddit.subkleddit.exceptions.SubscriptionException;
 import com.soze.kleddit.subkleddit.repository.SubkledditRepository;
 import com.soze.kleddit.subkleddit.repository.SubkledditSubscriptionRepository;
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
    * @return userId
    * @throws SubscriptionException if user with given name is not found
    */
-  private UserId getUserIdForSubscription(String username) {
+  private EntityUUID getUserIdForSubscription(String username) {
     return getUserForSubscription(username).getUserId();
   }
 
@@ -88,7 +88,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
     Objects.requireNonNull(form);
 
     LOG.info("[{}] is trying to [{}] to [{}]", username, form.getSubscriptionType(), form.getSubkledditName());
-    UserId userId = getUserIdForSubscription(username);
+    EntityUUID userId = getUserIdForSubscription(username);
 
     String subkledditName = form.getSubkledditName();
     Optional<Subkleddit> subkleddit = subkledditRepository.getSubkledditByName(subkledditName);
@@ -142,7 +142,7 @@ public class SubkledditSubscriptionServiceImpl implements SubkledditSubscription
   }
 
   @Override
-  public boolean isSubscribed(UserId userId, String subkledditName) {
+  public boolean isSubscribed(EntityUUID userId, String subkledditName) {
     Objects.requireNonNull(userId);
     Objects.requireNonNull(subkledditName);
     return subkledditSubscriptionRepository.isSubscribed(userId, subkledditName);

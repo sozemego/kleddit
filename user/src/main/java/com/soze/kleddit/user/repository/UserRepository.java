@@ -1,7 +1,7 @@
 package com.soze.kleddit.user.repository;
 
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface UserRepository {
   @Deprecated
   List<User> getAllUsers();
 
-  Optional<User> getUserById(UserId userId);
+  Optional<User> getUserById(EntityUUID userId);
 
   /**
    * Attempts to find a user by it's username.

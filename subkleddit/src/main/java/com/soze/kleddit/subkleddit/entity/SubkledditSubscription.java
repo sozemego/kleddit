@@ -1,6 +1,6 @@
 package com.soze.kleddit.subkleddit.entity;
 
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.persistence.*;
 
@@ -19,7 +19,8 @@ public class SubkledditSubscription {
   private String subkledditName;
 
   @Column(name = "user_id")
-  private UserId userId;
+  @AttributeOverride(name = "id", column = @Column(name = "user_id"))
+  private EntityUUID userId;
 
   public SubkledditSubscription() {
 
@@ -41,11 +42,11 @@ public class SubkledditSubscription {
     this.id = id;
   }
 
-  public UserId getUserId() {
+  public EntityUUID getUserId() {
     return userId;
   }
 
-  public void setUserId(UserId userId) {
+  public void setUserId(EntityUUID userId) {
     this.userId = userId;
   }
 }

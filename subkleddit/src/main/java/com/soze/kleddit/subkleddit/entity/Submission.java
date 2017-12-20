@@ -1,7 +1,7 @@
 package com.soze.kleddit.subkleddit.entity;
 
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,7 +12,8 @@ import java.sql.Timestamp;
 public class Submission {
 
   @EmbeddedId
-  private SubmissionId submissionId;
+  @AttributeOverride(name = "id", column = @Column(name = "submission_id"))
+  private EntityUUID submissionId;
 
   @Column(name = "created_at")
   private Timestamp createdAt;
@@ -36,11 +37,11 @@ public class Submission {
 
   }
 
-  public SubmissionId getSubmissionId() {
+  public EntityUUID getSubmissionId() {
     return submissionId;
   }
 
-  public void setSubmissionId(SubmissionId submissionId) {
+  public void setSubmissionId(EntityUUID submissionId) {
     this.submissionId = submissionId;
   }
 

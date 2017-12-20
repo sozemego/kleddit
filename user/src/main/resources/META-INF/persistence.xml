@@ -25,7 +25,7 @@
         <jta-data-source>java:jboss/datasources/kledditPGQ</jta-data-source>
         <!--<class>com.soze.kleddit.user.entity.User</class>-->
         <properties>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="none"/>
             <property name="hibernate.show_sql" value="true"/>
         </properties>
 

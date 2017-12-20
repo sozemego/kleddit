@@ -1,5 +1,8 @@
 package com.soze.kleddit.subkleddit.entity;
 
+
+import com.soze.kleddit.utils.jpa.EntityUUID;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,8 @@ import java.util.Objects;
 public class Subkleddit {
 
   @EmbeddedId
-  private SubkledditId subkledditId;
+  @AttributeOverride(name = "id", column = @Column(name = "subkleddit_id"))
+  private EntityUUID subkledditId;
 
   @Column(name = "name")
   private String name;
@@ -25,11 +29,11 @@ public class Subkleddit {
 
   }
 
-  public SubkledditId getSubkledditId() {
+  public EntityUUID getSubkledditId() {
     return subkledditId;
   }
 
-  public void setSubkledditId(SubkledditId subkledditId) {
+  public void setSubkledditId(EntityUUID subkledditId) {
     this.subkledditId = subkledditId;
   }
 

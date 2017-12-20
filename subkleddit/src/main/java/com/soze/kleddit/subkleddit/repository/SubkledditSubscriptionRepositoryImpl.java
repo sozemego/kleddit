@@ -1,7 +1,7 @@
 package com.soze.kleddit.subkleddit.repository;
 
 import com.soze.kleddit.subkleddit.entity.SubkledditSubscription;
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,7 +27,7 @@ public class SubkledditSubscriptionRepositoryImpl implements SubkledditSubscript
   }
 
   @Override
-  public boolean isSubscribed(UserId userId, String subkledditName) {
+  public boolean isSubscribed(EntityUUID userId, String subkledditName) {
     Query query= em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId AND UPPER(s.subkledditName) = :subkledditName");
     query.setParameter("userId", userId);
     query.setParameter("subkledditName", subkledditName.toUpperCase());
@@ -67,7 +67,7 @@ public class SubkledditSubscriptionRepositoryImpl implements SubkledditSubscript
   }
 
   @Override
-  public List<String> getSubscribedSubkleddits(UserId userId) {
+  public List<String> getSubscribedSubkleddits(EntityUUID userId) {
     Query query = em.createQuery("SELECT s FROM SubkledditSubscription s WHERE s.userId = :userId");
     query.setParameter("userId", userId);
 

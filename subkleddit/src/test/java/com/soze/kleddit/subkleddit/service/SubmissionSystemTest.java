@@ -4,10 +4,10 @@ import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.dto.SubmissionSimpleDto;
 import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.dto.SubscriptionType;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import com.soze.kleddit.utils.json.JsonUtils;
 import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -70,7 +70,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Pictures";
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -88,7 +88,7 @@ public class SubmissionSystemTest {
   public void testSubmissionUnauthorized() {
     String subkledditName = "Videos";
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -109,7 +109,7 @@ public class SubmissionSystemTest {
     String subkledditName = "SOMETHING_DOES_NOT_EXIST";
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -129,7 +129,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -144,7 +144,7 @@ public class SubmissionSystemTest {
   }
 
   @Test
-  public void testSubmissionInvalidSubmissionId() {
+  public void testSubmissionInvalidEntityUUID() {
     String username = "SUBMISSION_TEST_4";
     login(username);
     String subkledditName = "News";
@@ -178,7 +178,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli() + 25000000, //way after now
       subkledditName,
       "Title",
@@ -203,7 +203,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "",
@@ -228,7 +228,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       CommonUtils.generateRandomString(500),
@@ -253,7 +253,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -278,7 +278,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -303,7 +303,7 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      SubmissionId.randomId().toString(),
+      EntityUUID.randomId().toString(),
       Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
@@ -313,7 +313,6 @@ public class SubmissionSystemTest {
     client.post(form, postSubmission);
 
     Response response = client.get(getSubmissionsForSubscribed);
-    System.out.println(response.getStatus());
     List<SubmissionSimpleDto> submissions = getSubmissions(response);
 
     assertEquals(1, submissions.size());

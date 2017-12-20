@@ -2,8 +2,8 @@ package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public interface SubkledditService {
 
   void updateSubkleddit(Subkleddit subkleddit);
 
-  Optional<Submission> getSubmissionById(SubmissionId submissionId);
+  Optional<Submission> getSubmissionById(EntityUUID submissionId);
 
   List<Submission> getSubmissionsForSubkleddit(String subkledditName);
 

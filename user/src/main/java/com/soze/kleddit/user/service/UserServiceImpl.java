@@ -2,11 +2,11 @@ package com.soze.kleddit.user.service;
 
 import com.soze.kleddit.user.dto.RegisterUserForm;
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.exceptions.UserRegistrationException;
 import com.soze.kleddit.user.repository.UserRepository;
 import com.soze.kleddit.user.utils.PasswordHash;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     return userRepository.getAllUsers();
   }
 
-  public Optional<User> getUserById(UserId userId) {
+  public Optional<User> getUserById(EntityUUID userId) {
     return userRepository.getUserById(userId);
   }
 
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     User user = new User();
     user.setUsername(userForm.getUsername());
     user.setPasswordHash(hashedPassword);
-    user.setUserId(UserId.randomId());
+    user.setUserId(EntityUUID.randomId());
     user.setCreatedAt(OffsetDateTime.now());
 
     userRepository.addUser(user);

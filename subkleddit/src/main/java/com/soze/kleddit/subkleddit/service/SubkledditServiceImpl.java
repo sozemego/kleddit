@@ -1,13 +1,12 @@
 package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
-import com.soze.kleddit.subkleddit.entity.SubkledditId;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.exceptions.IllegalSubkledditSearchException;
 import com.soze.kleddit.subkleddit.repository.SubkledditRepository;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +35,7 @@ public class SubkledditServiceImpl implements SubkledditService {
     Objects.requireNonNull(name);
 
     Subkleddit subkleddit = new Subkleddit();
-    subkleddit.setSubkledditId(SubkledditId.randomId());
+    subkleddit.setSubkledditId(EntityUUID.randomId());
     subkleddit.setName(name);
 
     LOG.info("Adding subkleddit with name [{}]", name);
@@ -57,7 +56,7 @@ public class SubkledditServiceImpl implements SubkledditService {
   }
 
   @Override
-  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+  public Optional<Submission> getSubmissionById(EntityUUID submissionId) {
     Objects.requireNonNull(submissionId);
     return repository.getSubmissionById(submissionId);
   }

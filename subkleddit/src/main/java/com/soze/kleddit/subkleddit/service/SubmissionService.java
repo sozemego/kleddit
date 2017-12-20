@@ -2,8 +2,8 @@ package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.utils.api.pagination.Pagination;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +42,8 @@ public interface SubmissionService {
   /**
    * Given user attempts to delete a submission with submissionId.
    */
-  void deleteSubmission(String username, SubmissionId submissionId);
+  void deleteSubmission(String username, EntityUUID submissionId);
 
-  Optional<Submission> getSubmissionById(SubmissionId submissionId);
+  Optional<Submission> getSubmissionById(EntityUUID submissionId);
 
 }

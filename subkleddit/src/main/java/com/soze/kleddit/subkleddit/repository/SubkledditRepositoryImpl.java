@@ -2,9 +2,9 @@ package com.soze.kleddit.subkleddit.repository;
 
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,7 +65,7 @@ public class SubkledditRepositoryImpl implements SubkledditRepository {
   }
 
   @Override
-  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+  public Optional<Submission> getSubmissionById(EntityUUID submissionId) {
     Query query = em.createQuery("SELECT s FROM Submission s WHERE s.submissionId = :submissionId");
     query.setParameter("submissionId", submissionId);
     try {

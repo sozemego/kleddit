@@ -1,7 +1,7 @@
 package com.soze.kleddit.subkleddit.repository;
 
 import com.soze.kleddit.subkleddit.entity.SubkledditSubscription;
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public interface SubkledditSubscriptionRepository {
 
   List<SubkledditSubscription> getSubscriptions(String subkledditName);
 
-  boolean isSubscribed(UserId userId, String subkledditName);
+  boolean isSubscribed(EntityUUID userId, String subkledditName);
 
   void addSubscription(SubkledditSubscription subscription);
 
@@ -20,6 +20,6 @@ public interface SubkledditSubscriptionRepository {
    */
   void removeSubscription(SubkledditSubscription subscription);
 
-  List<String> getSubscribedSubkleddits(UserId userId);
+  List<String> getSubscribedSubkleddits(EntityUUID userId);
 
 }

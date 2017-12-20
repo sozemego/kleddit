@@ -4,7 +4,7 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.exceptions.SubscriptionException;
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 
@@ -42,6 +42,6 @@ public interface SubkledditSubscriptionService {
    * @param subkledditName subkledditName
    * @return true if user is subscribed, false if he is not or subkleddit does not exist
    */
-  boolean isSubscribed(UserId userId, String subkledditName);
+  boolean isSubscribed(EntityUUID userId, String subkledditName);
 
 }

@@ -3,12 +3,12 @@ package com.soze.kleddit.subkleddit.api;
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.dto.SubmissionSimpleDto;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.service.SubmissionService;
 import com.soze.kleddit.user.api.Authenticated;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import com.soze.kleddit.utils.filters.Log;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -86,7 +86,7 @@ public class SubmissionApi {
   public Response deleteSubmission(@PathParam("submissionId") String submissionId) {
     Objects.requireNonNull(submissionId);
     String username = securityContext.getUserPrincipal().getName();
-    submissionService.deleteSubmission(username, SubmissionId.fromString(submissionId));
+    submissionService.deleteSubmission(username, EntityUUID.fromString(submissionId));
 
     return Response.ok().build();
   }

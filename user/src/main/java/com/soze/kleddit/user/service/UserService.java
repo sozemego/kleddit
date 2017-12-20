@@ -2,8 +2,8 @@ package com.soze.kleddit.user.service;
 
 import com.soze.kleddit.user.dto.RegisterUserForm;
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
 import com.soze.kleddit.user.exceptions.UserRegistrationException;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ public interface UserService {
   @Deprecated
   List<User> getAllUsers();
 
-  Optional<User> getUserById(UserId userId);
+  Optional<User> getUserById(EntityUUID userId);
 
   Optional<User> getUserByUsername(String username);
 

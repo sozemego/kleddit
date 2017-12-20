@@ -1,8 +1,8 @@
 package com.soze.kleddit.user.repository;
 
 import com.soze.kleddit.user.entity.User;
-import com.soze.kleddit.user.entity.UserId;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public Optional<User> getUserById(UserId userId) {
+  public Optional<User> getUserById(EntityUUID userId) {
     Objects.requireNonNull(userId);
 
     Query query = em.createQuery("SELECT u FROM User u WHERE UPPER(u.userId) = :userId AND u.nuked = false");

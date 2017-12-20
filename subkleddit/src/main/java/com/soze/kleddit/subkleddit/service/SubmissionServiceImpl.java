@@ -3,7 +3,6 @@ package com.soze.kleddit.subkleddit.service;
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
-import com.soze.kleddit.subkleddit.entity.SubmissionId;
 import com.soze.kleddit.subkleddit.exceptions.SubkledditDoesNotExistException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.user.entity.User;
@@ -11,6 +10,7 @@ import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,9 +84,9 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     Submission submission = new Submission();
-    SubmissionId submissionId = null;
+    EntityUUID submissionId = null;
     try {
-      submissionId = new SubmissionId(form.getSubmissionId());
+      submissionId = new EntityUUID(form.getSubmissionId());
     } catch (IllegalArgumentException e) {
       throw new SubmissionException("Invalid submission id [" + form.getSubmissionId() + "]");
     }
@@ -161,7 +161,7 @@ public class SubmissionServiceImpl implements SubmissionService {
   }
 
   @Override
-  public void deleteSubmission(String username, SubmissionId submissionId) {
+  public void deleteSubmission(String username, EntityUUID submissionId) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(submissionId);
 
@@ -189,7 +189,7 @@ public class SubmissionServiceImpl implements SubmissionService {
   }
 
   @Override
-  public Optional<Submission> getSubmissionById(SubmissionId submissionId) {
+  public Optional<Submission> getSubmissionById(EntityUUID submissionId) {
     return subkledditService.getSubmissionById(submissionId);
   }
 

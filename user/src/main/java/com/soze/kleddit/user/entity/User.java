@@ -1,5 +1,7 @@
 package com.soze.kleddit.user.entity;
 
+import com.soze.kleddit.utils.jpa.EntityUUID;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,7 +15,8 @@ import java.time.OffsetDateTime;
 public class User {
 
   @EmbeddedId
-  private UserId userId;
+  @AttributeOverride(name = "id", column = @Column(name = "user_id"))
+  private EntityUUID userId;
 
   @Column(name = "username")
   @Size(min = 1, max = 50)
@@ -34,11 +37,11 @@ public class User {
 
   }
 
-  public UserId getUserId() {
+  public EntityUUID getUserId() {
     return userId;
   }
 
-  public void setUserId(UserId userId) {
+  public void setUserId(EntityUUID userId) {
     this.userId = userId;
   }
 
