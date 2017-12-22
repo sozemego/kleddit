@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.time.Instant;
 import java.util.List;
 
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
@@ -48,7 +47,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -69,15 +67,11 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
     Response response = client.post(form, postReply);
     assertResponseIsBadRequest(response);
-
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + EntityUUID.randomId().toString()));
-    assertEquals(0, replies.size());
   }
 
   @Test
@@ -85,7 +79,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -103,7 +96,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     Response response = client.post(form, postReply);
@@ -112,7 +104,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     response = client.post(form, postReply);
@@ -121,7 +112,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     response = client.post(form, postReply);
@@ -130,7 +120,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -140,7 +129,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -167,7 +155,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     Response response = client.post(form, postReply);
@@ -176,7 +163,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     response = client.post(form, postReply);
@@ -185,7 +171,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
     response = client.post(form, postReply);
@@ -194,7 +179,6 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -204,14 +188,13 @@ public class ReplySystemTest {
     form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
     response = client.post(form, postReply);
     assertResponseIsCreated(response);
 
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId + "?page=1&limit3"));
+    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId + "?page=1&limit=3"));
     assertEquals(3, replies.size());
   }
 
@@ -226,7 +209,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       EntityUUID.randomId().toString(),
       submissionId,
-      Instant.now().toEpochMilli(),
       CommonUtils.generateRandomString(15000)
     );
 
@@ -246,7 +228,6 @@ public class ReplySystemTest {
     SubmissionReplyForm form = new SubmissionReplyForm(
       replyId,
       submissionId,
-      Instant.now().toEpochMilli(),
       "Content"
     );
 
@@ -270,6 +251,28 @@ public class ReplySystemTest {
     assertResponseIsBadRequest(response);
   }
 
+  @Test
+  public void deleteOtherUsersReply() throws Exception {
+    login("USER");
+    String subkledditName = "General";
+    subscribe(subkledditName);
+    String submissionId = submitTo(subkledditName);
+
+    String replyId = EntityUUID.randomId().toString();
+    SubmissionReplyForm form = new SubmissionReplyForm(
+      replyId,
+      submissionId,
+      "Content"
+    );
+
+    Response response = client.post(form, postReply);
+    assertResponseIsCreated(response);
+
+    login("Another_user");
+    response = client.delete(deleteReply + replyId);
+    assertResponseIsBadRequest(response);
+  }
+
   private List<SubmissionReplyDto> getReplies(Response response) {
     return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionReplyDto.class);
   }
@@ -289,7 +292,6 @@ public class ReplySystemTest {
     String submissionId = EntityUUID.randomId().toString();
     SubmissionForm form = new SubmissionForm(
       submissionId,
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"

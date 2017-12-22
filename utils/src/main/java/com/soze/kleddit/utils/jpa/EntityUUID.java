@@ -10,13 +10,14 @@ import java.util.UUID;
 public class EntityUUID implements Serializable {
 
   @Column(name = "id")
-  private String id;
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  private UUID id;
 
   public EntityUUID() {}
 
   public EntityUUID(String id) {
     Objects.requireNonNull(id);
-    this.id = UUID.fromString(id).toString();
+    this.id = UUID.fromString(id);
   }
 
   public EntityUUID(UUID id) {
@@ -48,7 +49,7 @@ public class EntityUUID implements Serializable {
 
   @Override
   public String toString() {
-    return id;
+    return id.toString();
   }
 
 }

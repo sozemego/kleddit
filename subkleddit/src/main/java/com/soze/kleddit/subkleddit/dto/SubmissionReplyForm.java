@@ -9,17 +9,14 @@ public class SubmissionReplyForm {
 
   private final String replyId;
   private final String submissionId;
-  private final long createdAt;
   private final String content;
 
   @JsonCreator
   public SubmissionReplyForm(@JsonProperty("replyId") String replyId,
                              @JsonProperty("submissionId") String submissionId,
-                             @JsonProperty("createdAt") long createdAt,
                              @JsonProperty("content") String content) {
     this.replyId = Objects.requireNonNull(replyId);
     this.submissionId = Objects.requireNonNull(submissionId);
-    this.createdAt = createdAt;
     this.content = Objects.requireNonNull(content);
   }
 
@@ -31,12 +28,16 @@ public class SubmissionReplyForm {
     return submissionId;
   }
 
-  public long getCreatedAt() {
-    return createdAt;
-  }
-
   public String getContent() {
     return content;
   }
 
+  @Override
+  public String toString() {
+    return "SubmissionReplyForm{" +
+      "replyId='" + replyId + '\'' +
+      ", submissionId='" + submissionId + '\'' +
+      ", content='" + content + '\'' +
+      '}';
+  }
 }

@@ -1,6 +1,7 @@
 ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_author_id_fkey;
 ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_subkleddit_subkleddit_id_fkey;
 ALTER TABLE public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_submission_id_fkey;
+ALTER TABLE public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_author_id_fkey;
 DROP TABLE public.submissions;
 DROP TABLE public.users;
 DROP TABLE public.subkleddits;
@@ -53,6 +54,7 @@ CREATE TABLE submission_replies
 (
   reply_id uuid NOT NULL PRIMARY KEY,
   submission_id uuid REFERENCES submissions (submission_id),
+  author_id uuid REFERENCES users (user_id),
   created_at TIMESTAMP NOT NULL,
   content VARCHAR(10000) NOT NULL,
   nuked BOOLEAN DEFAULT FALSE NOT NULL

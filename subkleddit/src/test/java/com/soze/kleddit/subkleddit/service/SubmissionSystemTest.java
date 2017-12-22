@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.time.Instant;
 import java.util.List;
 
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
@@ -50,7 +49,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"
@@ -71,7 +69,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"
@@ -89,7 +86,6 @@ public class SubmissionSystemTest {
     String subkledditName = "Videos";
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"
@@ -110,7 +106,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"
@@ -130,7 +125,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Content!"
@@ -154,32 +148,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       "not a valid id",
-      Instant.now().toEpochMilli(),
-      subkledditName,
-      "Title",
-      "Content!"
-    );
-
-    Response response = client.post(form, postSubmission);
-    assertResponseIsBadRequest(response);
-
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
-  }
-
-  @Test
-  public void testSubmissionInvalidTimestamp() {
-    String username = "SUBMISSION_TEST_5";
-    login(username);
-    String subkledditName = "Gifs";
-
-    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
-
-    SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli() + 25000000, //way after now
       subkledditName,
       "Title",
       "Content!"
@@ -204,7 +172,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "",
       "Content!"
@@ -229,7 +196,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       CommonUtils.generateRandomString(500),
       "Content!"
@@ -254,7 +220,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       ""
@@ -279,7 +244,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       CommonUtils.generateRandomString(10005)
@@ -304,7 +268,6 @@ public class SubmissionSystemTest {
 
     SubmissionForm form = new SubmissionForm(
       EntityUUID.randomId().toString(),
-      Instant.now().toEpochMilli(),
       subkledditName,
       "Title",
       "Super content"

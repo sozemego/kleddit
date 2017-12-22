@@ -94,14 +94,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     Subkleddit subkleddit = subkledditOptional.get();
     submission.setSubmissionId(submissionId);
 
-    Timestamp timestamp = Timestamp.from(Instant.ofEpochMilli(form.getSubmissionTime()));
-    Timestamp now = Timestamp.from(Instant.now());
-    if (timestamp.getTime() > now.getTime()) {
-      LOG.info("Time of submission [{}] cannot be later than now [{}]", timestamp, now);
-      throw new SubmissionException("Time of submission [" + timestamp + "] cannot be later than now [" + now + "]");
-    }
-
-    submission.setCreatedAt(timestamp);
+    submission.setCreatedAt(Timestamp.from(Instant.now()));
     submission.setAuthor(user);
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);

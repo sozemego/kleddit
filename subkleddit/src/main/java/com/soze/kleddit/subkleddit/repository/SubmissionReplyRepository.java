@@ -5,13 +5,16 @@ import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubmissionReplyRepository {
 
-  public SubmissionReply postReply(SubmissionReply reply);
+  SubmissionReply postReply(SubmissionReply reply);
 
-  public void deleteReply(EntityUUID replyId);
+  void deleteReply(EntityUUID replyId);
 
-  public List<SubmissionReply> getReplies(EntityUUID submissionId, Pagination pagination);
+  Optional<SubmissionReply> getSubmissionReplyById(EntityUUID replyId);
+
+  List<SubmissionReply> getReplies(EntityUUID submissionId, Pagination pagination);
 
 }

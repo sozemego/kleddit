@@ -18,11 +18,18 @@ public class SubmissionReply {
   @AttributeOverride(name = "id", column = @Column(name = "submission_id"))
   private EntityUUID submissionId;
 
+  @Column(name = "author_id")
+  @AttributeOverride(name = "id", column = @Column(name = "author_id"))
+  private EntityUUID authorId;
+
   @Column(name = "created_at")
   private Timestamp createdAt;
 
   @Column(name = "content")
   private String content;
+
+  @Column(name = "nuked")
+  private boolean nuked;
 
   public SubmissionReply() {}
 
@@ -56,5 +63,21 @@ public class SubmissionReply {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public EntityUUID getAuthorId() {
+    return authorId;
+  }
+
+  public void setAuthorId(final EntityUUID authorId) {
+    this.authorId = authorId;
+  }
+
+  public boolean isNuked() {
+    return nuked;
+  }
+
+  public void setNuked(final boolean nuked) {
+    this.nuked = nuked;
   }
 }
