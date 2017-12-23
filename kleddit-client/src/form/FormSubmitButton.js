@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import './form.css';
 import {RaisedButton} from '../commons/buttons/RaisedButton';
+
+import './form.css';
 
 export class FormSubmitButton extends Component {
 
   render() {
-    return <RaisedButton {...this.props}/>
+    return <RaisedButton {...this.props} className="form-submit-button"/>
   }
 
 }

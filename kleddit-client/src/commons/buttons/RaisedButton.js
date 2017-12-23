@@ -65,12 +65,15 @@ export class RaisedButton extends Component {
   render() {
     const { onClick } = this;
     const { loading } = this.state;
-    const buttonProps = _.omit(this.props, ['onClick', 'style']);
+    const {
+      labelStyle
+    } = this.props;
+    const buttonProps = _.omit(this.props, ['onClick', 'style', 'labelStyle']);
 
     return (
         <MaterialUiRaisedButton {...buttonProps}
                                 style={loading ? fetchingButtonStyle : buttonStyle}
-                                labelStyle={buttonLabelStyle}
+                                labelStyle={labelStyle ? labelStyle : buttonLabelStyle}
                                 onClick={onClick}
                                 labelPosition={"before"}
         >

@@ -69,7 +69,12 @@
 }
 
 .submission-icon-container {
+    display: flex;
+    flex-direction: row;
+}
 
+.submission-icon-container-invisible {
+    /*visibility: hidden;*/
 }
 
 .submission-subkleddit {
@@ -88,4 +93,8 @@
     word-break: break-all;
     padding: 4px;
     /*margin: 6px;*/
+}
+
+.submission-replies-button {
+    font-size: 0.25em !important;
 }

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
-import './submission.css';
 import {Divider, Paper} from 'material-ui';
-import {RaisedButton} from '../../commons/buttons/RaisedButton';
+import CommunicationChat from 'material-ui/svg-icons/communication/chat';
+import './submission.css';
+
+const iconColor = "#424255";
 
 export class MainPageSubmission extends Component {
 
@@ -12,6 +13,7 @@ export class MainPageSubmission extends Component {
     super(props);
     this.state = {
       deleteIconHover: false,
+      replyIconHover: false,
       hover: false
     };
   }
@@ -20,7 +22,7 @@ export class MainPageSubmission extends Component {
     const { onDelete, submission } = this.props;
     const { deleteIconHover } = this.state;
 
-    return <svg fill={deleteIconHover ? "red": "#424255"} height="24"
+    return <svg fill={deleteIconHover ? "red": iconColor} height="24"
                 viewBox="0 0 24 24" width="24"
                 onMouseEnter={() => this.setState({deleteIconHover: true})}
                 onMouseLeave={() => this.setState({deleteIconHover: false})}
@@ -31,20 +33,32 @@ export class MainPageSubmission extends Component {
     </svg>
   };
 
-  getBottomRow = () => {
-    const { hover } = this.state;
-    if(!hover) return null;
+  getIcons = () => {
+    const { own } = this.props.submission;
+    const { replyIconHover } = this.state;
 
-    return (
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-        <RaisedButton label={"Reply"} />
-      </div>
+    const icons = [];
+
+    icons.push(
+      <CommunicationChat style={{marginTop: "2px"}}
+                         color={replyIconHover ? "orange" : iconColor}
+                         onMouseEnter={() => this.setState({replyIconHover: true})}
+                         onMouseLeave={() => this.setState({replyIconHover: false})}
+      />
     );
+
+    if(own) {
+      icons.push(this.getDeleteIcon());
+
+    }
+
+    return icons;
   };
 
   render() {
-    const { getDeleteIcon, getBottomRow } = this;
+    const { getIcons } = this;
     const { submission } = this.props;
+    const { hover } = this.state;
     const {
       own,
       title,
@@ -65,14 +79,13 @@ export class MainPageSubmission extends Component {
               {title}
               <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
             </div>
-            <div className="submission-icon-container">
-              {own ? getDeleteIcon() : null}
+            <div className={"submission-icon-container " + (hover ? "" : "submission-icon-container-invisible")}>
+              {getIcons()}
             </div>
           </div>
           <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
           <Divider />
           <Paper className="submission-content" zDepth={1}>{content}</Paper>
-          {getBottomRow()}
         </Paper>
     );
   }
