@@ -38,6 +38,8 @@ export const validateSubmission = makeActionCreator(VALIDATE_SUBMISSION, 'payloa
 export const SET_SUBMISSION_ERRORS = 'SET_SUBMISSION_ERRORS';
 export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'submissionErrors');
 
+export const TOGGLE_SHOW_REPLIES = 'TOGGLE_SHOW_REPLIES';
+export const toggleShowReplies = makeActionCreator(TOGGLE_SHOW_REPLIES, 'submissionId');
 
 export const init = () => {
   return (dispatch, getState) => {

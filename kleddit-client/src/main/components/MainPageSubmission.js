@@ -34,16 +34,22 @@ export class MainPageSubmission extends Component {
   };
 
   getIcons = () => {
-    const { own } = this.props.submission;
+    const {
+      submission,
+      toggleShowReplies,
+      isShowingReplies
+    } = this.props;
+    const { own, submissionId } = submission;
     const { replyIconHover } = this.state;
 
     const icons = [];
 
     icons.push(
       <CommunicationChat style={{marginTop: "2px"}}
-                         color={replyIconHover ? "orange" : iconColor}
+                         color={replyIconHover || isShowingReplies ? "orange" : iconColor}
                          onMouseEnter={() => this.setState({replyIconHover: true})}
                          onMouseLeave={() => this.setState({replyIconHover: false})}
+                         onClick={() => toggleShowReplies(submissionId)}
       />
     );
 
@@ -102,5 +108,11 @@ MainPageSubmission.propTypes = {
     subkleddit: PropTypes.string.isRequired,
     own: PropTypes.bool.isRequired
   }).isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  toggleShowReplies: PropTypes.func.isRequired,
+  isShowingReplies: PropTypes.bool
+};
+
+MainPageSubmission.defaultProps = {
+  isShowingReplies: false
 };

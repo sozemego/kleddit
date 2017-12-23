@@ -16,6 +16,7 @@ export const isFetchingNextPage = (state) => mainPageRoot(state).fetchingNextPag
 export const getCurrentPage = (state) => mainPageRoot(state).page;
 export const getCurrentPerPage = (state) => mainPageRoot(state).perPage;
 export const getSubmissionErrors = (state) => mainPageRoot(state).submissionErrors;
+export const getShowReplies = (state) => mainPageRoot(state).showReplies;
 
 export const getSubmissions = createSelector(
   [getSubmissionMap],

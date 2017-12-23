@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import {getSubmissions} from '../selectors';
+import {getShowReplies, getSubmissions} from '../selectors';
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
@@ -29,6 +29,8 @@ class MainPageSubmissionsContainer extends Component {
     const {
       submissions,
       deleteSubmission,
+      toggleShowReplies,
+      showReplies,
     } = this.props;
 
     return (
@@ -42,8 +44,12 @@ class MainPageSubmissionsContainer extends Component {
         className="main-page-submissions-container"
       >
         {submissions.map((submission, index) => {
-          return <MainPageSubmission key={submission.submissionId} submission={submission}
-                                     onDelete={deleteSubmission}/>;
+          return <MainPageSubmission key={submission.submissionId}
+                                     submission={submission}
+                                     onDelete={deleteSubmission}
+                                     toggleShowReplies={toggleShowReplies}
+                                     isShowingReplies={showReplies[submission.submissionId] || false}
+          />;
         })}
       </ReactCSSTransitionGroup>
     );
@@ -55,6 +61,7 @@ MainPageSubmissionsContainer.propTypes = {
   submissions: PropTypes.array.isRequired,
   deleteSubmission: PropTypes.func.isRequired,
   onScrollBottom: PropTypes.func.isRequired,
+  toggleShowReplies: PropTypes.func.isRequired,
 };
 
 MainPageSubmissionsContainer.defaultProps = {
@@ -64,6 +71,7 @@ MainPageSubmissionsContainer.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     submissions: getSubmissions(state),
+    showReplies: getShowReplies(state)
   };
 };
 
