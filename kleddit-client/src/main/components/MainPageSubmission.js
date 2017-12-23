@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import './submission.css';
 import {Divider, Paper} from 'material-ui';
+import {RaisedButton} from '../../commons/buttons/RaisedButton';
 
 export class MainPageSubmission extends Component {
 
@@ -11,6 +12,7 @@ export class MainPageSubmission extends Component {
     super(props);
     this.state = {
       deleteIconHover: false,
+      hover: false
     };
   }
 
@@ -29,8 +31,19 @@ export class MainPageSubmission extends Component {
     </svg>
   };
 
+  getBottomRow = () => {
+    const { hover } = this.state;
+    if(!hover) return null;
+
+    return (
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
+        <RaisedButton label={"Reply"} />
+      </div>
+    );
+  };
+
   render() {
-    const { getDeleteIcon } = this;
+    const { getDeleteIcon, getBottomRow } = this;
     const { submission } = this.props;
     const {
       own,
@@ -44,6 +57,8 @@ export class MainPageSubmission extends Component {
     return (
         <Paper zDepth={2}
                className={`submission-container ${own ? "submission-container-own": ""}`}
+               onMouseEnter={() => this.setState({hover: true})}
+               onMouseLeave={() => this.setState({hover: false})}
         >
           <div className="submission-header-container">
             <div className="submission-title">
@@ -57,6 +72,7 @@ export class MainPageSubmission extends Component {
           <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
           <Divider />
           <Paper className="submission-content" zDepth={1}>{content}</Paper>
+          {getBottomRow()}
         </Paper>
     );
   }

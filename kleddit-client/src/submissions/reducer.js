@@ -13,7 +13,7 @@ const clearSubmissions = (state, action) => {
 };
 
 const addSubmissions = (state, action) => {
-  const submissions = Object.assign({}, state.submissions, _.keyBy(action.submissions, 'submissionId'));
+  const submissions = Object.assign({}, _.get(state, 'submissions', {}), _.keyBy(action.submissions, 'submissionId'));
   return {...state, submissions};
 };
 
