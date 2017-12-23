@@ -47,8 +47,7 @@ UserService.login = function (username, password) {
 };
 
 UserService.delete = function () {
-  return networkService.delete(`${basePath}${deletePath}`)
-    .then(console.log);
+  return networkService.delete(`${basePath}${deletePath}`);
 };
 
 UserService.validateUsername = function (username) {

@@ -3,13 +3,13 @@ import HeaderContainer from '../header/HeaderContainer';
 import {Route} from 'react-router-dom';
 import {HashRouter as Router} from 'react-router-dom';
 
-import ErrorDisplay from '../main/ErrorDisplay';
-import {isFetching} from '../main/state/selectors';
+import ErrorDisplay from '../main/containers/ErrorDisplay';
+import {isFetching} from '../main/selectors';
 import {connect} from 'react-redux';
 import RegisterUserContainer from '../user/register/RegisterUserContainer';
 import ProfileContainer from '../user/profile/ProfileContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
-import MainPageContainer from '../main/MainPageContainer';
+import MainPageContainer from '../main/containers/MainPageContainer';
 
 import './kleddit.css';
 

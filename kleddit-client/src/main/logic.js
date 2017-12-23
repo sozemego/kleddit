@@ -1,5 +1,5 @@
 import { createLogic } from 'redux-logic';
-import {setSubmissionErrors, VALIDATE_SUBMISSION} from './state/actions';
+import {setSubmissionErrors, VALIDATE_SUBMISSION} from './actions';
 
 const MAX_TITLE_LENGTH = 100;
 const MAX_CONTENT_LENGTH = 10000;

@@ -136,6 +136,7 @@ const clearForms = () => {
   };
 };
 
+//TODO move to main page?
 export const subscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
@@ -144,6 +145,7 @@ export const subscribe = (subkledditName) => {
   }
 };
 
+//TODO move to main page?
 export const unsubscribe = (subkledditName) => {
   return (dispatch, getState) => {
 

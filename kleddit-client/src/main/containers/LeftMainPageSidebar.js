@@ -3,13 +3,11 @@ import {connect} from 'react-redux';
 import Divider from 'material-ui/Divider';
 import _ from 'lodash';
 
-import * as userActions from '../user/state/actions';
-import * as subkledditsActions from '../subkleddit/state/actions';
-import * as mainPageActions from './state/actions';
-import {getSubscribedToSubkleddits, isLoggedIn} from '../user/state/selectors';
-import {getSubkleddits} from '../subkleddit/state/selectors';
+import * as userActions from '../../user/state/actions';
+import * as mainPageActions from '../actions';
+import {getSubscribedToSubkleddits, isLoggedIn} from '../../user/state/selectors';
 import {List, Subheader} from 'material-ui';
-import {isLeftSidebarShown} from './state/selectors';
+import {isLeftSidebarShown, getSubkleddits} from '../selectors';
 
 class LeftMainPageSidebar extends Component {
 
@@ -196,4 +194,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {...userActions, ...subkledditsActions, ...mainPageActions})(LeftMainPageSidebar);
+export default connect(mapStateToProps, {...userActions, ...mainPageActions})(LeftMainPageSidebar);

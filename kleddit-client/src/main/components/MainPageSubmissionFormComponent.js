@@ -30,8 +30,7 @@ export class MainPageSubmissionFormComponent extends Component {
     onSubmit(subkleddits[subkleddit], title, content);
     this.setState({
       title: "",
-      content: "",
-      subkleddit: 0
+      content: ""
     })
   };
 
@@ -115,7 +114,6 @@ export class MainPageSubmissionFormComponent extends Component {
                         onClick={onSubmit}
                         primary={true}
                         fullWidth={false}
-                        // style={{width: "125px"}}
           />
         </div>
       </div>

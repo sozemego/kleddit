@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getSubmissions} from '../subkleddit/state/selectors';
-import * as subkledditActions from '../subkleddit/state/actions';
-import {MainPageSubmission} from './MainPageSubmission';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+import {getSubmissions} from '../selectors';
+import * as mainPageActions from '../actions';
+import * as submissionsActions from '../../submissions/actions';
+
+import {MainPageSubmission} from '../components/MainPageSubmission';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -25,7 +28,7 @@ class MainPageSubmissionsContainer extends Component {
   render() {
     const {
       submissions,
-      deleteSubmission
+      deleteSubmission,
     } = this.props;
 
     return (
@@ -51,17 +54,17 @@ class MainPageSubmissionsContainer extends Component {
 MainPageSubmissionsContainer.propTypes = {
   submissions: PropTypes.array.isRequired,
   deleteSubmission: PropTypes.func.isRequired,
-  onScrollBottom: PropTypes.func.isRequired
+  onScrollBottom: PropTypes.func.isRequired,
 };
 
 MainPageSubmissionsContainer.defaultProps = {
-  submission: []
+  submission: [],
 };
 
 const mapStateToProps = (state) => {
   return {
-    submissions: getSubmissions(state)
+    submissions: getSubmissions(state),
   };
 };
 
-export default connect(mapStateToProps, subkledditActions)(MainPageSubmissionsContainer);
+export default connect(mapStateToProps, {...mainPageActions, ...submissionsActions})(MainPageSubmissionsContainer);

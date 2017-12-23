@@ -1,4 +1,4 @@
-import * as subkledditLogic from '../subkleddit/logic';
+import * as subkledditLogic from '../main/logic';
 
 export default [
   subkledditLogic.validateSubmission

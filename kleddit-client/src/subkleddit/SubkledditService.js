@@ -36,10 +36,9 @@ SubkledditService.unsubscribe = function (subkledditName) {
   });
 };
 
-SubkledditService.submit = function (submissionId, submissionTime, subkledditName, title, content) {
+SubkledditService.submit = function (submissionId, subkledditName, title, content) {
   return networkService.post(`${basePath}${submitPath}`, {
     submissionId,
-    submissionTime,
     subkledditName,
     title,
     content

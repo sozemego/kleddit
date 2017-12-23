@@ -1,12 +1,12 @@
-ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_author_id_fkey;
-ALTER TABLE public.submissions DROP CONSTRAINT IF EXISTS submissions_subkleddit_subkleddit_id_fkey;
-ALTER TABLE public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_submission_id_fkey;
-ALTER TABLE public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_author_id_fkey;
-DROP TABLE public.submissions;
-DROP TABLE public.users;
-DROP TABLE public.subkleddits;
-DROP TABLE public.subkleddit_subscriptions;
-DROP TABLE public.submission_replies;
+ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS submissions_author_id_fkey;
+ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS submissions_subkleddit_subkleddit_id_fkey;
+ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_submission_id_fkey;
+ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_author_id_fkey;
+DROP TABLE IF EXISTS public.submissions;
+DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS public.subkleddits;
+DROP TABLE IF EXISTS public.subkleddit_subscriptions;
+DROP TABLE IF EXISTS public.submission_replies;
 
 CREATE TABLE users
 (

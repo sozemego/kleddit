@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {store} from '../state/init';
-import {fetching, stopFetching} from '../main/state/actions';
+import {fetching, stopFetching} from '../main/actions';
 
 const fetch = () => store.dispatch(fetching());
 const fetched = (response) => {

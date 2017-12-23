@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {MainPageSubmissionFormComponent} from './MainPageSubmissionFormComponent';
-import * as subkledditActions from '../subkleddit/state/actions';
-import * as subkledditSelectors from '../subkleddit/state/selectors';
-import {getSubscribedToSubkleddits} from '../user/state/selectors';
+import {MainPageSubmissionFormComponent} from '../components/MainPageSubmissionFormComponent';
+import * as subkledditActions from '../actions';
+import * as subkledditSelectors from '../selectors';
+import {getSubscribedToSubkleddits} from '../../user/state/selectors';
 
 class MainPageSubmissionFormContainer extends Component {
 
@@ -14,7 +14,7 @@ class MainPageSubmissionFormContainer extends Component {
       submit,
       subscribedToSubkleddits,
       validateSubmission,
-      submissionErrors
+      submissionErrors,
     } = this.props;
 
     return (
@@ -34,15 +34,15 @@ MainPageSubmissionFormContainer.propTypes = {
   validateSubmission: PropTypes.func.isRequired,
   submissionErrors: PropTypes.shape({
     title: PropTypes.string,
-    content: PropTypes.string
-  })
+    content: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {
   return {
     subscribedToSubkleddits: getSubscribedToSubkleddits(state),
-    submissionErrors: subkledditSelectors.getSubmissionErrors(state)
-  }
+    submissionErrors: subkledditSelectors.getSubmissionErrors(state),
+  };
 };
 
 

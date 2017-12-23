@@ -7,7 +7,7 @@ import {isLoggedIn} from '../user/state/selectors';
 import * as userActions from '../user/state/actions';
 import * as headerActions from './actions';
 import {LinearProgress, RaisedButton} from 'material-ui';
-import {isFetching} from '../main/state/selectors';
+import {isFetching} from '../main/selectors';
 
 class HeaderContainer extends Component {
 
