@@ -70,7 +70,6 @@ export class RaisedButton extends Component {
     return (
         <MaterialUiRaisedButton {...buttonProps}
                                 style={loading ? fetchingButtonStyle : buttonStyle}
-                                className="button"
                                 labelStyle={buttonLabelStyle}
                                 onClick={onClick}
                                 labelPosition={"before"}
