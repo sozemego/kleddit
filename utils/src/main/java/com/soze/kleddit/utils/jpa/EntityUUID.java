@@ -15,13 +15,12 @@ public class EntityUUID implements Serializable {
 
   public EntityUUID() {}
 
-  public EntityUUID(String id) {
-    Objects.requireNonNull(id);
-    this.id = UUID.fromString(id);
+  public EntityUUID(UUID id) {
+    this.id = Objects.requireNonNull(id);
   }
 
-  public EntityUUID(UUID id) {
-    this(id.toString());
+  public EntityUUID(String id) {
+    this(UUID.fromString(id));
   }
 
   public static EntityUUID randomId() {
