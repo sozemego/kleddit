@@ -25,6 +25,7 @@ export const store = createStore(
 
 
 //REFERENCE ONLY
+// eslint-disable-next-line no-unused-vars
 const state = {
   user: {
     currentUser: {

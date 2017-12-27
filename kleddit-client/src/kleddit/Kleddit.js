@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import HeaderContainer from '../header/Header';
 import {Route} from 'react-router-dom';
 import {HashRouter as Router} from 'react-router-dom';
+import {connect} from 'react-redux';
 
+import HeaderContainer from '../header';
 import ErrorDisplay from '../main/containers/ErrorDisplay';
 import {isFetching} from '../main/selectors';
-import {connect} from 'react-redux';
 import RegisterUserContainer from '../user/register/RegisterUserContainer';
 import ProfileContainer from '../user/profile/ProfileContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
