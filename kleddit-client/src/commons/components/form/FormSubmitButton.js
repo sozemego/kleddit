@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {RaisedButton} from '../commons/buttons/RaisedButton';
+import {RaisedButton} from '../../buttons/RaisedButton';
 
 import './form.css';
 

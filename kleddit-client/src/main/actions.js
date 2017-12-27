@@ -6,7 +6,7 @@ import {subscribe, unsubscribe} from '../user/state/actions';
 
 import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
-import {getCurrentPage, getCurrentPerPage, getSubmissions, isFetchingNextPage} from './selectors';
+import {getCurrentPage, getCurrentPerPage, getShowReplies, getSubmissions, isFetchingNextPage} from './selectors';
 
 export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
 export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR_VISIBILITY);
@@ -39,7 +39,7 @@ export const SET_SUBMISSION_ERRORS = 'SET_SUBMISSION_ERRORS';
 export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'submissionErrors');
 
 export const TOGGLE_SHOW_REPLIES = 'TOGGLE_SHOW_REPLIES';
-export const toggleShowReplies = makeActionCreator(TOGGLE_SHOW_REPLIES, 'submissionId');
+export const _toggleShowReplies = makeActionCreator(TOGGLE_SHOW_REPLIES, 'submissionId');
 
 export const init = () => {
   return (dispatch, getState) => {
@@ -147,5 +147,19 @@ export const onScrollBottom = () => {
         dispatch(fetchingNextPage(false));
       });
 
+  };
+};
+
+export const toggleShowReplies = (submissionId) => {
+  return (dispatch, getState) => {
+
+    dispatch(_toggleShowReplies(submissionId));
+
+    const shouldShowReplies = getShowReplies(getState)[submissionId] || false;
+    if(shouldShowReplies) {
+
+    }
+
+    return Promise.resolve();
   };
 };

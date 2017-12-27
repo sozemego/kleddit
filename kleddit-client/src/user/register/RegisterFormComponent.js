@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-import {Form} from '../../form/Form';
-import {FormInputField} from '../../form/FormInputField';
-import {FormSubmitButton} from '../../form/FormSubmitButton';
+import {Form} from '../../commons/components/form/Form';
+import {FormInputField} from '../../commons/components/form/FormInputField';
+import {FormSubmitButton} from '../../commons/components/form/FormSubmitButton';
 
 import './register.css';
 

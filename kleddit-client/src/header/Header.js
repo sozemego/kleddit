@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import '../index.css';
-import './header.css';
 import {isLoggedIn} from '../user/state/selectors';
 import * as userActions from '../user/state/actions';
 import * as headerActions from './actions';
 import {LinearProgress, RaisedButton} from 'material-ui';
 import {isFetching} from '../main/selectors';
+
+import '../index.css';
+import './header.css';
 
 class HeaderContainer extends Component {
 

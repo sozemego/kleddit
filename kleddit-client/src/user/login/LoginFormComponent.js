@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
 import './login.css';
-import {FormInputField} from '../../form/FormInputField';
-import {Form} from '../../form/Form';
-import {FormSubmitButton} from '../../form/FormSubmitButton';
+import {FormInputField} from '../../commons/components/form/FormInputField';
+import {Form} from '../../commons/components/form/Form';
+import {FormSubmitButton} from '../../commons/components/form/FormSubmitButton';
 
 export class LoginFormComponent extends Component {
 

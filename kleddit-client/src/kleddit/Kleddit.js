@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import HeaderContainer from '../header/HeaderContainer';
+import HeaderContainer from '../header/Header';
 import {Route} from 'react-router-dom';
 import {HashRouter as Router} from 'react-router-dom';
 

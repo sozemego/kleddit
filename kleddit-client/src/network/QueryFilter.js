@@ -36,7 +36,6 @@ export class QueryBuilder {
   getUrl = () => {
     this.applyQueryParameter(PAGE, this.page);
     this.applyQueryParameter(LIMIT, this.limit);
-    console.log(this.url);
     return this.url;
   };
 

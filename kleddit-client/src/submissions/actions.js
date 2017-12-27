@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import {makeActionCreator} from '../state/utils';
-import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {setErrorMessage} from '../main/actions';
-
+import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
+import {SubmissionService as submissionService} from './SubmissionService';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -40,6 +40,14 @@ export const deleteSubmission = (submissionId) => {
 
     return subkledditService.deleteSubmission(submissionId)
       .then(() => dispatch(_deleteSubmission(submissionId)));
+
+  };
+};
+
+export const getReplies = (submissionId, page, limit) => {
+  return (dispatch, getState) => {
+
+    return submissionService.getReplies(submissionId, page, limit);
 
   };
 };

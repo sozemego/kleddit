@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Divider, Paper} from 'material-ui';
+import {Divider, Paper, TextField} from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import './submission.css';
+import {RaisedButton} from '../../commons/buttons/RaisedButton';
 
 const iconColor = "#424255";
 
@@ -55,14 +56,28 @@ export class MainPageSubmission extends Component {
 
     if(own) {
       icons.push(this.getDeleteIcon());
-
     }
 
     return icons;
   };
 
+  getRepliesSection = () => {
+    const { isShowingReplies } = this.props;
+    if(!isShowingReplies) return null;
+
+    return <div style={{backgroundColor: "rgb(54, 54, 54)", padding: "4px"}}>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <TextField hintText={"Reply"} multiLine style={{width: "90%"}} />
+        <RaisedButton label={"Reply"} style={{width: "10%", height: "100%", alignSelf: "flex-end"}}/>
+      </div>
+      <div>
+        REPLIES
+      </div>
+    </div>
+  };
+
   render() {
-    const { getIcons } = this;
+    const { getIcons, getRepliesSection } = this;
     const { submission } = this.props;
     const { hover } = this.state;
     const {
@@ -92,6 +107,7 @@ export class MainPageSubmission extends Component {
           <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
           <Divider />
           <Paper className="submission-content" zDepth={1}>{content}</Paper>
+          {getRepliesSection()}
         </Paper>
     );
   }
