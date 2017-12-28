@@ -6,13 +6,6 @@ import {SubscribeIcon} from './SubscribeIcon';
 
 export class LeftMainPageSidebar extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadingSubscribeIcons: []
-    }
-  }
-
   isSubscribed = (subkledditName) => {
     return this.props.subscribedToSubkleddits.includes(subkledditName);
   };
