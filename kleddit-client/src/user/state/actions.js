@@ -9,7 +9,8 @@ import {afterLogout} from '../../commons/actions';
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
 
-    return userService.registerUser(username, password)
+    dispatch(logout())
+      .then(() => userService.registerUser(username, password))
       .then(() => {
         return login(username, password);
       })
@@ -112,7 +113,6 @@ export const logout = () => {
     dispatch(setToken(null));
     networkService.clearAuthorizationToken();
     dispatch(setUsername('Anonymous'));
-    navigationService.refresh();
     dispatch(afterLogout());
     return dispatch(clearForms());
   };
