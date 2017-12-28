@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import {getShowReplies, getSubmissions} from '../selectors';
+import {getShowingRepliesSubmissions, getSubmissions} from '../selectors';
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
 import {MainPageSubmission} from '../components/MainPageSubmission';
+import {MainPageSubmissions} from '../components/MainPageSubmissions';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -30,28 +31,15 @@ class MainPageSubmissionsContainer extends Component {
       submissions,
       deleteSubmission,
       toggleShowReplies,
-      showReplies,
+      showingRepliesSubmissions,
     } = this.props;
 
     return (
-      <ReactCSSTransitionGroup
-        transitionName="submission"
-        transitionAppear={true}
-        transitionAppearTimeout={250}
-        transitionEnterTimeout={250}
-        transitionLeaveTimeout={250}
-        component="div"
-        className="main-page-submissions-container"
-      >
-        {submissions.map((submission, index) => {
-          return <MainPageSubmission key={submission.submissionId}
-                                     submission={submission}
-                                     onDelete={deleteSubmission}
-                                     toggleShowReplies={toggleShowReplies}
-                                     isShowingReplies={showReplies[submission.submissionId] || false}
-          />;
-        })}
-      </ReactCSSTransitionGroup>
+      <MainPageSubmissions submissions={submissions}
+                           deleteSubmission={deleteSubmission}
+                           toggleShowReplies={toggleShowReplies}
+                           showingRepliesSubmissions={showingRepliesSubmissions}
+      />
     );
   }
 
@@ -71,7 +59,7 @@ MainPageSubmissionsContainer.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     submissions: getSubmissions(state),
-    showReplies: getShowReplies(state)
+    showingRepliesSubmissions: getShowingRepliesSubmissions(state)
   };
 };
 

@@ -10,6 +10,9 @@ import {Col, Grid, Row} from 'react-flexbox-grid';
 import {isFetchingNextPage, isLeftSidebarShown} from '../selectors';
 
 import './main-page.css';
+import {MainPageGrid} from '../components/MainPageGrid';
+import {MainPageContentColumn} from '../components/MainPageContentColumn';
+import {MainPageLoadingIndicator} from '../components/MainPageLoadingIndicator';
 
 class MainPageContainer extends Component {
 
@@ -24,25 +27,22 @@ class MainPageContainer extends Component {
     } = this.props;
 
     return (
-      <Grid className="main-page-container">
+      <MainPageGrid>
         <Row>
           <Col lg={2}>
             <SubkledditListContainer/>
           </Col>
-          <Col lg={10}
-               className={isLeftSidebarShown ? 'main-page-content-container' : 'main-page-content-container-full'}>
+          <MainPageContentColumn isLeftSidebarShown={isLeftSidebarShown} >
             <Grid>
               <Col lg={12}>
                 <SubmissionFormContainer/>
                 <SubmissionsContainer/>
-                <div style={{minHeight: '64px', display: 'flex', justifyContent: 'center'}}>
-                  {isFetchingNextPage ? <CircularProgress style={{minHeight: '60px'}} size={48} thickness={5}/> : null}
-                </div>
+                <MainPageLoadingIndicator isFetchingNextPage={isFetchingNextPage}/>
               </Col>
             </Grid>
-          </Col>
+          </MainPageContentColumn>
         </Row>
-      </Grid>
+      </MainPageGrid>
     );
   }
 

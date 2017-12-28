@@ -6,7 +6,7 @@ import {subscribe, unsubscribe} from '../user/state/actions';
 
 import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
-import {getCurrentPage, getCurrentPerPage, getShowReplies, getSubmissions, isFetchingNextPage} from './selectors';
+import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, getSubmissions, isFetchingNextPage} from './selectors';
 import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
 
 export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
@@ -159,7 +159,7 @@ export const toggleShowReplies = (submissionId) => {
 
     dispatch(_toggleShowReplies(submissionId));
 
-    const shouldShowReplies = getShowReplies(getState)[submissionId] || false;
+    const shouldShowReplies = getShowingRepliesSubmissions(getState)[submissionId] || false;
     if(shouldShowReplies) {
 
     }

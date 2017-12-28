@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Divider, Paper, RaisedButton, TextField} from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import './submission.css';
+import {ReplyButton} from '../../submissions/components/ReplyButton';
 
 const iconColor = "#424255";
 
@@ -22,15 +24,11 @@ export class MainPageSubmission extends Component {
     const { onDelete, submission } = this.props;
     const { deleteIconHover } = this.state;
 
-    return <svg fill={deleteIconHover ? "red": iconColor} height="24"
-                viewBox="0 0 24 24" width="24"
-                onMouseEnter={() => this.setState({deleteIconHover: true})}
-                onMouseLeave={() => this.setState({deleteIconHover: false})}
-                onClick={() => onDelete(submission.submissionId)}
-                xmlns="http://www.w3.org/2000/svg">
-      <path d="M15 16h4v2h-4zm0-8h7v2h-7zm0 4h6v2h-6zM3 18c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V8H3v10zM14 5h-3l-1-1H6L5 5H2v2h12z"/>
-      <path d="M0 0h24v24H0z" fill="none"/>
-    </svg>
+    return <ActionDelete color={deleteIconHover ? "red": iconColor}
+                         onMouseEnter={() => this.setState({deleteIconHover: true})}
+                         onMouseLeave={() => this.setState({deleteIconHover: false})}
+                         onClick={() => onDelete(submission.submissionId)}
+    />;
   };
 
   getIcons = () => {
@@ -65,9 +63,9 @@ export class MainPageSubmission extends Component {
     if(!isShowingReplies) return null;
 
     return <div style={{backgroundColor: "rgb(54, 54, 54)", padding: "4px"}}>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end"}}>
         <TextField hintText={"Reply"} multiLine style={{width: "90%"}} />
-        <RaisedButton label={"Reply"} style={{width: "10%", height: "100%", alignSelf: "flex-end"}}/>
+        <ReplyButton label={"Reply"}/>
       </div>
       <div>
         REPLIES
