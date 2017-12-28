@@ -53,9 +53,7 @@ export class LeftMainPageSidebar extends Component {
       </div>;
     });
 
-    elements = elements.concat(subkledditsElements);
-
-    return elements;
+    return elements.concat(subkledditsElements);
   };
 
   getListClassNames = () => {
