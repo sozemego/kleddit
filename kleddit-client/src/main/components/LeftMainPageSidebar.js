@@ -104,7 +104,7 @@ export class LeftMainPageSidebar extends Component {
       <div className={getContainerClassNames()}>
         <List className={getListClassNames()} children={getSubkledditElements()}/>
         <div className={getSideButtonClassNames()}
-             onClick={() => toggleLeftSidebarVisibility()}>
+             onClick={toggleLeftSidebarVisibility}>
         </div>
       </div>
     );
