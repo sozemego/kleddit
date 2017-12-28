@@ -12,41 +12,31 @@ import {LeftMainPageSidebar} from '../components/LeftMainPageSidebar';
 
 class LeftMainPageSidebarContainer extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loadingSubscribeIcons: []
-    }
-  }
-
   componentWillMount() {
     this.props.getSubscribedToSubkleddits();
   }
 
-  onSubscribeClicked = (subscribed, subkledditName) => {
-    const { mainPageSubscribe, mainPageUnsubscribe } = this.props;
-    const { addLoadingSubkleddit, removeLoadingSubkleddit } = this;
-
-    addLoadingSubkleddit(subkledditName);
-    const action = subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
-    action.then(() => removeLoadingSubkleddit(subkledditName));
+  onUnsubscribeClicked = (subkledditName) => {
+    const { mainPageUnsubscribe } = this.props;
+    return mainPageUnsubscribe(subkledditName);
   };
 
-  addLoadingSubkleddit = (subkledditName) => {
-    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
-    loadingSubscribeIcons.push(subkledditName);
-    this.setState({loadingSubscribeIcons});
-  };
+  onSubscribeClicked = (subkledditName) => {
+    const { mainPageSubscribe } = this.props;
 
-  removeLoadingSubkleddit = (subkledditName) => {
-    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
-    _.remove(loadingSubscribeIcons, n => n === subkledditName);
-    this.setState({loadingSubscribeIcons});
+    return mainPageSubscribe(subkledditName);
   };
 
   render() {
-    return <LeftMainPageSidebar {...this.props}/>;
+    const {
+      onUnsubscribeClicked,
+      onSubscribeClicked,
+    } = this;
+
+    return <LeftMainPageSidebar {...this.props}
+                                onUnsubscribeClicked={onUnsubscribeClicked}
+                                onSubscribeClicked={onSubscribeClicked}
+    />;
   }
 
 }

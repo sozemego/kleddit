@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {List, Subheader, Divider} from 'material-ui';
+import {SubscribeIcon} from './SubscribeIcon';
 
 
 export class LeftMainPageSidebar extends Component {
@@ -16,53 +17,18 @@ export class LeftMainPageSidebar extends Component {
     return this.props.subscribedToSubkleddits.includes(subkledditName);
   };
 
-  _isLoadingSubscribeIcon = (subkledditName) => {
-    return this.state.loadingSubscribeIcons.includes(subkledditName);
-  };
-
-  getSubscribeIcon = (subscribed, subkledditName) => {
-    const {
-      isLoggedIn
-    } = this.props;
-
-    if (!isLoggedIn) {
-      return null;
-    }
-
+  getSubscribeIcon = (subkledditName) => {
     const {
       onSubscribeClicked,
-    } = this;
+      onUnsubscribeClicked,
+    } = this.props;
 
-    const onClick = () => onSubscribeClicked(subscribed, subkledditName);
-    const isLoading = this._isLoadingSubscribeIcon(subkledditName);
-    const classNames = "main-page-subkleddit-list-subscribe-icon " + (isLoading ? "main-page-subkleddit-list-subscribe-icon-loading": "")
-    // inline svg because it's much easier to change svg colors this way
-    return subscribed ?
-      <svg className={classNames}
-           fill="red"
-           height="24"
-           viewBox="0 0 24 24"
-           width="24"
-           xmlns="http://www.w3.org/2000/svg"
-           onClick={onClick}
-      >
-        <path
-          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        <path d="M0 0h24v24H0z" fill="none"/>
-      </svg>
-      :
-      <svg
-        className={classNames}
-        fill="#3f51b5"
-        height="24"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
-        onClick={onClick}
-      >
-        <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
-      </svg>;
+    const subscribed = this.isSubscribed(subkledditName);
+
+    return <SubscribeIcon subscribed={subscribed}
+                          subkledditName={subkledditName}
+                          onClick={subscribed ? onUnsubscribeClicked : onSubscribeClicked}
+    />;
   };
 
   getSubkledditElements = () => {
@@ -71,7 +37,6 @@ export class LeftMainPageSidebar extends Component {
     } = this.props;
 
     const {
-      isSubscribed,
       getSubscribeIcon
     } = this;
 
@@ -86,12 +51,11 @@ export class LeftMainPageSidebar extends Component {
     );
 
     const subkledditsElements = subkleddits.map((subkleddit, index) => {
-      const subscribed = isSubscribed(subkleddit.name);
       return <div key={index} className="main-page-subkleddit-list-element-container">
         <div>{subkleddit.name}</div>
         <div className="main-page-subkleddit-list-element-subscribers-container">
           ({subkleddit.subscribers})
-          {getSubscribeIcon(subscribed, subkleddit.name)}
+          {getSubscribeIcon(subkleddit.name)}
         </div>
       </div>;
     });
@@ -149,7 +113,9 @@ export class LeftMainPageSidebar extends Component {
 }
 
 LeftMainPageSidebar.propTypes = {
-  subscribedToSubkleddits: PropTypes.array
+  subscribedToSubkleddits: PropTypes.array.isRequired,
+  onSubscribeClicked: PropTypes.func.isRequired,
+  onUnsubscribeClicked: PropTypes.func.isRequired,
 };
 
 LeftMainPageSidebar.defaultProps = {
