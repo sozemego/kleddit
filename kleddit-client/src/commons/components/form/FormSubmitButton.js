@@ -1,17 +1,18 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import {RaisedButton} from '../../buttons/RaisedButton';
+import _ from 'lodash';
 
 import './form.css';
+import {LoadingComponent} from '../../LoadingComponent';
+import {RaisedButton} from 'material-ui';
 
-export class FormSubmitButton extends Component {
+export const FormSubmitButton = (props) => {
+  const buttonProps = _.omit(props, ['onClick']);
 
-  render() {
-    return <RaisedButton {...this.props} className="form-submit-button"/>
-  }
-
-}
+  return <LoadingComponent onClick={props.onClick}>
+    <RaisedButton {...buttonProps} className="form-submit-button"/>
+  </LoadingComponent>;
+};
 
 FormSubmitButton.propTypes = {
   label: PropTypes.string.isRequired,

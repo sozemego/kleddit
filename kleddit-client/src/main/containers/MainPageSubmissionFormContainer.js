@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {MainPageSubmissionFormComponent} from '../components/MainPageSubmissionFormComponent';
+import {MainPageSubmissionForm} from '../components/MainPageSubmissionForm';
 import * as subkledditActions from '../actions';
 import * as subkledditSelectors from '../selectors';
 import {getSubscribedToSubkleddits} from '../../user/state/selectors';
@@ -18,10 +18,10 @@ class MainPageSubmissionFormContainer extends Component {
     } = this.props;
 
     return (
-      <MainPageSubmissionFormComponent onSubmit={submit}
-                                       subkleddits={subscribedToSubkleddits}
-                                       onChange={validateSubmission}
-                                       submissionErrors={submissionErrors}
+      <MainPageSubmissionForm onSubmit={submit}
+                              subkleddits={subscribedToSubkleddits}
+                              onChange={validateSubmission}
+                              submissionErrors={submissionErrors}
       />
     );
   }

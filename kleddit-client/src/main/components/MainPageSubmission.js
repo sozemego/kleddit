@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Divider, Paper, TextField} from 'material-ui';
+import {Divider, Paper, RaisedButton, TextField} from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import './submission.css';
-import {RaisedButton} from '../../commons/buttons/RaisedButton';
 
 const iconColor = "#424255";
 

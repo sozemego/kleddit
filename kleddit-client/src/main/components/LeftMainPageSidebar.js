@@ -1,52 +1,19 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
+import {List, Subheader, Divider} from 'material-ui';
 
-import * as userActions from '../../user/state/actions';
-import * as mainPageActions from '../actions';
-import {getSubscribedToSubkleddits, isLoggedIn} from '../../user/state/selectors';
-import {List, Subheader} from 'material-ui';
-import {isLeftSidebarShown, getSubkleddits} from '../selectors';
 
-class LeftMainPageSidebar extends Component {
+export class LeftMainPageSidebar extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       loadingSubscribeIcons: []
     }
   }
 
-  componentWillMount() {
-    this.props.getSubscribedToSubkleddits();
-  }
-
-  onSubscribeClicked = (subscribed, subkledditName) => {
-    const { mainPageSubscribe, mainPageUnsubscribe } = this.props;
-    const { addLoadingSubkleddit, removeLoadingSubkleddit } = this;
-
-    addLoadingSubkleddit(subkledditName);
-    const action = subscribed ? mainPageUnsubscribe(subkledditName) : mainPageSubscribe(subkledditName);
-    action.then(() => removeLoadingSubkleddit(subkledditName));
-  };
-
-  addLoadingSubkleddit = (subkledditName) => {
-    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
-    loadingSubscribeIcons.push(subkledditName);
-    this.setState({loadingSubscribeIcons});
-  };
-
-  removeLoadingSubkleddit = (subkledditName) => {
-    const loadingSubscribeIcons = [...this.state.loadingSubscribeIcons];
-    _.remove(loadingSubscribeIcons, n => n === subkledditName);
-    this.setState({loadingSubscribeIcons});
-  };
-
   isSubscribed = (subkledditName) => {
-    const { subscribedToSubkleddits } = this.props;
-    return subscribedToSubkleddits.includes(subkledditName);
+    return this.props.subscribedToSubkleddits.includes(subkledditName);
   };
 
   _isLoadingSubscribeIcon = (subkledditName) => {
@@ -169,13 +136,9 @@ class LeftMainPageSidebar extends Component {
       toggleLeftSidebarVisibility
     } = this.props;
 
-    const children = [
-      ...getSubkledditElements(),
-    ];
-
     return (
       <div className={getContainerClassNames()}>
-        <List className={getListClassNames()} children={children}/>
+        <List className={getListClassNames()} children={getSubkledditElements()}/>
         <div className={getSideButtonClassNames()}
              onClick={() => toggleLeftSidebarVisibility()}>
         </div>
@@ -185,13 +148,10 @@ class LeftMainPageSidebar extends Component {
 
 }
 
-const mapStateToProps = (state) => {
-  return {
-    subkleddits: getSubkleddits(state),
-    subscribedToSubkleddits: getSubscribedToSubkleddits(state),
-    isLoggedIn: isLoggedIn(state),
-    isLeftSidebarShown: isLeftSidebarShown(state)
-  };
+LeftMainPageSidebar.propTypes = {
+  subscribedToSubkleddits: PropTypes.array
 };
 
-export default connect(mapStateToProps, {...userActions, ...mainPageActions})(LeftMainPageSidebar);
+LeftMainPageSidebar.defaultProps = {
+
+};

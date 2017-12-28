@@ -11,7 +11,7 @@ export class Form extends Component {
       children
     } = this.props;
 
-    if (!children || children.length === 0) {
+    if (React.Children.toArray(children).length === 0) {
       console.warn('Form without children, you probably did not want this.');
     }
 

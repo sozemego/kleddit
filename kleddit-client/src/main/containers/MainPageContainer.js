@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {CircularProgress} from 'material-ui';
 
-import SubkledditListContainer from '../containers/LeftMainPageSidebar';
+import SubkledditListContainer from './LeftMainPageSidebarContainer';
 import * as mainPageActions from '../actions';
 import SubmissionFormContainer from './MainPageSubmissionFormContainer';
 import SubmissionsContainer from './MainPageSubmissionsContainer';
