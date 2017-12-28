@@ -43,9 +43,9 @@ const deleteSubmissionsBySubkleddit = (state, action) => {
 const addRepliesForSubmissionId = (state, action) => {
   const {submissionId, replies: submissionReplies} = action;
 
-  const replies = {...state};
+  const replies = {...state.replies};
   const oldSubmissionReplies = _.get(replies, `[${submissionId}]`, []);
-  replies[submissionId] = _.unionBy([oldSubmissionReplies, submissionReplies], 'replyId');
+  replies[submissionId] = _.unionBy(oldSubmissionReplies, submissionReplies, 'replyId');
   return {...state, replies};
 };
 

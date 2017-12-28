@@ -10,5 +10,5 @@ SubmissionService.getReplies = function(submissionId, page = 1, limit = 15) {
   const queryFilter = QueryBuilder.create(`${getSubmissions}/${submissionId}`)
     .withPage(page)
     .withLimit(limit);
-  networkService.get(queryFilter.getUrl());
+  return networkService.get(queryFilter.getUrl());
 };

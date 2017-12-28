@@ -8,6 +8,7 @@ import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, getSubmissions, isFetchingNextPage} from './selectors';
 import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
+import {getReplies} from '../submissions/actions';
 
 export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
 export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR_VISIBILITY);
@@ -161,7 +162,7 @@ export const toggleShowReplies = (submissionId) => {
 
     const shouldShowReplies = getShowingRepliesSubmissions(getState)[submissionId] || false;
     if(shouldShowReplies) {
-
+      return dispatch(getReplies(submissionId, 1, 15));
     }
 
     return Promise.resolve();

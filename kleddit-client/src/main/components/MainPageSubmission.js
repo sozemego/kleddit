@@ -68,10 +68,10 @@ export class MainPageSubmission extends Component {
       style={{backgroundColor: 'rgb(54, 54, 54)', padding: '4px', margin: '-10px auto auto 6px', width: '90%'}} key={2}>
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <TextField hintText={'Reply'} multiLine style={{width: '90%'}}/>
-        <ReplyButton label={'Reply'}/>
+        <ReplyButton label={'Reply'} primary style={{margin: "4px"}}/>
       </div>
       <div>
-        {replies}
+        {replies.length}
       </div>
     </div>;
   };
