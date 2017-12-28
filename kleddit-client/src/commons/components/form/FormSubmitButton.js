@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import './form.css';
 import {LoadingComponent} from '../../LoadingComponent';
 import {RaisedButton} from 'material-ui';
 
 export const FormSubmitButton = (props) => {
-  const buttonProps = _.omit(props, ['onClick']);
+  const {
+    onClick,
+    ...other
+  } = props;
 
-  return <LoadingComponent onClick={props.onClick}>
-    <RaisedButton {...buttonProps} className="form-submit-button"/>
+  return <LoadingComponent onClick={onClick}>
+    <RaisedButton {...other} className="form-submit-button"/>
   </LoadingComponent>;
 };
 
