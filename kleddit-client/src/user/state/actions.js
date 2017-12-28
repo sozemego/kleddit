@@ -4,6 +4,7 @@ import {NetworkService as networkService} from '../../network/NetworkService';
 import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
 import {getUsername} from './selectors';
+import {afterLogout} from '../../commons/actions';
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
@@ -112,6 +113,7 @@ export const logout = () => {
     networkService.clearAuthorizationToken();
     dispatch(setUsername('Anonymous'));
     navigationService.refresh();
+    dispatch(afterLogout());
     return dispatch(clearForms());
   };
 };
@@ -127,7 +129,7 @@ export const deleteUser = () => {
   };
 };
 
-const clearForms = () => {
+export const clearForms = () => {
   return (dispatch, getState) => {
     dispatch(loginError(null));
     dispatch(usernameRegistrationError(null));
