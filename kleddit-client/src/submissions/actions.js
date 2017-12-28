@@ -14,6 +14,9 @@ const addSubmissions = makeActionCreator(ADD_SUBMISSIONS, 'submissions');
 export const DELETE_SUBMISSION = 'DELETE_SUBMISSION';
 const _deleteSubmission = makeActionCreator(DELETE_SUBMISSION, 'submissionId');
 
+export const DELETE_SUBMISSIONS_BY_SUBKLEDDIT = 'DELETE_SUBMISSIONS_BY_SUBKLEDDIT';
+export const deleteSubmissionsBySubkleddit = makeActionCreator(DELETE_SUBMISSIONS_BY_SUBKLEDDIT, 'subkleddit');
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
