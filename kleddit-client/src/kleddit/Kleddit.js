@@ -3,7 +3,7 @@ import {Route} from 'react-router-dom';
 import {HashRouter as Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import HeaderContainer from '../header';
+import HeaderContainer from '../header/containers/HeaderContainer';
 import ErrorDisplay from '../main/containers/ErrorDisplay';
 import {isFetching} from '../main/selectors';
 import RegisterUserContainer from '../user/register/RegisterUserContainer';

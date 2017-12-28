@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {isLoggedIn} from '../user/state/selectors';
-import * as userActions from '../user/state/actions';
-import * as headerActions from './actions';
-import {LinearProgress, RaisedButton} from 'material-ui';
-import {isFetching} from '../main/selectors';
+import {isLoggedIn} from '../../user/state/selectors';
+import * as userActions from '../../user/state/actions';
+import * as headerActions from '../actions';
+import {RaisedButton} from 'material-ui';
+import {isFetching} from '../../main/selectors';
 
-import '../index.css';
-import './header.css';
+import '../../index.css';
+import {Header} from '../components/Header';
 
 class HeaderContainer extends Component {
 
@@ -77,18 +77,10 @@ class HeaderContainer extends Component {
     } = this;
 
     return (
-      <div style={{display: "flex", flexDirection: "column", borderBottom: "1px solid white"}}>
-        <div className="header-container">
-          <div className="header-section header-invisible">
-            A
-          </div>
-          <div className="header-section header-app-name">
-            <div className="link" onClick={navigateToMain}>KLEDDIT</div>
-          </div>
-          <div className="header-section header-buttons-container">{getButtons()}</div>
-        </div>
-        <LinearProgress mode="indeterminate" style={isFetching ? {}: {visibility: "hidden"}}/>
-      </div>
+      <Header buttons={getButtons()}
+              isFetching={isFetching}
+              navigateToMain={navigateToMain}
+      />
     );
   }
 
