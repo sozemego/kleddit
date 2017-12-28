@@ -11,7 +11,7 @@ import ProfileContainer from '../user/profile/ProfileContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
 import MainPageContainer from '../main/containers/MainPageContainer';
 
-import './kleddit.css';
+import styles from './kleddit.css';
 
 class Kleddit extends Component {
 
@@ -20,7 +20,7 @@ class Kleddit extends Component {
       <Router>
         <div>
           <HeaderContainer/>
-          <div className="app-container">
+          <div className={styles['app-container']}>
             <Route exact path="/register" component={RegisterUserContainer}/>
             <Route exact path="/profile" component={ProfileContainer}/>
             <Route exact path="/login" component={LoginFormContainer}/>

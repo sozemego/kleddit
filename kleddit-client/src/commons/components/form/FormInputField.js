@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 
-import './form.css';
+import './form-input-field.css';
 
 /**
  * A simple wrapper for input fields used in the application.
@@ -25,7 +25,7 @@ export class FormInputField extends Component {
     const onChange = this.props.onChange || this.onChange;
 
     return (
-      <TextField className="form-input-field"
+      <TextField className={"form-input-field"}
                  errorText={errorText}
                  value={value}
                  type={type}

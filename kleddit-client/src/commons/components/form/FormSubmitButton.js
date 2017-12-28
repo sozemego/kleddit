@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './form.css';
+import './form-button.css';
 import {LoadingComponentWrapper} from '../LoadingComponent';
 import {RaisedButton as MaterialUiRaisedButton} from 'material-ui';
 
 const RaisedButton = (props) => {
-  return <MaterialUiRaisedButton {...props} className="form-submit-button"/>
+  return <MaterialUiRaisedButton {...props} className={"form-submit-button"}/>
 };
 
 export const FormSubmitButton = LoadingComponentWrapper(RaisedButton);

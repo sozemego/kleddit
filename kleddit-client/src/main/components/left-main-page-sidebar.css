@@ -1,0 +1,103 @@
+.main-page-subkleddit-list-divider {
+    width: 100%;
+}
+
+.main-page-subkleddit-list-element-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 4px;
+    height: 24px;
+}
+
+.main-page-subkleddit-list-element-subscribers-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.main-page-subkleddit-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 174px !important;
+    /*border-right: 1px solid white;*/
+    /*border-radius: 2px;*/
+    /*background-color: rgba(37, 37, 37, 1);*/
+    /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);*/
+    /*overflow: hidden;*/
+}
+
+.main-page-subkleddit-list-container-hidden {
+    animation-name: subkleddit-list-hide;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes subkleddit-list-hide {
+    0% {
+        margin-left: 0;
+    }
+    100% {
+        margin-left: -178px;
+    }
+}
+
+@keyframes subkleddit-list-show {
+    0% {
+        margin-left: -178px;
+    }
+    100% {
+        margin-left: 0;
+    }
+}
+
+.main-page-side-hide-button {
+    width: 12px;
+    height: 100%;
+    cursor: pointer;
+    background-image: url("hide.svg");
+}
+
+.main-page-side-show-button {
+    width: 12px;
+    height: 100%;
+    cursor: pointer;
+    background-image: url("show.svg");
+}
+
+.main-page-subkleddit-list-header-container {
+    display: flex;
+    width: 100%;
+    background-color: black;
+    justify-content: center;
+}
+
+.main-page-subkleddit-list-title {
+    padding: 6px 6px;
+    background-color: black;
+}
+
+.main-page-subkleddit-list-subscribe-icon {
+    opacity: 0.65;
+}
+
+.main-page-subkleddit-list-subscribe-icon-loading {
+    animation-name: subscribe-icon-loading-animation;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes subscribe-icon-loading-animation {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.main-page-subkleddit-list-subscribe-icon:hover {
+    opacity: 1;
+}

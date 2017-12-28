@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {List, Subheader, Divider} from 'material-ui';
 import {SubscribeIcon} from './SubscribeIcon';
 
+import './left-main-page-sidebar.css';
 
 export class LeftMainPageSidebar extends Component {
 

@@ -33,16 +33,3 @@
     padding: 0px 6px 0px 6px;
     align-items: center;
 }
-
-.form-input-field {
-    width: 250px;
-}
-
-.form-submit-button {
-    margin: 24px auto 6px auto !important;
-}
-
-.form-input-field-error {
-    text-wrap: normal;
-    height: 12px;
-}
