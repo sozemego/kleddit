@@ -5,7 +5,7 @@ import * as SUBMISSIONS_ACTIONS from './actions';
 const initialState = {
   submissions: {
 
-  }
+  },
 };
 
 const clearSubmissions = (state, action) => {

@@ -7,6 +7,7 @@ import {subscribe, unsubscribe} from '../user/state/actions';
 import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {getCurrentPage, getCurrentPerPage, getShowReplies, getSubmissions, isFetchingNextPage} from './selectors';
+import {getSubkledditSubmissionsMap} from '../submissions/selectors';
 
 export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
 export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR_VISIBILITY);
