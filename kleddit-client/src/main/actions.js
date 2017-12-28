@@ -39,8 +39,8 @@ export const validateSubmission = makeActionCreator(VALIDATE_SUBMISSION, 'payloa
 export const SET_SUBMISSION_ERRORS = 'SET_SUBMISSION_ERRORS';
 export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'submissionErrors');
 
-export const TOGGLE_SHOW_REPLIES = 'TOGGLE_SHOW_REPLIES';
-export const _toggleShowReplies = makeActionCreator(TOGGLE_SHOW_REPLIES, 'submissionId');
+export const TOGGLE_SHOWING_REPLIES = 'TOGGLE_SHOWING_REPLIES';
+export const _toggleShowingReplies = makeActionCreator(TOGGLE_SHOWING_REPLIES, 'submissionId');
 
 export const init = () => {
   return (dispatch, getState) => {
@@ -157,7 +157,7 @@ export const onScrollBottom = () => {
 export const toggleShowReplies = (submissionId) => {
   return (dispatch, getState) => {
 
-    dispatch(_toggleShowReplies(submissionId));
+    dispatch(_toggleShowingReplies(submissionId));
 
     const shouldShowReplies = getShowingRepliesSubmissions(getState)[submissionId] || false;
     if(shouldShowReplies) {

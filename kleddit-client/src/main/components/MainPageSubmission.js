@@ -7,7 +7,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import './submission.css';
 import {ReplyButton} from '../../submissions/components/ReplyButton';
 
-const iconColor = "#424255";
+const iconColor = '#424255';
 
 export class MainPageSubmission extends Component {
 
@@ -16,15 +16,15 @@ export class MainPageSubmission extends Component {
     this.state = {
       deleteIconHover: false,
       replyIconHover: false,
-      hover: false
+      hover: false,
     };
   }
 
   getDeleteIcon = () => {
-    const { onDelete, submission } = this.props;
-    const { deleteIconHover } = this.state;
+    const {onDelete, submission} = this.props;
+    const {deleteIconHover} = this.state;
 
-    return <ActionDelete color={deleteIconHover ? "red": iconColor}
+    return <ActionDelete color={deleteIconHover ? 'red' : iconColor}
                          onMouseEnter={() => this.setState({deleteIconHover: true})}
                          onMouseLeave={() => this.setState({deleteIconHover: false})}
                          onClick={() => onDelete(submission.submissionId)}
@@ -36,24 +36,24 @@ export class MainPageSubmission extends Component {
     const {
       submission,
       toggleShowReplies,
-      isShowingReplies
+      isShowingReplies,
     } = this.props;
-    const { own, submissionId } = submission;
-    const { replyIconHover } = this.state;
+    const {own, submissionId} = submission;
+    const {replyIconHover} = this.state;
 
     const icons = [];
 
     icons.push(
-      <CommunicationChat style={{marginTop: "2px"}}
-                         color={replyIconHover || isShowingReplies ? "orange" : iconColor}
+      <CommunicationChat style={{marginTop: '2px'}}
+                         color={replyIconHover || isShowingReplies ? 'orange' : iconColor}
                          onMouseEnter={() => this.setState({replyIconHover: true})}
                          onMouseLeave={() => this.setState({replyIconHover: false})}
                          onClick={() => toggleShowReplies(submissionId)}
                          key={1}
-      />
+      />,
     );
 
-    if(own) {
+    if (own) {
       icons.push(this.getDeleteIcon());
     }
 
@@ -61,24 +61,25 @@ export class MainPageSubmission extends Component {
   };
 
   getRepliesSection = () => {
-    const { isShowingReplies } = this.props;
-    if(!isShowingReplies) return null;
+    const {isShowingReplies, replies} = this.props;
+    if (!isShowingReplies) return null;
 
-    return <div style={{backgroundColor: "rgb(54, 54, 54)", padding: "4px"}}>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end"}}>
-        <TextField hintText={"Reply"} multiLine style={{width: "90%"}} />
-        <ReplyButton label={"Reply"}/>
+    return <div
+      style={{backgroundColor: 'rgb(54, 54, 54)', padding: '4px', margin: '-10px auto auto 6px', width: '90%'}} key={2}>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+        <TextField hintText={'Reply'} multiLine style={{width: '90%'}}/>
+        <ReplyButton label={'Reply'}/>
       </div>
       <div>
-        REPLIES
+        {replies}
       </div>
-    </div>
+    </div>;
   };
 
   render() {
-    const { getIcons, getRepliesSection } = this;
-    const { submission, isShowingReplies } = this.props;
-    const { hover } = this.state;
+    const {getIcons, getRepliesSection} = this;
+    const {submission, isShowingReplies} = this.props;
+    const {hover} = this.state;
     const {
       own,
       title,
@@ -88,27 +89,29 @@ export class MainPageSubmission extends Component {
       content,
     } = submission;
 
-    return (
-        <Paper zDepth={2}
-               className={`submission-container ${own ? "submission-container-own": ""}`}
-               onMouseEnter={() => this.setState({hover: true})}
-               onMouseLeave={() => this.setState({hover: false})}
-        >
-          <div className="submission-header-container">
-            <div className="submission-title">
-              {title}
-              <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
-            </div>
-            <div className={"submission-icon-container " + (hover || isShowingReplies ? "" : "submission-icon-container-invisible")}>
-              {getIcons()}
-            </div>
+    return [
+      <Paper zDepth={2}
+             className={`submission-container ${own ? 'submission-container-own' : ''}`}
+             onMouseEnter={() => this.setState({hover: true})}
+             onMouseLeave={() => this.setState({hover: false})}
+             key={1}
+      >
+        <div className="submission-header-container">
+          <div className="submission-title">
+            {title}
+            <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
           </div>
-          <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
-          <Divider />
-          <Paper className="submission-content" zDepth={1}>{content}</Paper>
-          {getRepliesSection()}
-        </Paper>
-    );
+          <div
+            className={'submission-icon-container ' + (hover || isShowingReplies ? '' : 'submission-icon-container-invisible')}>
+            {getIcons()}
+          </div>
+        </div>
+        <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
+        <Divider/>
+        <Paper className="submission-content" zDepth={1}>{content}</Paper>
+      </Paper>,
+      getRepliesSection(),
+    ];
   }
 
 }
@@ -121,13 +124,22 @@ MainPageSubmission.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     subkleddit: PropTypes.string.isRequired,
-    own: PropTypes.bool.isRequired
+    own: PropTypes.bool.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
-  isShowingReplies: PropTypes.bool
+  isShowingReplies: PropTypes.bool,
+  replies: PropTypes.arrayOf(
+    PropTypes.shape({
+        replyId: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired,
+        createdAt: PropTypes.number.isRequired,
+        content: PropTypes.string.isRequired,
+      },
+    ),
+  ).isRequired,
 };
 
 MainPageSubmission.defaultProps = {
-  isShowingReplies: false
+  isShowingReplies: false,
 };

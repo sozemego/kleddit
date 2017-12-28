@@ -12,6 +12,7 @@ export class MainPageSubmissions extends Component {
       deleteSubmission,
       toggleShowReplies,
       showingRepliesSubmissions,
+      replies,
     } = this.props;
 
     return(
@@ -30,6 +31,7 @@ export class MainPageSubmissions extends Component {
                                      onDelete={deleteSubmission}
                                      toggleShowReplies={toggleShowReplies}
                                      isShowingReplies={showingRepliesSubmissions[submission.submissionId] || false}
+                                     replies={replies[submission.submissionId] || []}
           />;
         })}
       </ReactCSSTransitionGroup>
@@ -43,6 +45,7 @@ MainPageSubmissions.propTypes = {
   deleteSubmission: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
   showingRepliesSubmissions: PropTypes.object.isRequired,
+  replies: PropTypes.object.isRequired,
 };
 
 MainPageSubmissions.defaultProps = {

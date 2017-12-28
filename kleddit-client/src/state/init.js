@@ -53,6 +53,9 @@ const state = {
   submissions: {
     submissions: {
 
+    },
+    replies: {
+
     }
   }
 };

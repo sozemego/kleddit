@@ -6,6 +6,9 @@ const initialState = {
   submissions: {
 
   },
+  replies: {
+
+  }
 };
 
 const clearSubmissions = (state, action) => {
@@ -37,11 +40,21 @@ const deleteSubmissionsBySubkleddit = (state, action) => {
   return {...state, submissions};
 };
 
+const addRepliesForSubmissionId = (state, action) => {
+  const {submissionId, replies: submissionReplies} = action;
+
+  const replies = {...state};
+  const oldSubmissionReplies = _.get(replies, `[${submissionId}]`, []);
+  replies[submissionId] = _.unionBy([oldSubmissionReplies, submissionReplies], 'replyId');
+  return {...state, replies};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
   [SUBMISSIONS_ACTIONS.DELETE_SUBMISSION]: deleteSubmission,
   [SUBMISSIONS_ACTIONS.DELETE_SUBMISSIONS_BY_SUBKLEDDIT]: deleteSubmissionsBySubkleddit,
+  [SUBMISSIONS_ACTIONS.ADD_REPLIES_FOR_SUBMISSION_ID]: addRepliesForSubmissionId,
 });
 
 export default submissions;

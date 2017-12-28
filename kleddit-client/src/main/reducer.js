@@ -15,7 +15,7 @@ const initialState = {
   perPage: 15,
   subkleddits: [],
   submissionErrors: Object.assign({}, emptySubmissionErrors),
-  showReplies: {
+  showingReplies: {
 
   },
   isFetchingNextPage: false
@@ -61,16 +61,16 @@ const setSubmissionErrors = (state, action) => {
   return {...state, submissionErrors};
 };
 
-const toggleShowReplies = (state, action) => {
+const toggleShowingReplies = (state, action) => {
   const { submissionId } = action;
-  const showReplies = {...state.showReplies};
-  const showRepliesSubmission = _.get(showReplies, `[${submissionId}]`, false);
-  if(showRepliesSubmission) {
-    delete showReplies[submissionId];
+  const showingReplies = {...state.showingReplies};
+  const showingRepliesSubmission = _.get(showingReplies, `[${submissionId}]`, false);
+  if(showingRepliesSubmission) {
+    delete showingReplies[submissionId];
   } else {
-    showReplies[submissionId] = true;
+    showingReplies[submissionId] = true;
   }
-  return {...state, showReplies};
+  return {...state, showingReplies};
 };
 
 const main = createReducer(initialState, {
@@ -83,7 +83,7 @@ const main = createReducer(initialState, {
   [MAIN_ACTIONS.FETCHING_NEXT_PAGE]: fetchingNextPage,
   [MAIN_ACTIONS.SET_SUBKLEDDITS]: setSubkleddits,
   [MAIN_ACTIONS.SET_SUBMISSION_ERRORS]: setSubmissionErrors,
-  [MAIN_ACTIONS.TOGGLE_SHOW_REPLIES]: toggleShowReplies,
+  [MAIN_ACTIONS.TOGGLE_SHOWING_REPLIES]: toggleShowingReplies,
 });
 
 export default main;

@@ -2,7 +2,6 @@ import {rootSelector} from '../state/utils';
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 import {getSubmissionMap} from '../submissions/selectors';
-import {getSubscribedToSubkleddits} from '../user/state/selectors';
 
 export const mainPageRoot = rootSelector('main');
 
@@ -17,11 +16,11 @@ export const isFetchingNextPage = (state) => mainPageRoot(state).fetchingNextPag
 export const getCurrentPage = (state) => mainPageRoot(state).page;
 export const getCurrentPerPage = (state) => mainPageRoot(state).perPage;
 export const getSubmissionErrors = (state) => mainPageRoot(state).submissionErrors;
-export const getShowingRepliesSubmissions = (state) => mainPageRoot(state).showReplies;
+export const getShowingRepliesSubmissions = (state) => mainPageRoot(state).showingReplies;
 
 export const getSubmissions = createSelector(
-  [getSubmissionMap, getSubscribedToSubkleddits],
-  (submissionMap, subscriptions) => {
+  [getSubmissionMap],
+  (submissionMap) => {
 
     return Object.values(submissionMap).sort((a, b) => b.createdAt - a.createdAt);
   }

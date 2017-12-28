@@ -17,6 +17,9 @@ const _deleteSubmission = makeActionCreator(DELETE_SUBMISSION, 'submissionId');
 export const DELETE_SUBMISSIONS_BY_SUBKLEDDIT = 'DELETE_SUBMISSIONS_BY_SUBKLEDDIT';
 export const deleteSubmissionsBySubkleddit = makeActionCreator(DELETE_SUBMISSIONS_BY_SUBKLEDDIT, 'subkleddit');
 
+export const ADD_REPLIES_FOR_SUBMISSION_ID = 'ADD_REPLIES_FOR_SUBMISSION_ID';
+export const addRepliesForSubmissionId = makeActionCreator(ADD_REPLIES_FOR_SUBMISSION_ID, 'submissionId', 'replies');
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
@@ -50,7 +53,12 @@ export const deleteSubmission = (submissionId) => {
 export const getReplies = (submissionId, page, limit) => {
   return (dispatch, getState) => {
 
-    return submissionService.getReplies(submissionId, page, limit);
+    return submissionService.getReplies(submissionId, page, limit)
+      .then(replies => dispatch(addRepliesForSubmissionId(submissionId, replies)))
+      .catch(err => {
+        console.warn(err);
+        dispatch(setErrorMessage(`Problem with fetching replies!`));
+      });
 
   };
 };
