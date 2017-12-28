@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {CircularProgress} from 'material-ui';
 
 import SubkledditListContainer from './LeftMainPageSidebarContainer';
 import * as mainPageActions from '../actions';
@@ -9,7 +8,7 @@ import SubmissionsContainer from './MainPageSubmissionsContainer';
 import {Col, Grid, Row} from 'react-flexbox-grid';
 import {isFetchingNextPage, isLeftSidebarShown} from '../selectors';
 
-import './main-page.css';
+import '../components/main-page.css'; //TODO MOVE THIS
 import {MainPageGrid} from '../components/MainPageGrid';
 import {MainPageContentColumn} from '../components/MainPageContentColumn';
 import {MainPageLoadingIndicator} from '../components/MainPageLoadingIndicator';
