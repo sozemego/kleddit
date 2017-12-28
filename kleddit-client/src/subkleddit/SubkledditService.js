@@ -1,43 +1,43 @@
 import networkService from '../network/NetworkServiceFactory';
 import {QueryBuilder} from '../network/QueryFilter';
 
-const basePath = 'http://localhost:8080/api/0.1/subkleddit';
-const getAllPath = '/all';
-const subscribedSubkledditsPath = '/subscription/user/subkleddits/';
-const subscribePath = '/subscription/subscribe';
-const submitPath = '/submission/submit';
-const subscribedToSubkleddits = '/submission/subscribed';
-const deleteSubmission = '/submission/delete/';
+const basePath = '/subkleddit';
+const getAllPath = `${basePath}/all`;
+const subscribedSubkledditsPath = `${basePath}/subscription/user/subkleddits/`;
+const subscribePath = `${basePath}/subscription/subscribe`;
+const submitPath = `${basePath}/submission/submit`;
+const subscribedToSubkleddits = `${basePath}/submission/subscribed`;
+const deleteSubmission = `${basePath}/submission/delete/`;
 
 export const SubkledditService = {};
 
 SubkledditService.getSubkleddits = function () {
-  return networkService.get(`${basePath}${getAllPath}`);
+  return networkService.get(`${getAllPath}`);
 };
 
 SubkledditService.getSubscribedToSubkleddits = function (username) {
   if(!username) {
     return Promise.resolve([]);
   }
-  return networkService.get(`${basePath}${subscribedSubkledditsPath}${username}`);
+  return networkService.get(`${subscribedSubkledditsPath}${username}`);
 };
 
 SubkledditService.subscribe = function (subkledditName) {
-  return networkService.post(`${basePath}${subscribePath}`, {
+  return networkService.post(`${subscribePath}`, {
     subkledditName: subkledditName,
     subscriptionType: 'SUBSCRIBE'
   });
 };
 
 SubkledditService.unsubscribe = function (subkledditName) {
-  return networkService.post(`${basePath}${subscribePath}`, {
+  return networkService.post(`${subscribePath}`, {
     subkledditName: subkledditName,
     subscriptionType: 'UNSUBSCRIBE'
   });
 };
 
 SubkledditService.submit = function (submissionId, subkledditName, title, content) {
-  return networkService.post(`${basePath}${submitPath}`, {
+  return networkService.post(`${submitPath}`, {
     submissionId,
     subkledditName,
     title,
@@ -46,7 +46,7 @@ SubkledditService.submit = function (submissionId, subkledditName, title, conten
 };
 
 SubkledditService.getSubmissionsForSubscribedSubkleddits = function(page = 1, limit = 15) {
-  const url = QueryBuilder.create(`${basePath}${subscribedToSubkleddits}`)
+  const url = QueryBuilder.create(`${subscribedToSubkleddits}`)
     .withPage(page)
     .withLimit(limit)
     .getUrl();
@@ -55,5 +55,5 @@ SubkledditService.getSubmissionsForSubscribedSubkleddits = function(page = 1, li
 };
 
 SubkledditService.deleteSubmission = function(submissionId) {
-  return networkService.delete(`${basePath}${deleteSubmission}${submissionId}`);
+  return networkService.delete(`${deleteSubmission}/${submissionId}`);
 };

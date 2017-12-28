@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import {Col} from 'react-flexbox-grid';
 
 export const MainPageContentColumn = (props) => {
+  const {
+    isLeftSidebarShown,
+    ...other,
+  } = props;
+
   return <Col lg={10}
-              className={props.isLeftSidebarShown ? 'main-page-content-container' : 'main-page-content-container-full'}
-              {...props}
+              className={isLeftSidebarShown ? 'main-page-content-container' : 'main-page-content-container-full'}
+              {...other}
   />;
 };
 

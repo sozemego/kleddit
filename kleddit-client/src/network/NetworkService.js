@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {store} from '../state/init';
 import {fetching, stopFetching} from '../main/actions';
+import {networkConfig} from '../config/network';
 
 const fetch = () => store.dispatch(fetching());
 const fetched = (response) => {
@@ -16,29 +17,22 @@ const fetchedError = (error) => {
 export const NetworkService = {};
 
 NetworkService.delete = (path) => {
-  validatePath(path);
-
   fetch();
-
-  return axios.delete(path)
+  return axios.delete(applyPath(path))
     .then(response => fetched(response.data))
     .catch(error => fetchedError(error));
 };
 
 NetworkService.post = (path, payload) => {
-  validatePath(path);
-
   fetch();
-  return axios.post(path, payload)
+  return axios.post(applyPath(path), payload)
     .then(response => fetched(response.data))
     .catch(error => fetchedError(error));
 };
 
 NetworkService.get = (path) => {
-  validatePath(path);
-
   fetch();
-  return axios.get(path)
+  return axios.get(applyPath(path))
     .then(response => fetched(response.data))
     .catch(error => fetchedError(error)); //TODO for now, extract data always. later, will throw custom errors
 };
@@ -47,6 +41,12 @@ const validatePath = (path) => {
   if (!path || typeof path !== 'string') {
     throw new Error(`Path needs to be a string, it was ${path}.`);
   }
+};
+
+const applyPath = (path) => {
+  validatePath(path);
+  const {base, port, version} = networkConfig;
+  return `${base}:${port}${version}${path}`;
 };
 
 NetworkService.setAuthorizationToken = function (token) {

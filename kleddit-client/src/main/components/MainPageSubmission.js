@@ -28,6 +28,7 @@ export class MainPageSubmission extends Component {
                          onMouseEnter={() => this.setState({deleteIconHover: true})}
                          onMouseLeave={() => this.setState({deleteIconHover: false})}
                          onClick={() => onDelete(submission.submissionId)}
+                         key={2}
     />;
   };
 
@@ -48,6 +49,7 @@ export class MainPageSubmission extends Component {
                          onMouseEnter={() => this.setState({replyIconHover: true})}
                          onMouseLeave={() => this.setState({replyIconHover: false})}
                          onClick={() => toggleShowReplies(submissionId)}
+                         key={1}
       />
     );
 
