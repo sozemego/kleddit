@@ -48,19 +48,7 @@ export class LoadingComponent extends Component {
     this.setState({loading: !this.state.loading});
   };
 
-  validateChildren = () => {
-    const {
-      children
-    } = this.props;
-
-    if(React.Children.toArray(children).length > 1) {
-      throw new Error('This component can only wrap one child element!');
-    }
-  };
-
   render() {
-    this.validateChildren();
-
     const {
       onClick
     } = this;
@@ -87,5 +75,16 @@ export class LoadingComponent extends Component {
 
 LoadingComponent.propTypes = {
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.element.isRequired
+};
+
+export const LoadingComponentWrapper = (WrappedComponent) => (props) => {
+  const {
+    onClick,
+    ...other
+  } = props;
+
+  return <LoadingComponent onClick={onClick}>
+    <WrappedComponent {...other}/>
+  </LoadingComponent>
 };
