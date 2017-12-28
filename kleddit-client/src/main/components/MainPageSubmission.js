@@ -77,7 +77,7 @@ export class MainPageSubmission extends Component {
 
   render() {
     const { getIcons, getRepliesSection } = this;
-    const { submission } = this.props;
+    const { submission, isShowingReplies } = this.props;
     const { hover } = this.state;
     const {
       own,
@@ -99,7 +99,7 @@ export class MainPageSubmission extends Component {
               {title}
               <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
             </div>
-            <div className={"submission-icon-container " + (hover ? "" : "submission-icon-container-invisible")}>
+            <div className={"submission-icon-container " + (hover || isShowingReplies ? "" : "submission-icon-container-invisible")}>
               {getIcons()}
             </div>
           </div>
