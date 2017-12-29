@@ -73,7 +73,7 @@ export class MainPageSubmissionForm extends Component {
     return (
       <div className="submission-form-container">
         <div>If you wish to submit a new post, please do it in the form below</div>
-        <div className="submission-form-subkleddit-input-container">
+        <div className="submission-form-input-container submission-form-subkleddit-input-container">
           <div className="submission-form-label-container">Subkleddit</div>
           <SelectField multiple={false}
                        value={subkleddit !== null ? subkleddits[subkleddit] : subkleddits[0] || null}
@@ -88,7 +88,7 @@ export class MainPageSubmissionForm extends Component {
             })}
           </SelectField>
         </div>
-        <div className="submission-form-title-input-container">
+        <div className="submission-form-input-container submission-form-title-input-container">
           <div className="submission-form-label-container">Title</div>
           <TextField
             className="submission-form-title-input"
@@ -98,7 +98,7 @@ export class MainPageSubmissionForm extends Component {
             onChange={(event, title) => onTitleChange(title)}
           />
         </div>
-        <div className="submission-form-content-input-container">
+        <div className="submission-form-input-container submission-form-content-input-container">
           <div className="submission-form-label-container">Content</div>
           <TextField
             className="submission-form-content-input"

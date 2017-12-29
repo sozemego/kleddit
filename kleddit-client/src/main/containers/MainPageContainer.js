@@ -18,7 +18,6 @@ class MainPageContainer extends Component {
 
   render() {
     const {
-      isLeftSidebarShown,
       isFetchingNextPage,
     } = this.props;
 
@@ -27,7 +26,7 @@ class MainPageContainer extends Component {
         <div>
           <LeftMainPageSidebarContainer/>
         </div>
-        <div style={{display: "flex", flexDirection: "column", width: "95%"}}>
+        <div style={{display: "flex", flexDirection: "column", width: "84%"}}>
           <SubmissionFormContainer/>
           <SubmissionsContainer/>
           <MainPageLoadingIndicator isFetchingNextPage={isFetchingNextPage}/>
@@ -40,7 +39,6 @@ class MainPageContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLeftSidebarShown: isLeftSidebarShown(state),
     isFetchingNextPage: isFetchingNextPage(state),
   };
 };

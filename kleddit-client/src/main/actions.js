@@ -11,9 +11,6 @@ import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, getSubm
 import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
 import {getReplies} from '../submissions/actions';
 
-export const TOGGLE_LEFT_SIDEBAR_VISIBILITY = 'TOGGLE_LEFT_SIDEBAR_VISIBILITY';
-export const toggleLeftSidebarVisibility = makeActionCreator(TOGGLE_LEFT_SIDEBAR_VISIBILITY);
-
 export const FETCHING = 'FETCHING';
 export const fetching = makeActionCreator(FETCHING);
 
