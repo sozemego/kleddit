@@ -1,5 +1,4 @@
 import networkService from '../network/NetworkServiceFactory';
-import {QueryBuilder} from '../network/QueryFilter';
 
 const basePath = '/subkleddit';
 const getAllPath = `${basePath}/all`;
@@ -13,9 +12,6 @@ SubkledditService.getSubkleddits = function () {
 };
 
 SubkledditService.getSubscribedToSubkleddits = function (username) {
-  if(!username) {
-    return Promise.resolve([]);
-  }
   return networkService.get(`${subscribedSubkledditsPath}${username}`);
 };
 

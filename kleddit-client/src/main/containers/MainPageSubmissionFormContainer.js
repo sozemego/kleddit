@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {MainPageSubmissionForm} from '../components/MainPageSubmissionForm';
 import * as subkledditActions from '../actions';
+import * as submissionActions from '../../submissions/actions';
 import * as subkledditSelectors from '../selectors';
 import {getSubscribedToSubkleddits} from '../../user/state/selectors';
 
@@ -46,4 +47,8 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, subkledditActions)(MainPageSubmissionFormContainer);
+export default connect(mapStateToProps,
+  {
+    ...subkledditActions,
+    validateSubmission: submissionActions.validateSubmission
+  })(MainPageSubmissionFormContainer);

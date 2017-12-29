@@ -1,24 +1,20 @@
 import networkService from '../network/NetworkServiceFactory';
 import {QueryBuilder} from '../network/QueryFilter';
 
-const basePath = '/subkleddit';
-const getSubmissions = `${basePath}/submission/reply`;
-const submitPath = `${basePath}/submission/submit`;
-const subscribedToSubkleddits = `${basePath}/submission/subscribed`;
-const deleteSubmission = `${basePath}/submission/delete`;
+const base = '/subkleddit';
+
+const submitPath = `${base}/submission/submit`;
+const subscribedToSubkleddits = `${base}/submission/subscribed`;
+const deleteSubmission = `${base}/submission/delete`;
+
+const reply = '/submission/reply';
+const getReplies = `${base}${reply}`;
+const postReply = `${base}${reply}`;
 
 export const SubmissionService = {};
 
-SubmissionService.getReplies = function(submissionId, page = 1, limit = 15) {
-  const queryFilter = QueryBuilder.create(`${getSubmissions}/${submissionId}`)
-    .withPage(page)
-    .withLimit(limit);
-  return networkService.get(queryFilter.getUrl());
-};
-
-SubmissionService.submit = function (submissionId, subkledditName, title, content) {
+SubmissionService.submit = function (subkledditName, title, content) {
   return networkService.post(`${submitPath}`, {
-    submissionId,
     subkledditName,
     title,
     content
@@ -36,4 +32,18 @@ SubmissionService.getSubmissionsForSubscribedSubkleddits = function(page = 1, li
 
 SubmissionService.deleteSubmission = function(submissionId) {
   return networkService.delete(`${deleteSubmission}/${submissionId}`);
+};
+
+SubmissionService.getReplies = function(submissionId, page = 1, limit = 15) {
+  const queryFilter = QueryBuilder.create(`${getReplies}/${submissionId}`)
+    .withPage(page)
+    .withLimit(limit);
+  return networkService.get(queryFilter.getUrl());
+};
+
+SubmissionService.postReply = function(submissionId, content) {
+  return networkService.post(`${postReply}`, {
+    submissionId,
+    content
+  });
 };

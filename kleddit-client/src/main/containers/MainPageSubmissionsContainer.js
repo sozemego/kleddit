@@ -7,7 +7,7 @@ import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
 import {MainPageSubmissions} from '../components/MainPageSubmissions';
-import {getLoadingReplies, getReplies} from '../../submissions/selectors';
+import { getInputReplies, getInputReplyErrors, getLoadingReplies, getReplies } from '../../submissions/selectors';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -33,6 +33,10 @@ class MainPageSubmissionsContainer extends Component {
       showingRepliesSubmissions,
       replies,
       loadingReplies,
+      onReplyContentChanged,
+      onReplySubmit,
+      inputReplies,
+      inputReplyErrors,
     } = this.props;
 
     return (
@@ -42,6 +46,10 @@ class MainPageSubmissionsContainer extends Component {
                            showingRepliesSubmissions={showingRepliesSubmissions}
                            replies={replies}
                            loadingReplies={loadingReplies}
+                           onReplyContentChanged={onReplyContentChanged}
+                           onReplySubmit={onReplySubmit}
+                           inputReplies={inputReplies}
+                           inputReplyErrors={inputReplyErrors}
       />
     );
   }
@@ -55,6 +63,8 @@ MainPageSubmissionsContainer.propTypes = {
   toggleShowReplies: PropTypes.func.isRequired,
   replies: PropTypes.object.isRequired,
   loadingReplies: PropTypes.object.isRequired,
+  inputReplies: PropTypes.object.isRequired,
+  inputReplyErrors: PropTypes.object.isRequired,
 };
 
 MainPageSubmissionsContainer.defaultProps = {
@@ -66,7 +76,9 @@ const mapStateToProps = (state) => {
     submissions: getSubmissions(state),
     showingRepliesSubmissions: getShowingRepliesSubmissions(state),
     replies: getReplies(state),
-    loadingReplies: getLoadingReplies(state)
+    loadingReplies: getLoadingReplies(state),
+    inputReplies: getInputReplies(state),
+    inputReplyErrors: getInputReplyErrors(state),
   };
 };
 

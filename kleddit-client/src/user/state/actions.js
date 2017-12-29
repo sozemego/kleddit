@@ -160,6 +160,9 @@ export const getSubscribedToSubkleddits = () => {
   return (dispatch, getState) => {
 
     const username = getUsername(getState);
+    if(!username) {
+      return Promise.resolve();
+    }
     return subkledditService.getSubscribedToSubkleddits(username)
       .then(subkleddits => dispatch(setSubscribedToSubkleddits(subkleddits.map(subkleddit => subkleddit.name))));
   }

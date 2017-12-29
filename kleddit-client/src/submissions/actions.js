@@ -1,9 +1,11 @@
 import _ from 'lodash';
 
 import {makeActionCreator} from '../state/utils';
-import {setErrorMessage} from '../main/actions';
+import { setErrorMessage, setSubmissionErrors } from '../main/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {SubmissionService as submissionService} from './SubmissionService';
+import uuid from 'uuid/v4';
+import { getInputReplies } from './selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -23,6 +25,12 @@ export const addRepliesForSubmissionId = makeActionCreator(ADD_REPLIES_FOR_SUBMI
 export const SET_LOADING_REPLIES_FOR_SUBMISSION = 'SET_LOADING_REPLIES_FOR_SUBMISSION';
 export const setLoadingRepliesForSubmission = makeActionCreator(SET_LOADING_REPLIES_FOR_SUBMISSION, 'submissionId', 'bool');
 
+export const SET_INPUT_REPLY_FOR_SUBMISSION = 'SET_INPUT_REPLY_FOR_SUBMISSION';
+export const setInputReplyForSubmission = makeActionCreator(SET_INPUT_REPLY_FOR_SUBMISSION, 'submissionId', 'content');
+
+export const SET_INPUT_REPLY_ERROR = 'SET_INPUT_REPLY_ERROR';
+export const setInputReplyError = makeActionCreator(SET_INPUT_REPLY_ERROR, 'submissionId', 'error');
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
@@ -38,6 +46,18 @@ export const loadSubmissions = (page, limit) => {
       })
 
   };
+};
+
+export const submit = (subkleddit, title, content) => {
+  return (dispatch, getState) => {
+
+    if(typeof subkleddit !== 'string') {
+      throw new Error('Subkleddit name has to be a string');
+    }
+
+    return submissionService.submit(subkleddit, title, content)
+      .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
+  }
 };
 
 export const deleteSubmission = (submissionId) => {
@@ -67,5 +87,73 @@ export const getReplies = (submissionId, page, limit) => {
         dispatch(setLoadingRepliesForSubmission(submissionId, false));
       });
 
+  };
+};
+
+const MAX_TITLE_LENGTH = 100;
+const MAX_CONTENT_LENGTH = 10000;
+
+export const validateSubmission = ({title, content}) => {
+  return (dispatch, getState) => {
+
+    const error = {
+      title: null,
+      content: null
+    };
+
+    if(title.length === 0) {
+      error.title = 'Title is too short!';
+    }
+    if(title.length > MAX_TITLE_LENGTH) {
+      error.title = `Title is too long, it cannot be longer than ${MAX_TITLE_LENGTH}`;
+    }
+
+    if(content.length === 0) {
+      error.content = 'Content is too short!';
+    }
+    if(content.length > MAX_CONTENT_LENGTH) {
+      error.title = `Content is too long, it cannot be longer than ${MAX_CONTENT_LENGTH}`;
+    }
+
+    dispatch(setSubmissionErrors(error));
+
+  };
+};
+
+const MAX_REPLY_CONTENT_LENGTH = 10000;
+
+export const onReplyContentChanged = (submissionId, content) => {
+  return (dispatch, getState) => {
+
+    let error = null;
+    if(content.trim().length > MAX_REPLY_CONTENT_LENGTH) {
+      error = `Maximum of ${MAX_REPLY_CONTENT_LENGTH} characters.`;
+    }
+    if(!content.trim().length) {
+      error = 'Reply cannot be empty';
+    }
+
+    dispatch(setInputReplyError(submissionId, error));
+    dispatch(setInputReplyForSubmission(submissionId, content));
+
+  };
+};
+
+export const onReplySubmit = (submissionId) => {
+  return (dispatch, getState) => {
+
+    const content = getInputReplies(getState)[submissionId];
+    if(content && content.trim()) {
+      dispatch(postReply(submissionId, content.trim()));
+    }
+
+  };
+};
+
+export const postReply = (submissionId, content) => {
+  return (dispatch, getState) => {
+
+    return submissionService.postReply(submissionId, content)
+      .then((reply) => dispatch(addRepliesForSubmissionId(submissionId, [reply])));
   };
 };

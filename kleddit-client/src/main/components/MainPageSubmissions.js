@@ -14,6 +14,10 @@ export class MainPageSubmissions extends Component {
       showingRepliesSubmissions,
       replies,
       loadingReplies,
+      onReplyContentChanged,
+      onReplySubmit,
+      inputReplies,
+      inputReplyErrors
     } = this.props;
 
     return(
@@ -27,13 +31,18 @@ export class MainPageSubmissions extends Component {
         className="main-page-submissions-container"
       >
         {submissions.map((submission, index) => {
-          return <MainPageSubmission key={submission.submissionId}
+          const { submissionId } = submission;
+          return <MainPageSubmission key={submissionId}
                                      submission={submission}
                                      onDelete={deleteSubmission}
                                      toggleShowReplies={toggleShowReplies}
-                                     isShowingReplies={showingRepliesSubmissions[submission.submissionId] || false}
-                                     replies={replies[submission.submissionId] || []}
-                                     isLoadingReplies={loadingReplies[submission.submissionId] || false}
+                                     isShowingReplies={showingRepliesSubmissions[submissionId]}
+                                     replies={replies[submissionId]}
+                                     isLoadingReplies={loadingReplies[submissionId]}
+                                     onReplyContentChanged={onReplyContentChanged}
+                                     onReplySubmit={onReplySubmit}
+                                     inputReply={inputReplies[submissionId]}
+                                     inputReplyError={inputReplyErrors[submissionId]}
           />;
         })}
       </ReactCSSTransitionGroup>
@@ -49,6 +58,10 @@ MainPageSubmissions.propTypes = {
   showingRepliesSubmissions: PropTypes.object.isRequired,
   replies: PropTypes.object.isRequired,
   loadingReplies: PropTypes.object.isRequired,
+  onReplyContentChanged: PropTypes.func.isRequired,
+  onReplySubmit: PropTypes.func.isRequired,
+  inputReplies: PropTypes.object.isRequired,
+  inputReplyErrors: PropTypes.object.isRequired,
 };
 
 MainPageSubmissions.defaultProps = {

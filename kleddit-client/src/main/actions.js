@@ -35,9 +35,6 @@ export const setPage = makeActionCreator(SET_PAGE, 'page');
 export const INCREMENT_PAGE = 'INCREMENT_PAGE';
 export const incrementPage = makeActionCreator(INCREMENT_PAGE);
 
-export const VALIDATE_SUBMISSION = 'VALIDATE_SUBMISSION';
-export const validateSubmission = makeActionCreator(VALIDATE_SUBMISSION, 'payload');
-
 export const SET_SUBMISSION_ERRORS = 'SET_SUBMISSION_ERRORS';
 export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'submissionErrors');
 
@@ -94,15 +91,10 @@ export const submit = (subkleddit, title, content) => {
       throw new Error('Subkleddit name has to be a string');
     }
 
-    return submissionService.submit(randomSubmissionId(), subkleddit, title, content)
+    return dispatch(submissionsActions.submit(subkleddit, title, content))
       .then(() => dispatch(loadSubmissions()))
       .then(() => dispatch(setSubmissionErrors({})))
-      .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
   }
-};
-
-const randomSubmissionId = () => {
-  return uuid().toString();
 };
 
 export const loadSubmissions = () => {
