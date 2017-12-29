@@ -73,6 +73,10 @@ const toggleShowingReplies = (state, action) => {
   return {...state, showingReplies};
 };
 
+const clearReplyState = (state, action) => {
+  return {...state, showingReplies: {}};
+};
+
 const main = createReducer(initialState, {
   [MAIN_ACTIONS.TOGGLE_LEFT_SIDEBAR_VISIBILITY]: toggleLeftSidebarVisibility,
   [MAIN_ACTIONS.FETCHING]: fetching,
@@ -84,6 +88,7 @@ const main = createReducer(initialState, {
   [MAIN_ACTIONS.SET_SUBKLEDDITS]: setSubkleddits,
   [MAIN_ACTIONS.SET_SUBMISSION_ERRORS]: setSubmissionErrors,
   [MAIN_ACTIONS.TOGGLE_SHOWING_REPLIES]: toggleShowingReplies,
+  [MAIN_ACTIONS.CLEAR_REPLY_STATE]: clearReplyState,
 });
 
 export default main;

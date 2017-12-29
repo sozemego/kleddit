@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import {MainPageSubmission} from './MainPageSubmission';
+import { MainPageSubmissionReplies } from './MainPageSubmissionReplies';
 
 export class MainPageSubmissions extends Component {
 
@@ -32,18 +33,21 @@ export class MainPageSubmissions extends Component {
       >
         {submissions.map((submission, index) => {
           const { submissionId } = submission;
-          return <MainPageSubmission key={submissionId}
-                                     submission={submission}
-                                     onDelete={deleteSubmission}
-                                     toggleShowReplies={toggleShowReplies}
-                                     isShowingReplies={showingRepliesSubmissions[submissionId]}
-                                     replies={replies[submissionId]}
-                                     isLoadingReplies={loadingReplies[submissionId]}
-                                     onReplyContentChanged={onReplyContentChanged}
-                                     onReplySubmit={onReplySubmit}
-                                     inputReply={inputReplies[submissionId]}
-                                     inputReplyError={inputReplyErrors[submissionId]}
-          />;
+          return <div key={submissionId}>
+            <MainPageSubmission submission={submission}
+                                onDelete={deleteSubmission}
+                                toggleShowReplies={toggleShowReplies}
+                                isShowingReplies={showingRepliesSubmissions[submissionId]}
+            />
+            <MainPageSubmissionReplies replies={replies[submissionId]}
+                                       isLoadingReplies={loadingReplies[submissionId]}
+                                       onReplyContentChanged={onReplyContentChanged}
+                                       onReplySubmit={onReplySubmit}
+                                       isShowingReplies={showingRepliesSubmissions[submissionId]}
+                                       inputReply={inputReplies[submissionId]}
+                                       inputReplyError={inputReplyErrors[submissionId]}
+            />
+          </div>;
         })}
       </ReactCSSTransitionGroup>
     );

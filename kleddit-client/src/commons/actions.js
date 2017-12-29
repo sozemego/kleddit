@@ -1,7 +1,8 @@
-import {makeActionCreator} from '../state/utils';
 import {setSubscribedToSubkleddits} from '../user/state/actions';
 import {setErrorMessage, setPage} from '../main/actions';
-import {clearSubmissions} from '../submissions/actions';
+import {
+  clearReplyState, clearSubmissions,
+} from '../submissions/actions';
 
 /**
  This file contains actions that can be
@@ -21,6 +22,7 @@ export const afterLogout = () => {
     dispatch(setErrorMessage(null));
     dispatch(setPage(1));
     dispatch(clearSubmissions());
+    dispatch(clearReplyState());
 
   };
 };

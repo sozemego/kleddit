@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
 import _ from 'lodash';
 
 import * as userActions from '../../user/state/actions';
 import * as mainPageActions from '../actions';
 import {getSubscribedToSubkleddits, isLoggedIn} from '../../user/state/selectors';
-import {List, Subheader} from 'material-ui';
 import {isLeftSidebarShown, getSubkleddits} from '../selectors';
 import {LeftMainPageSidebar} from '../components/LeftMainPageSidebar';
 
@@ -45,8 +43,7 @@ const mapStateToProps = (state) => {
   return {
     subkleddits: getSubkleddits(state),
     subscribedToSubkleddits: getSubscribedToSubkleddits(state),
-    isLoggedIn: isLoggedIn(state),
-    isLeftSidebarShown: isLeftSidebarShown(state)
+    isLoggedIn: isLoggedIn(state)
   };
 };
 

@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import SubkledditListContainer from './LeftMainPageSidebarContainer';
+import LeftMainPageSidebarContainer from './LeftMainPageSidebarContainer';
 import * as mainPageActions from '../actions';
 import SubmissionFormContainer from './MainPageSubmissionFormContainer';
 import SubmissionsContainer from './MainPageSubmissionsContainer';
-import {Col, Grid, Row} from 'react-flexbox-grid';
 import {isFetchingNextPage, isLeftSidebarShown} from '../selectors';
+import {MainPageLoadingIndicator} from '../components/MainPageLoadingIndicator';
 
 import '../components/main-page.css'; //TODO MOVE THIS
-import {MainPageGrid} from '../components/MainPageGrid';
-import {MainPageContentColumn} from '../components/MainPageContentColumn';
-import {MainPageLoadingIndicator} from '../components/MainPageLoadingIndicator';
 
 class MainPageContainer extends Component {
 
@@ -26,23 +23,17 @@ class MainPageContainer extends Component {
     } = this.props;
 
     return (
-      <MainPageGrid>
-        <Row>
-          <Col lg={2}>
-            <SubkledditListContainer/>
-          </Col>
-          <MainPageContentColumn isLeftSidebarShown={isLeftSidebarShown} >
-            <Grid>
-              <Col lg={12}>
-                <SubmissionFormContainer/>
-                <SubmissionsContainer/>
-                <MainPageLoadingIndicator isFetchingNextPage={isFetchingNextPage}/>
-              </Col>
-            </Grid>
-          </MainPageContentColumn>
-        </Row>
-      </MainPageGrid>
-    );
+      <div style={{display: "flex", flexDirection: "row"}}>
+        <div>
+          <LeftMainPageSidebarContainer/>
+        </div>
+        <div style={{display: "flex", flexDirection: "column", width: "95%"}}>
+          <SubmissionFormContainer/>
+          <SubmissionsContainer/>
+          <MainPageLoadingIndicator isFetchingNextPage={isFetchingNextPage}/>
+        </div>
+      </div>
+    )
   }
 
 }

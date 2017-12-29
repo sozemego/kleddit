@@ -41,6 +41,9 @@ export const setSubmissionErrors = makeActionCreator(SET_SUBMISSION_ERRORS, 'sub
 export const TOGGLE_SHOWING_REPLIES = 'TOGGLE_SHOWING_REPLIES';
 export const _toggleShowingReplies = makeActionCreator(TOGGLE_SHOWING_REPLIES, 'submissionId');
 
+export const CLEAR_REPLY_STATE = 'CLEAR_REPLY_STATE';
+export const clearReplyState = makeActionCreator(CLEAR_REPLY_STATE);
+
 export const init = () => {
   return (dispatch, getState) => {
 

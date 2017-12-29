@@ -59,25 +59,14 @@ export class LeftMainPageSidebar extends Component {
 
   getListClassNames = () => {
     const defaultClassNames = ['main-page-subkleddit-list-container'];
-    const { isLeftSidebarShown } = this.props;
-    if(isLeftSidebarShown) {
-      // defaultClassNames.push('main-page-subkleddit-list-container-hidden');
-    }
 
     return defaultClassNames.join(' ');
   };
 
   getContainerClassNames = () => {
     const defaultClassNames = ['main-page-sidebar-container'];
-    const { isLeftSidebarShown } = this.props;
-    if(!isLeftSidebarShown) {
-      defaultClassNames.push('main-page-subkleddit-list-container-hidden');
-    }
-    return defaultClassNames.join(' ');
-  };
 
-  getSideButtonClassNames = () => {
-    return this.props.isLeftSidebarShown ? 'main-page-side-hide-button' : 'main-page-side-show-button';
+    return defaultClassNames.join(' ');
   };
 
   render() {
@@ -85,19 +74,11 @@ export class LeftMainPageSidebar extends Component {
       getSubkledditElements,
       getListClassNames,
       getContainerClassNames,
-      getSideButtonClassNames
     } = this;
-
-    const {
-      toggleLeftSidebarVisibility
-    } = this.props;
 
     return (
       <div className={getContainerClassNames()}>
         <List className={getListClassNames()} children={getSubkledditElements()}/>
-        <div className={getSideButtonClassNames()}
-             onClick={toggleLeftSidebarVisibility}>
-        </div>
       </div>
     );
   }

@@ -54,7 +54,8 @@ const addRepliesForSubmissionId = (state, action) => {
 
   const replies = {...state.replies};
   const oldSubmissionReplies = _.get(replies, `[${submissionId}]`, []);
-  replies[submissionId] = _.unionBy(oldSubmissionReplies, submissionReplies, 'replyId');
+  replies[submissionId] = _.unionBy(oldSubmissionReplies, submissionReplies, 'replyId')
+    .sort((a, b) => b.createdAt - a.createdAt);
   return {...state, replies};
 };
 
@@ -80,6 +81,10 @@ const setInputReplyError = (state, action) => {
   return {...state, inputReplyErrors};
 };
 
+const clearReplyState = (state, action) => {
+  return {...state, replies: {}, inputReplies: {}, inputReplyErrors: {}};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
@@ -89,6 +94,7 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.SET_LOADING_REPLIES_FOR_SUBMISSION]: setLoadingRepliesForSubmission,
   [SUBMISSIONS_ACTIONS.SET_INPUT_REPLY_FOR_SUBMISSION]: setInputReplyForSubmission,
   [SUBMISSIONS_ACTIONS.SET_INPUT_REPLY_ERROR]: setInputReplyError,
+  [SUBMISSIONS_ACTIONS.CLEAR_REPLY_STATE]: clearReplyState,
 });
 
 export default submissions;

@@ -31,6 +31,9 @@ export const setInputReplyForSubmission = makeActionCreator(SET_INPUT_REPLY_FOR_
 export const SET_INPUT_REPLY_ERROR = 'SET_INPUT_REPLY_ERROR';
 export const setInputReplyError = makeActionCreator(SET_INPUT_REPLY_ERROR, 'submissionId', 'error');
 
+export const CLEAR_REPLY_STATE = 'CLEAR_REPLY_STATE';
+export const clearReplyState = makeActionCreator(CLEAR_REPLY_STATE);
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
