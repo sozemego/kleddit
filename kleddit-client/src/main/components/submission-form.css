@@ -3,11 +3,12 @@
     background-color: black;
     flex-direction: column;
     padding: 6px;
+    flex-grow: 1;
 }
 
 .submission-form-input-container {
-    margin-top: 12px;
-    margin-bottom: 12px;
+    /*margin-top: 12px;*/
+    /*margin-bottom: 12px;*/
 }
 
 .submission-form-title-input-container {
