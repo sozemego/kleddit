@@ -10,19 +10,19 @@ public class SubmissionReplyDto {
   private final String replyId;
   private final String submissionId;
   private final long createdAt;
-  private final String authorName;
+  private final String author;
   private final String content;
 
   @JsonCreator
   public SubmissionReplyDto(@JsonProperty("replyId") String replyId,
                             @JsonProperty("submissionId") String submissionId,
                             @JsonProperty("createdAt") long createdAt,
-                            @JsonProperty("authorName") String authorName,
+                            @JsonProperty("author") String author,
                             @JsonProperty("content") String content) {
     this.replyId = Objects.requireNonNull(replyId);
     this.submissionId = Objects.requireNonNull(submissionId);
     this.createdAt = createdAt;
-    this.authorName = Objects.requireNonNull(authorName);
+    this.author = Objects.requireNonNull(author);
     this.content = Objects.requireNonNull(content);
   }
 
@@ -38,8 +38,8 @@ public class SubmissionReplyDto {
     return createdAt;
   }
 
-  public String getAuthorName() {
-    return authorName;
+  public String getAuthor() {
+    return author;
   }
 
   public String getContent() {
