@@ -14,8 +14,9 @@ public interface SubmissionService {
    * Attempts to submit a given submission.
    * @param username author of the submission
    * @param form form with submission data
+   * @return newly created submission
    */
-  void submit(String username, SubmissionForm form);
+  Submission submit(String username, SubmissionForm form);
 
   /**
    * Returns a list of submissions to a given subkleddit.

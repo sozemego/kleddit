@@ -49,8 +49,11 @@ public class SubmissionReplyApi {
   @Authenticated
   @Produces(MediaType.APPLICATION_JSON)
   public Response postSubmissionReply(SubmissionReplyForm form) {
-    submissionReplyService.postReply(securityContext.getUserPrincipal().getName(), form);
-    return Response.status(Response.Status.CREATED).build();
+    SubmissionReply reply = submissionReplyService.postReply(securityContext.getUserPrincipal().getName(), form);
+
+    return Response.status(Response.Status.CREATED)
+      .entity(convertReplyToDto(reply))
+      .build();
   }
 
   @Path("/{replyId}")

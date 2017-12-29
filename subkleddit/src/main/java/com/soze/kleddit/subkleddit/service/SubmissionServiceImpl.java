@@ -38,11 +38,11 @@ public class SubmissionServiceImpl implements SubmissionService {
   private UserService userService;
 
   @Override
-  public void submit(String username, SubmissionForm form) {
+  public Submission submit(String username, SubmissionForm form) {
     Objects.requireNonNull(username);
     Objects.requireNonNull(form);
     String subkledditName = form.getSubkledditName();
-    LOG.info("[{}] is submitting to [{}], submission id [{}]", username, subkledditName, form.getSubmissionId());
+    LOG.info("[{}] is submitting to [{}]", username, subkledditName);
 
     Optional<User> userOptional = userService.getUserByUsername(username);
 
@@ -84,15 +84,9 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     Submission submission = new Submission();
-    EntityUUID submissionId = null;
-    try {
-      submissionId = new EntityUUID(form.getSubmissionId());
-    } catch (IllegalArgumentException e) {
-      throw new SubmissionException("Invalid submission id [" + form.getSubmissionId() + "]");
-    }
 
     Subkleddit subkleddit = subkledditOptional.get();
-    submission.setSubmissionId(submissionId);
+    submission.setSubmissionId(EntityUUID.randomId());
 
     submission.setCreatedAt(Timestamp.from(Instant.now()));
     submission.setAuthor(user);
@@ -103,6 +97,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     List<Submission> submissions = subkleddit.getSubmissions();
     submissions.add(submission);
     subkledditService.updateSubkleddit(subkleddit);
+
+    return submission;
   }
 
   @Override

@@ -74,9 +74,12 @@ public class SubmissionApi {
     Objects.requireNonNull(form);
 
     String username = securityContext.getUserPrincipal().getName();
-    submissionService.submit(username, form);
+    Submission submission = submissionService.submit(username, form);
 
-    return Response.status(201).build();
+    return Response
+      .status(201)
+      .entity(convertSubmission(submission))
+      .build();
   }
 
   @Path("/delete/{submissionId}")

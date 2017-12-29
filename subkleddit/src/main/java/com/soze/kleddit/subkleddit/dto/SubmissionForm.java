@@ -7,25 +7,18 @@ import java.util.Objects;
 
 public class SubmissionForm {
 
-  private final String submissionId;
   private final String subkledditName;
   private final String title;
   private final String content;
 
   @JsonCreator
-  public SubmissionForm(@JsonProperty("submissionId") String submissionId,
-                        @JsonProperty("subkledditName") String subkledditName,
+  public SubmissionForm(@JsonProperty("subkledditName") String subkledditName,
                         @JsonProperty("title") String title,
                         @JsonProperty("content") String content
   ) {
-    this.submissionId = Objects.requireNonNull(submissionId);
     this.subkledditName = Objects.requireNonNull(subkledditName);
     this.title = Objects.requireNonNull(title);
     this.content = Objects.requireNonNull(content);
-  }
-
-  public String getSubmissionId() {
-    return submissionId;
   }
 
   public String getSubkledditName() {
@@ -43,7 +36,6 @@ public class SubmissionForm {
   @Override
   public String toString() {
     return "SubmissionForm{" +
-      "submissionId='" + submissionId + '\'' +
       ", subkledditName='" + subkledditName + '\'' +
       ", title='" + title + '\'' +
       ", content='" + content + '\'' +

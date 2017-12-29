@@ -64,7 +64,7 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     User user = userOptional.get();
 
     SubmissionReply reply = new SubmissionReply();
-    reply.setReplyId(EntityUUID.fromString(form.getReplyId()));
+    reply.setReplyId(EntityUUID.randomId());
     reply.setSubmissionId(EntityUUID.fromString(form.getSubmissionId()));
     reply.setAuthorId(user.getUserId());
     reply.setCreatedAt(Timestamp.from(Instant.now()));
@@ -80,7 +80,7 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
 
     Optional<SubmissionReply> submissionReplyOptional = submissionReplyRepository.getSubmissionReplyById(replyId);
     if(!submissionReplyOptional.isPresent()) {
-      LOG.info("[{}] tried to delete reply with id [{}], but it does not exist.");
+      LOG.info("[{}] tried to delete reply with id [{}], but it does not exist.", username, replyId);
       throw new SubmissionReplyException("SubmissionReply with id " + replyId.toString() + " does not exist.");
     }
 

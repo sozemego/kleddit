@@ -7,7 +7,6 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionType;
 import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
-import com.soze.kleddit.utils.jpa.EntityUUID;
 import com.soze.kleddit.utils.json.JsonUtils;
 import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
@@ -48,7 +47,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Content!"
@@ -68,7 +66,6 @@ public class SubmissionSystemTest {
     String subkledditName = "Pictures";
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Content!"
@@ -85,7 +82,6 @@ public class SubmissionSystemTest {
   public void testSubmissionUnauthorized() {
     String subkledditName = "Videos";
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Content!"
@@ -105,7 +101,6 @@ public class SubmissionSystemTest {
     String subkledditName = "SOMETHING_DOES_NOT_EXIST";
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Content!"
@@ -124,7 +119,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Content!"
@@ -138,30 +132,6 @@ public class SubmissionSystemTest {
   }
 
   @Test
-  public void testSubmissionInvalidEntityUUID() {
-    String username = "SUBMISSION_TEST_4";
-    login(username);
-    String subkledditName = "News";
-
-    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
-
-    SubmissionForm form = new SubmissionForm(
-      "not a valid id",
-      subkledditName,
-      "Title",
-      "Content!"
-    );
-
-    Response response = client.post(form, postSubmission);
-    assertResponseIsBadRequest(response);
-
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
-    assertEquals(0, submissions.size());
-  }
-
-  @Test
   public void testSubmissionEmptyTitle() {
     String username = "SUBMISSION_TEST_6";
     login(username);
@@ -171,7 +141,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "",
       "Content!"
@@ -195,7 +164,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       CommonUtils.generateRandomString(500),
       "Content!"
@@ -219,7 +187,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       ""
@@ -243,7 +210,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       CommonUtils.generateRandomString(10005)
@@ -267,7 +233,6 @@ public class SubmissionSystemTest {
     client.post(subscriptionForm, subscribe);
 
     SubmissionForm form = new SubmissionForm(
-      EntityUUID.randomId().toString(),
       subkledditName,
       "Title",
       "Super content"
