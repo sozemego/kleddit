@@ -75,7 +75,7 @@ public class SubmissionReplyApi {
       reply.getReplyId().toString(),
       reply.getSubmissionId().toString(),
       reply.getCreatedAt().getTime(),
-      reply.getAuthorId().toString(),
+      reply.getAuthor().getUsername(),
       reply.getContent()
     );
   }

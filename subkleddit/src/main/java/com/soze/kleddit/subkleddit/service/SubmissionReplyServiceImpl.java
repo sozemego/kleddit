@@ -66,7 +66,7 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     SubmissionReply reply = new SubmissionReply();
     reply.setReplyId(EntityUUID.randomId());
     reply.setSubmissionId(EntityUUID.fromString(form.getSubmissionId()));
-    reply.setAuthorId(user.getUserId());
+    reply.setAuthor(user);
     reply.setCreatedAt(Timestamp.from(Instant.now()));
     reply.setContent(form.getContent());
 
@@ -93,7 +93,7 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     SubmissionReply submissionReply = submissionReplyOptional.get();
     User user = userOptional.get();
 
-    if(!submissionReply.getAuthorId().equals(user.getUserId())) {
+    if(!submissionReply.getAuthor().equals(user)) {
       LOG.info("[{}] tried to delete another users reply. Reply id to delete was [{}]", username, replyId);
       throw new SubmissionReplyException("ReplyId " + replyId + " does not belong to user " + username);
     }

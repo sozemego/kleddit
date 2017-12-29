@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -85,5 +86,19 @@ public class User {
       ", passwordHash='" + passwordHash + '\'' +
       ", createdAt=" + createdAt +
       '}';
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final User user = (User) o;
+    return Objects.equals(getUserId(), user.getUserId());
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(getUserId());
   }
 }

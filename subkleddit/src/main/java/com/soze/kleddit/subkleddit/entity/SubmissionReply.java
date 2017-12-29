@@ -1,6 +1,7 @@
 package com.soze.kleddit.subkleddit.entity;
 
 
+import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.persistence.*;
@@ -18,9 +19,9 @@ public class SubmissionReply {
   @AttributeOverride(name = "id", column = @Column(name = "submission_id"))
   private EntityUUID submissionId;
 
-  @Column(name = "author_id")
-  @AttributeOverride(name = "id", column = @Column(name = "author_id"))
-  private EntityUUID authorId;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "author_id")
+  private User author;
 
   @Column(name = "created_at")
   private Timestamp createdAt;
@@ -65,19 +66,19 @@ public class SubmissionReply {
     this.content = content;
   }
 
-  public EntityUUID getAuthorId() {
-    return authorId;
+  public User getAuthor() {
+    return author;
   }
 
-  public void setAuthorId(final EntityUUID authorId) {
-    this.authorId = authorId;
+  public void setAuthor(User author) {
+    this.author = author;
   }
 
   public boolean isNuked() {
     return nuked;
   }
 
-  public void setNuked(final boolean nuked) {
+  public void setNuked(boolean nuked) {
     this.nuked = nuked;
   }
 }
