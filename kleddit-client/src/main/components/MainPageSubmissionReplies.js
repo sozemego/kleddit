@@ -7,6 +7,7 @@ import moment from 'moment/moment';
 const replyContainer = {
   margin: '2px',
   display: 'flex',
+  position: 'relative',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'flex-start',
@@ -28,10 +29,9 @@ export class MainPageSubmissionReplies extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
+
   getReplyComponent = ({ replyId, content, author, createdAt }, index) => {
     return <div key={replyId}
                 style={Object.assign({}, replyContainer, {
@@ -40,12 +40,12 @@ export class MainPageSubmissionReplies extends Component {
       <div style={{
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: '100%',
         padding: '2px',
       }}>
         <div style={{ color: 'rgba(190, 190, 190, 0.9)' }}>{author}</div>
-        <div style={{ fontSize: '0.75em', color: 'gray', marginLeft: '4px' }}>
+        <div style={{ color: 'gray', marginLeft: '4px' }}>
           {moment(createdAt).format('LTS')}
         </div>
       </div>
@@ -56,7 +56,7 @@ export class MainPageSubmissionReplies extends Component {
   onReplyChanged = (event, value) => {
     const {
       onReplyContentChanged,
-      submission: { submissionId },
+      submissionId,
     } = this.props;
     onReplyContentChanged(submissionId, value);
   };
@@ -64,7 +64,7 @@ export class MainPageSubmissionReplies extends Component {
   onReplySubmit = () => {
     const {
       onReplySubmit,
-      submission: { submissionId },
+      submissionId,
     } = this.props;
     return onReplySubmit(submissionId);
   };
@@ -88,7 +88,7 @@ export class MainPageSubmissionReplies extends Component {
     }
 
     return <div
-      style={{ backgroundColor: 'rgb(54, 54, 54)', padding: '4px', margin: '-10px auto auto 6px', width: '90%' }}
+      style={{ backgroundColor: 'rgb(54, 54, 54)', padding: '4px', marginLeft: '6px', marginTop: '-3px', width: '90%' }}
       key={2}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <TextField
@@ -123,6 +123,7 @@ export class MainPageSubmissionReplies extends Component {
 }
 
 MainPageSubmissionReplies.propTypes = {
+  submissionId: PropTypes.string.isRequired,
   replies: PropTypes.arrayOf(
     PropTypes.shape({
         replyId: PropTypes.string.isRequired,

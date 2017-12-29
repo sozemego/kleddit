@@ -39,7 +39,8 @@ export class MainPageSubmissions extends Component {
                                 toggleShowReplies={toggleShowReplies}
                                 isShowingReplies={showingRepliesSubmissions[submissionId]}
             />
-            <MainPageSubmissionReplies replies={replies[submissionId]}
+            <MainPageSubmissionReplies submissionId={submissionId}
+                                       replies={replies[submissionId]}
                                        isLoadingReplies={loadingReplies[submissionId]}
                                        onReplyContentChanged={onReplyContentChanged}
                                        onReplySubmit={onReplySubmit}
