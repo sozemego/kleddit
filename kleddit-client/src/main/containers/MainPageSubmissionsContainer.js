@@ -7,7 +7,7 @@ import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
 import {MainPageSubmissions} from '../components/MainPageSubmissions';
-import {getReplies} from '../../submissions/selectors';
+import {getLoadingReplies, getReplies} from '../../submissions/selectors';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -32,6 +32,7 @@ class MainPageSubmissionsContainer extends Component {
       toggleShowReplies,
       showingRepliesSubmissions,
       replies,
+      loadingReplies,
     } = this.props;
 
     return (
@@ -40,6 +41,7 @@ class MainPageSubmissionsContainer extends Component {
                            toggleShowReplies={toggleShowReplies}
                            showingRepliesSubmissions={showingRepliesSubmissions}
                            replies={replies}
+                           loadingReplies={loadingReplies}
       />
     );
   }
@@ -52,6 +54,7 @@ MainPageSubmissionsContainer.propTypes = {
   onScrollBottom: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
   replies: PropTypes.object.isRequired,
+  loadingReplies: PropTypes.object.isRequired,
 };
 
 MainPageSubmissionsContainer.defaultProps = {
@@ -63,6 +66,7 @@ const mapStateToProps = (state) => {
     submissions: getSubmissions(state),
     showingRepliesSubmissions: getShowingRepliesSubmissions(state),
     replies: getReplies(state),
+    loadingReplies: getLoadingReplies(state)
   };
 };
 

@@ -22,7 +22,7 @@ const invisibleProgressStyle = Object.assign({}, {
  * This also required that if we want the loading animation,
  * we need the onClick handler to be a promise.
  */
-export class LoadingComponent extends Component {
+export class LoadingComponentWrapper extends Component {
 
   constructor(props) {
     super(props);
@@ -73,18 +73,18 @@ export class LoadingComponent extends Component {
 
 }
 
-LoadingComponent.propTypes = {
+LoadingComponentWrapper.propTypes = {
   onClick: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired
 };
 
-export const LoadingComponentWrapper = (WrappedComponent) => (props) => {
+export const LoadingComponentWrapperFunction = (WrappedComponent) => (props) => {
   const {
     onClick,
     ...other
   } = props;
 
-  return <LoadingComponent onClick={onClick}>
+  return <LoadingComponentWrapper onClick={onClick}>
     <WrappedComponent {...other}/>
-  </LoadingComponent>
+  </LoadingComponentWrapper>
 };

@@ -13,6 +13,7 @@ export class MainPageSubmissions extends Component {
       toggleShowReplies,
       showingRepliesSubmissions,
       replies,
+      loadingReplies,
     } = this.props;
 
     return(
@@ -32,6 +33,7 @@ export class MainPageSubmissions extends Component {
                                      toggleShowReplies={toggleShowReplies}
                                      isShowingReplies={showingRepliesSubmissions[submission.submissionId] || false}
                                      replies={replies[submission.submissionId] || []}
+                                     isLoadingReplies={loadingReplies[submission.submissionId] || false}
           />;
         })}
       </ReactCSSTransitionGroup>
@@ -46,6 +48,7 @@ MainPageSubmissions.propTypes = {
   toggleShowReplies: PropTypes.func.isRequired,
   showingRepliesSubmissions: PropTypes.object.isRequired,
   replies: PropTypes.object.isRequired,
+  loadingReplies: PropTypes.object.isRequired,
 };
 
 MainPageSubmissions.defaultProps = {

@@ -20,10 +20,13 @@ export const deleteSubmissionsBySubkleddit = makeActionCreator(DELETE_SUBMISSION
 export const ADD_REPLIES_FOR_SUBMISSION_ID = 'ADD_REPLIES_FOR_SUBMISSION_ID';
 export const addRepliesForSubmissionId = makeActionCreator(ADD_REPLIES_FOR_SUBMISSION_ID, 'submissionId', 'replies');
 
+export const SET_LOADING_REPLIES_FOR_SUBMISSION = 'SET_LOADING_REPLIES_FOR_SUBMISSION';
+export const setLoadingRepliesForSubmission = makeActionCreator(SET_LOADING_REPLIES_FOR_SUBMISSION, 'submissionId', 'bool');
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
-    return subkledditService.getSubmissionsForSubscribedSubkleddits(page, limit)
+    return submissionService.getSubmissionsForSubscribedSubkleddits(page, limit)
       .then((submissions) => {
         dispatch(addSubmissions(submissions));
       })
@@ -44,7 +47,7 @@ export const deleteSubmission = (submissionId) => {
       throw new Error(`Needs to a defined submission id ${submissionId}`);
     }
 
-    return subkledditService.deleteSubmission(submissionId)
+    return submissionService.deleteSubmission(submissionId)
       .then(() => dispatch(_deleteSubmission(submissionId)));
 
   };
@@ -53,11 +56,15 @@ export const deleteSubmission = (submissionId) => {
 export const getReplies = (submissionId, page, limit) => {
   return (dispatch, getState) => {
 
+    dispatch(setLoadingRepliesForSubmission(submissionId, true));
     return submissionService.getReplies(submissionId, page, limit)
       .then(replies => dispatch(addRepliesForSubmissionId(submissionId, replies)))
       .catch(err => {
         console.warn(err);
         dispatch(setErrorMessage(`Problem with fetching replies!`));
+      })
+      .then(() => {
+        dispatch(setLoadingRepliesForSubmission(submissionId, false));
       });
 
   };

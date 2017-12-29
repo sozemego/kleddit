@@ -8,6 +8,9 @@ const initialState = {
   },
   replies: {
 
+  },
+  loadingReplies: {
+
   }
 };
 
@@ -49,12 +52,21 @@ const addRepliesForSubmissionId = (state, action) => {
   return {...state, replies};
 };
 
+const setLoadingRepliesForSubmission = (state, action) => {
+  const {submissionId, bool} = action;
+
+  const loadingReplies = {...state.loadingReplies};
+  loadingReplies[submissionId] = bool;
+  return {...state, loadingReplies};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
   [SUBMISSIONS_ACTIONS.DELETE_SUBMISSION]: deleteSubmission,
   [SUBMISSIONS_ACTIONS.DELETE_SUBMISSIONS_BY_SUBKLEDDIT]: deleteSubmissionsBySubkleddit,
   [SUBMISSIONS_ACTIONS.ADD_REPLIES_FOR_SUBMISSION_ID]: addRepliesForSubmissionId,
+  [SUBMISSIONS_ACTIONS.SET_LOADING_REPLIES_FOR_SUBMISSION]: setLoadingRepliesForSubmission,
 });
 
 export default submissions;

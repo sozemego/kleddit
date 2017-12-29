@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Divider, Paper, TextField} from 'material-ui';
+import {CircularProgress, Divider, Paper, TextField} from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import './submission.css';
@@ -61,8 +61,12 @@ export class MainPageSubmission extends Component {
   };
 
   getRepliesSection = () => {
-    const {isShowingReplies, replies} = this.props;
+    const {isShowingReplies, replies, isLoadingReplies} = this.props;
     if (!isShowingReplies) return null;
+
+    const loadingElement = isLoadingReplies ?
+      <CircularProgress size={32} style={{display: "flex", justifyContent: "center", width: "100%"}}/>
+      : null;
 
     return <div
       style={{backgroundColor: 'rgb(54, 54, 54)', padding: '4px', margin: '-10px auto auto 6px', width: '90%'}} key={2}>
@@ -70,7 +74,8 @@ export class MainPageSubmission extends Component {
         <TextField hintText={'Reply'} multiLine style={{width: '90%'}}/>
         <ReplyButton label={'Reply'} primary style={{margin: "4px"}}/>
       </div>
-      <div>
+      <div style={{display: "flex", flexDirection: "column"}}>
+        {loadingElement}
         {replies.length}
       </div>
     </div>;
@@ -128,7 +133,7 @@ MainPageSubmission.propTypes = {
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
-  isShowingReplies: PropTypes.bool,
+  isShowingReplies: PropTypes.bool.isRequired,
   replies: PropTypes.arrayOf(
     PropTypes.shape({
         replyId: PropTypes.string.isRequired,
@@ -138,8 +143,9 @@ MainPageSubmission.propTypes = {
       },
     ),
   ).isRequired,
+  isLoadingReplies: PropTypes.bool.isRequired,
 };
 
 MainPageSubmission.defaultProps = {
-  isShowingReplies: false,
+
 };

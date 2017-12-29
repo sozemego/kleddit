@@ -6,6 +6,7 @@ import {subscribe, unsubscribe} from '../user/state/actions';
 
 import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
+import {SubmissionService as submissionService} from '../submissions/SubmissionService';
 import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, getSubmissions, isFetchingNextPage} from './selectors';
 import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
 import {getReplies} from '../submissions/actions';
@@ -93,7 +94,7 @@ export const submit = (subkleddit, title, content) => {
       throw new Error('Subkleddit name has to be a string');
     }
 
-    return subkledditService.submit(randomSubmissionId(), subkleddit, title, content)
+    return submissionService.submit(randomSubmissionId(), subkleddit, title, content)
       .then(() => dispatch(loadSubmissions()))
       .then(() => dispatch(setSubmissionErrors({})))
       .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
