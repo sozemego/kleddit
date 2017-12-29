@@ -19,6 +19,8 @@ public interface SubmissionReplyService {
 
   void deleteReply(String username, EntityUUID replyId);
 
+  void deleteReply(EntityUUID replyId);
+
   List<SubmissionReply> getReplies(EntityUUID submissionId, Pagination pagination);
 
 }

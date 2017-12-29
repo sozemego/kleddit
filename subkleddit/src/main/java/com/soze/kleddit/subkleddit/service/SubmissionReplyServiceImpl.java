@@ -102,6 +102,19 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
   }
 
   @Override
+  public void deleteReply(final EntityUUID replyId) {
+    Objects.requireNonNull(replyId);
+
+    Optional<SubmissionReply> submissionReplyOptional = submissionReplyRepository.getSubmissionReplyById(replyId);
+    if(!submissionReplyOptional.isPresent()) {
+      LOG.info("Tried to delete reply with id [{}], but it does not exist.", replyId);
+      throw new SubmissionReplyException("SubmissionReply with id " + replyId.toString() + " does not exist.");
+    }
+
+    submissionReplyRepository.deleteReply(replyId);
+  }
+
+  @Override
   public List<SubmissionReply> getReplies(EntityUUID submissionId, Pagination pagination) {
     Objects.requireNonNull(submissionId);
     Objects.requireNonNull(pagination);

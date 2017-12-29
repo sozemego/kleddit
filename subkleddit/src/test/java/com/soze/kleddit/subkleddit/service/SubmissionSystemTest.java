@@ -7,6 +7,7 @@ import com.soze.kleddit.subkleddit.dto.SubscriptionType;
 import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.http.HttpClient;
+import com.soze.kleddit.utils.jpa.EntityUUID;
 import com.soze.kleddit.utils.json.JsonUtils;
 import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
@@ -23,6 +24,7 @@ public class SubmissionSystemTest {
   private final String getAllSubmissions = "submission/subkleddit/";
   private final String postSubmission = "submission/submit/";
   private final String getSubmissionsForSubscribed = "submission/subscribed";
+  private final String delete = "submission/delete/";
 
   private final String subscribe = "subscription/subscribe/";
 
@@ -247,8 +249,51 @@ public class SubmissionSystemTest {
     assertEquals(true, submissions.get(0).isOwn());
   }
 
+  @Test
+  public void testDeleteSubmission() {
+    String username = "SUBMISSION_TEST_10";
+    login(username);
+    String subkledditName = "Casual";
+
+    SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
+    client.post(subscriptionForm, subscribe);
+
+    SubmissionForm form = new SubmissionForm(
+      subkledditName,
+      "Title",
+      "Super content"
+    );
+
+    SubmissionSimpleDto responseSubmission = getSubmission(client.post(form, postSubmission));
+
+    Response response = client.get(getSubmissionsForSubscribed);
+    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    assertEquals(1, submissions.size());
+
+    client.delete(delete + responseSubmission.getSubmissionId());
+    assertEquals(0, getSubmissions(client.get(getSubmissionsForSubscribed)).size());
+  }
+
+  @Test
+  public void testDeleteNonExistentSubmission() {
+    String username = "SUBMISSION_TEST_10";
+    login(username);
+    Response response = client.delete(delete + EntityUUID.randomId().toString());
+    assertResponseIsBadRequest(response);
+  }
+
+  @Test
+  public void testDeleteSubmissionUnauthorized() {
+    Response response = client.delete(delete + EntityUUID.randomId().toString());
+    assertResponseIsUnauthorized(response);
+  }
+
   private List<SubmissionSimpleDto> getSubmissions(Response response) {
     return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionSimpleDto.class);
+  }
+
+  private SubmissionSimpleDto getSubmission(Response response) {
+    return JsonUtils.jsonToObject(response.readEntity(String.class), SubmissionSimpleDto.class);
   }
 
   private void login(String username) {

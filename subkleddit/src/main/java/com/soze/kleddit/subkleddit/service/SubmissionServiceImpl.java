@@ -3,6 +3,7 @@ package com.soze.kleddit.subkleddit.service;
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
+import com.soze.kleddit.subkleddit.entity.SubmissionReply;
 import com.soze.kleddit.subkleddit.exceptions.SubkledditDoesNotExistException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.user.entity.User;
@@ -36,6 +37,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
   @Inject
   private UserService userService;
+
+  @Inject
+  private SubmissionReplyService submissionReplyService;
 
   @Override
   public Submission submit(String username, SubmissionForm form) {
@@ -157,15 +161,18 @@ public class SubmissionServiceImpl implements SubmissionService {
     Optional<Submission> optionalSubmission = getSubmissionById(submissionId);
     if(!optionalSubmission.isPresent()) {
       LOG.info("Tried to delete submission with id [{}], but it does not exist.", submissionId);
-      throw new IllegalArgumentException("Submission id does not exist.");
+      throw new SubmissionException("Submission id does not exist.");
     }
 
     Submission submission = optionalSubmission.get();
     String authorName = submission.getAuthor().getUsername();
     if(!authorName.equalsIgnoreCase(username)) {
       LOG.info("User [{}]  is trying to delete user [{}]'s submission.", username, authorName);
-      throw new IllegalArgumentException("Submission id does not exist.");
+      throw new SubmissionException("Submission id does not exist.");
     }
+
+    List<SubmissionReply> replies = submissionReplyService.getReplies(submissionId, PaginationFactory.createPagination(1, Integer.MAX_VALUE));
+    replies.forEach(reply -> submissionReplyService.deleteReply(reply.getReplyId()));
 
     Subkleddit subkleddit = submission.getSubkleddit();
     HashSet<Submission> submissions = new HashSet<>(subkleddit.getSubmissions());
