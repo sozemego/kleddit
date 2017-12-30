@@ -15,11 +15,11 @@ const replyContainer = {
   borderRadius: '4px',
 };
 
-const oddReplyContainer = Object.assign({}, {
+const oddReplyContainer = Object.assign({}, replyContainer, {
   backgroundColor: 'rgba(15, 15, 15, 1)'
 });
 
-const eventReplyContainer = Object.assign({}, {
+const eventReplyContainer = Object.assign({}, replyContainer, {
   backgroundColor: 'rgba(17, 17, 17, 1)'
 });
 
