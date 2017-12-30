@@ -39,7 +39,9 @@ public class SubmissionReplyRepositoryImpl implements SubmissionReplyRepository 
 
   @Override
   public List<SubmissionReply> getReplies(EntityUUID submissionId, Pagination pagination) {
-    Query query = em.createQuery("SELECT r FROM SubmissionReply r WHERE r.submissionId = :submissionId ORDER BY r.createdAt DESC");
+    Query query = em.createQuery(
+      "SELECT sr FROM SubmissionReply sr WHERE sr.submissionId = :submissionId ORDER BY sr.createdAt DESC"
+    );
     query.setParameter("submissionId", submissionId);
     applyPagination(query, pagination);
     return query.getResultList();
