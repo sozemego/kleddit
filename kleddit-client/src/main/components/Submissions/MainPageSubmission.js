@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { CircularProgress, Divider, Paper, TextField } from 'material-ui';
+import { Divider, Paper } from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import './submission.css';
-import { ReplyButton } from '../../submissions/components/ReplyButton';
 
 const iconColor = '#424255';
 

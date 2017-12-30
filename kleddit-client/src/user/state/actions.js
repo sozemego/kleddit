@@ -4,12 +4,12 @@ import {NetworkService as networkService} from '../../network/NetworkService';
 import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
 import {makeActionCreator} from '../../state/utils';
 import {getUsername} from './selectors';
-import {afterLogout} from '../../commons/actions';
+import {afterLogout} from '../../app/actions';
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
 
-    dispatch(logout())
+    return dispatch(logout())
       .then(() => userService.registerUser(username, password))
       .then(() => {
         return login(username, password);

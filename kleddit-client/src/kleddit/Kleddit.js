@@ -4,7 +4,7 @@ import {HashRouter as Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import HeaderContainer from '../header/containers/HeaderContainer';
-import ErrorDisplay from '../main/containers/ErrorDisplay';
+import ErrorDisplay from '../app/containers/ErrorDisplay';
 import {isFetching} from '../main/selectors';
 import RegisterUserContainer from '../user/register/RegisterUserContainer';
 import ProfileContainer from '../user/profile/ProfileContainer';

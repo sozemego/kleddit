@@ -3,7 +3,6 @@
     background-color: black;
     flex-direction: column;
     padding: 6px;
-    flex-grow: 1;
 }
 
 .submission-form-input-container {

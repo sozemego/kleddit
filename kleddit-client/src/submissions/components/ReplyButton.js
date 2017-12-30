@@ -1,6 +1,6 @@
 import {
-  LoadingComponentWrapperFunction,
-} from '../../commons/components/LoadingComponentWrapper';
+  LoadingClickableWrapper,
+} from '../../commons/components/LoadingClickable';
 import {RaisedButton} from 'material-ui';
 
-export const ReplyButton = LoadingComponentWrapperFunction(RaisedButton);
+export const ReplyButton = LoadingClickableWrapper(RaisedButton);

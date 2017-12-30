@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {MainPageSubmissionForm} from '../components/MainPageSubmissionForm';
+import {MainPageSubmissionForm} from '../components/Submissions/MainPageSubmissionForm';
 import * as subkledditActions from '../actions';
 import * as submissionActions from '../../submissions/actions';
 import * as subkledditSelectors from '../selectors';

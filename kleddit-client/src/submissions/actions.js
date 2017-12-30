@@ -3,7 +3,6 @@ import _ from 'lodash';
 import {makeActionCreator} from '../state/utils';
 import { setErrorMessage, setSubmissionErrors } from '../main/actions';
 import {SubmissionService as submissionService} from './SubmissionService';
-import { getInputReplies } from './selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -140,13 +139,13 @@ export const onReplyContentChanged = (submissionId, content) => {
   };
 };
 
-export const onReplySubmit = (submissionId) => {
+export const onReplySubmit = (submissionId, replyText) => {
   return (dispatch, getState) => {
 
-    const content = getInputReplies(getState)[submissionId];
-    if(content && content.trim()) {
-      return dispatch(postReply(submissionId, content.trim()));
+    if(replyText && replyText.trim()) {
+      return dispatch(postReply(submissionId, replyText.trim()));
     }
+
     return Promise.resolve();
   };
 };

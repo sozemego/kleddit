@@ -12,12 +12,6 @@ const initialState = {
   loadingReplies: {
 
   },
-  inputReplies: {
-
-  },
-  inputReplyErrors: {
-
-  }
 };
 
 const clearSubmissions = (state, action) => {
@@ -67,22 +61,8 @@ const setLoadingRepliesForSubmission = (state, action) => {
   return {...state, loadingReplies};
 };
 
-const setInputReplyForSubmission = (state, action) => {
-  const { submissionId, content } = action;
-  const inputReplies = {...state.inputReplies};
-  inputReplies[submissionId] = content;
-  return {...state, inputReplies};
-};
-
-const setInputReplyError = (state, action) => {
-  const { submissionId, error } = action;
-  const inputReplyErrors = {...state.inputReplyErrors};
-  inputReplyErrors[submissionId] = error;
-  return {...state, inputReplyErrors};
-};
-
 const clearReplyState = (state, action) => {
-  return {...state, replies: {}, inputReplies: {}, inputReplyErrors: {}};
+  return {...state, replies: {}, loadingReplies: {}};
 };
 
 const submissions = createReducer(initialState, {
@@ -92,8 +72,6 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.DELETE_SUBMISSIONS_BY_SUBKLEDDIT]: deleteSubmissionsBySubkleddit,
   [SUBMISSIONS_ACTIONS.ADD_REPLIES_FOR_SUBMISSION_ID]: addRepliesForSubmissionId,
   [SUBMISSIONS_ACTIONS.SET_LOADING_REPLIES_FOR_SUBMISSION]: setLoadingRepliesForSubmission,
-  [SUBMISSIONS_ACTIONS.SET_INPUT_REPLY_FOR_SUBMISSION]: setInputReplyForSubmission,
-  [SUBMISSIONS_ACTIONS.SET_INPUT_REPLY_ERROR]: setInputReplyError,
   [SUBMISSIONS_ACTIONS.CLEAR_REPLY_STATE]: clearReplyState,
 });
 

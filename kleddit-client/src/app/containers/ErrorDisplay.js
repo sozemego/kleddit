@@ -1,7 +1,7 @@
 import React from 'react';
 import {Snackbar} from 'material-ui';
 import {connect} from 'react-redux';
-import {getErrorMessage} from '../selectors';
+import {getErrorMessage} from '../../main/selectors';
 
 const ErrorDisplay = (props) => {
   return <Snackbar message={props.message} open={!!props.message}/>

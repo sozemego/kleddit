@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import * as userActions from '../../user/state/actions';
 import * as mainPageActions from '../actions';
-import {getSubscribedToSubkleddits, isLoggedIn} from '../../user/state/selectors';
-import {isLeftSidebarShown, getSubkleddits} from '../selectors';
-import {LeftMainPageSidebar} from '../components/LeftMainPageSidebar';
+import { getSubscribedToSubkleddits, isLoggedIn } from '../../user/state/selectors';
+import { getSubkleddits } from '../selectors';
+import { LeftMainPageSidebar } from '../components/LeftMainPageSidebar';
 
 class LeftMainPageSidebarContainer extends Component {
 
@@ -43,8 +42,8 @@ const mapStateToProps = (state) => {
   return {
     subkleddits: getSubkleddits(state),
     subscribedToSubkleddits: getSubscribedToSubkleddits(state),
-    isLoggedIn: isLoggedIn(state)
+    isLoggedIn: isLoggedIn(state),
   };
 };
 
-export default connect(mapStateToProps, {...userActions, ...mainPageActions})(LeftMainPageSidebarContainer);
+export default connect(mapStateToProps, { ...userActions, ...mainPageActions })(LeftMainPageSidebarContainer);

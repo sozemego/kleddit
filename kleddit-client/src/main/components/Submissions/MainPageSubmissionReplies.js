@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress, TextField } from 'material-ui';
-import { ReplyButton } from '../../submissions/components/ReplyButton';
 import moment from 'moment/moment';
 
 const replyContainer = {
@@ -38,7 +37,7 @@ export class MainPageSubmissionReplies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      replyText: ""
     };
   }
 
@@ -61,12 +60,8 @@ export class MainPageSubmissionReplies extends Component {
     </div>;
   };
 
-  onReplyChanged = (event, value) => {
-    const {
-      onReplyContentChanged,
-      submissionId,
-    } = this.props;
-    onReplyContentChanged(submissionId, value);
+  onReplyChanged = (event, replyText) => {
+    this.setState({replyText});
   };
 
   onReplySubmit = () => {
@@ -74,7 +69,10 @@ export class MainPageSubmissionReplies extends Component {
       onReplySubmit,
       submissionId,
     } = this.props;
-    return onReplySubmit(submissionId);
+    const { replyText } = this.state;
+    return onReplySubmit(submissionId, replyText).then(() => {
+      this.setState({replyText: ""});
+    });
   };
 
   onReplyTextKeyDown = (event) => {
@@ -97,13 +95,14 @@ export class MainPageSubmissionReplies extends Component {
       isShowingReplies,
       replies,
       isLoadingReplies,
-      inputReply,
-      inputReplyError,
     } = this.props;
 
     const {
+      replyText
+    } = this.state;
+
+    const {
       onReplyChanged,
-      onReplySubmit,
       getReplyComponent,
       onReplyTextKeyDown,
       onReplyTextKeyUp
@@ -124,14 +123,12 @@ export class MainPageSubmissionReplies extends Component {
         <TextField
           hintText={'Reply'}
           multiLine
-          style={{ width: '90%', marginBottom: '12px' }}
+          style={{ width: '100%'}}
           onChange={onReplyChanged}
-          value={inputReply}
-          errorText={inputReplyError}
+          value={replyText}
           onKeyDown={onReplyTextKeyDown}
           onKeyUp={onReplyTextKeyUp}
         />
-        <ReplyButton label={'Reply'} primary style={{ margin: '4px' }} onClick={onReplySubmit}/>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {loadingElement}
@@ -155,15 +152,10 @@ MainPageSubmissionReplies.propTypes = {
   ),
   isShowingReplies: PropTypes.bool,
   isLoadingReplies: PropTypes.bool,
-  onReplyContentChanged: PropTypes.func.isRequired,
   onReplySubmit: PropTypes.func.isRequired,
-  inputReply: PropTypes.string,
-  inputReplyError: PropTypes.string,
 };
 
 MainPageSubmissionReplies.defaultProps = {
   replies: [],
   isLoadingReplies: false,
-  inputReply: '',
-  inputReplyError: '',
 };
