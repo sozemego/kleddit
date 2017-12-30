@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {getShowingRepliesSubmissions, getSubmissions} from '../selectors';
+import { getShowingRepliesSubmissions } from '../selectors';
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
-import {MainPageSubmissions} from '../components/MainPageSubmissions';
-import { getInputReplies, getInputReplyErrors, getLoadingReplies, getReplies } from '../../submissions/selectors';
+import { MainPageSubmissions } from '../components/MainPageSubmissions';
+import {
+  getInputReplies, getInputReplyErrors, getLoadingReplies, getReplies,
+  getSubmissions,
+} from '../../submissions/selectors';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -67,9 +70,7 @@ MainPageSubmissionsContainer.propTypes = {
   inputReplyErrors: PropTypes.object.isRequired,
 };
 
-MainPageSubmissionsContainer.defaultProps = {
-
-};
+MainPageSubmissionsContainer.defaultProps = {};
 
 const mapStateToProps = (state) => {
   return {
@@ -82,4 +83,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {...mainPageActions, ...submissionsActions})(MainPageSubmissionsContainer);
+export default connect(mapStateToProps, { ...mainPageActions, ...submissionsActions })(MainPageSubmissionsContainer);

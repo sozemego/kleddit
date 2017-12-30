@@ -2,9 +2,7 @@ import _ from 'lodash';
 
 import {makeActionCreator} from '../state/utils';
 import { setErrorMessage, setSubmissionErrors } from '../main/actions';
-import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {SubmissionService as submissionService} from './SubmissionService';
-import uuid from 'uuid/v4';
 import { getInputReplies } from './selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
@@ -147,9 +145,9 @@ export const onReplySubmit = (submissionId) => {
 
     const content = getInputReplies(getState)[submissionId];
     if(content && content.trim()) {
-      dispatch(postReply(submissionId, content.trim()));
+      return dispatch(postReply(submissionId, content.trim()));
     }
-
+    return Promise.resolve();
   };
 };
 
@@ -157,6 +155,9 @@ export const postReply = (submissionId, content) => {
   return (dispatch, getState) => {
 
     return submissionService.postReply(submissionId, content)
-      .then((reply) => dispatch(addRepliesForSubmissionId(submissionId, [reply])));
+      .then((reply) => {
+        dispatch(addRepliesForSubmissionId(submissionId, [reply]));
+        dispatch(setInputReplyForSubmission(submissionId, ""));
+      });
   };
 };

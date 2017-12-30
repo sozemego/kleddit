@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import uuid from 'uuid/v4';
 import {makeActionCreator} from '../state/utils';
 
 import {subscribe, unsubscribe} from '../user/state/actions';
@@ -7,9 +6,10 @@ import {subscribe, unsubscribe} from '../user/state/actions';
 import * as submissionsActions from '../submissions/actions';
 import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
 import {SubmissionService as submissionService} from '../submissions/SubmissionService';
-import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, getSubmissions, isFetchingNextPage} from './selectors';
+import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, isFetchingNextPage} from './selectors';
 import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
 import {getReplies} from '../submissions/actions';
+import { getSubmissions } from '../submissions/selectors';
 
 export const FETCHING = 'FETCHING';
 export const fetching = makeActionCreator(FETCHING);
@@ -122,11 +122,7 @@ export const loadSubmissions = () => {
 export const onScrollBottom = () => {
   return (dispatch, getState) => {
 
-    if(isFetchingNextPage(getState)) {
-      return Promise.resolve();
-    }
-
-    if(getSubmissions(getState).length === 0) {
+    if(isFetchingNextPage(getState) || getSubmissions(getState).length === 0) {
       return Promise.resolve();
     }
 

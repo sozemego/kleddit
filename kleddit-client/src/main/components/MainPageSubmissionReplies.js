@@ -15,6 +15,14 @@ const replyContainer = {
   borderRadius: '4px',
 };
 
+const oddReplyContainer = Object.assign({}, {
+  backgroundColor: 'rgba(15, 15, 15, 1)'
+});
+
+const eventReplyContainer = Object.assign({}, {
+  backgroundColor: 'rgba(17, 17, 17, 1)'
+});
+
 const KEYS = {
   SHIFT: 'SHIFT',
   ENTER: 'ENTER',
@@ -29,14 +37,14 @@ export class MainPageSubmissionReplies extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+
+    };
   }
 
   getReplyComponent = ({ replyId, content, author, createdAt }, index) => {
     return <div key={replyId}
-                style={Object.assign({}, replyContainer, {
-                  backgroundColor: index % 2 ? 'rgba(15, 15, 15, 1)' : 'rgba(17, 17, 17, 1)',
-                })}>
+                style={index % 2 ? eventReplyContainer : oddReplyContainer}>
       <div style={{
         display: 'flex',
         flexDirection: 'row',
@@ -69,6 +77,20 @@ export class MainPageSubmissionReplies extends Component {
     return onReplySubmit(submissionId);
   };
 
+  onReplyTextKeyDown = (event) => {
+    const {onReplySubmit} = this;
+    if (keyCodes[ event.keyCode ] === KEYS.ENTER && !this.shiftPressed) {
+      onReplySubmit();
+      event.preventDefault();
+    }
+    this.shiftPressed = keyCodes[ event.keyCode ] === KEYS.SHIFT;
+  };
+
+  onReplyTextKeyUp = (event) => {
+    if (keyCodes[ event.keyCode ] === KEYS.SHIFT) {
+      this.shiftPressed = false;
+    }
+  };
 
   render() {
     const {
@@ -78,7 +100,15 @@ export class MainPageSubmissionReplies extends Component {
       inputReply,
       inputReplyError,
     } = this.props;
-    const { onReplyChanged, onReplySubmit, getReplyComponent } = this;
+
+    const {
+      onReplyChanged,
+      onReplySubmit,
+      getReplyComponent,
+      onReplyTextKeyDown,
+      onReplyTextKeyUp
+    } = this;
+
     if (!isShowingReplies) return null;
 
     let loadingElement = null;
@@ -98,18 +128,8 @@ export class MainPageSubmissionReplies extends Component {
           onChange={onReplyChanged}
           value={inputReply}
           errorText={inputReplyError}
-          onKeyDown={(event) => {
-            if (keyCodes[ event.keyCode ] === KEYS.ENTER && !this.shiftPressed) {
-              onReplySubmit();
-              event.preventDefault();
-            }
-            this.shiftPressed = keyCodes[ event.keyCode ] === KEYS.SHIFT;
-          }}
-          onKeyUp={(event) => {
-            if (keyCodes[ event.keyCode ] === KEYS.SHIFT) {
-              this.shiftPressed = false;
-            }
-          }}
+          onKeyDown={onReplyTextKeyDown}
+          onKeyUp={onReplyTextKeyUp}
         />
         <ReplyButton label={'Reply'} primary style={{ margin: '4px' }} onClick={onReplySubmit}/>
       </div>
@@ -133,6 +153,7 @@ MainPageSubmissionReplies.propTypes = {
       },
     ),
   ),
+  isShowingReplies: PropTypes.bool,
   isLoadingReplies: PropTypes.bool,
   onReplyContentChanged: PropTypes.func.isRequired,
   onReplySubmit: PropTypes.func.isRequired,
