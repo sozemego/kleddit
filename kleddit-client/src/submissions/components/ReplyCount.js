@@ -6,8 +6,8 @@ import { getReplyCountForSubmission } from '../selectors';
 const getReplyCountText = (replyCount) => {
   return replyCount !== 1 ? `${replyCount} replies` : `${replyCount} reply`;
 };
-
-export const ReplyCount = ({replyCount, ...other}) => {
+//THIS IS WRONG I THINK
+export const ReplyCount = ({replyCount, submissionId, ...other}) => {
   return <div {...other}>{getReplyCountText(replyCount)}</div>;
 };
 

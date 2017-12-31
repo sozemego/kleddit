@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import {rootSelector} from '../state/utils';
-import { getShowingRepliesSubmissions } from '../main/selectors';
+import { getMaxRepliesShown, getShowingRepliesSubmissions } from '../main/selectors';
 
 const submissionsRoot = rootSelector('submissions');
 
@@ -27,9 +27,9 @@ export const getReplyCountForSubmission = (state, submissionId) => {
 
 export const makeGetRepliesForMainPageSubmission = () => {
   return createSelector(
-    [getRepliesForSubmission],
-    (replies) => {
-      return replies.slice(0, 15);
+    [getRepliesForSubmission, getMaxRepliesShown],
+    (replies, maxReplyCount) => {
+      return replies.slice(0, maxReplyCount);
     }
   );
 };

@@ -12,3 +12,4 @@ export const getCurrentPage = (state) => mainPageRoot(state).page;
 export const getCurrentPerPage = (state) => mainPageRoot(state).perPage;
 export const getSubmissionErrors = (state) => mainPageRoot(state).submissionErrors;
 export const getShowingRepliesSubmissions = (state) => mainPageRoot(state).showingReplies;
+export const getMaxRepliesShown = (state) => mainPageRoot(state).maxRepliesShown;

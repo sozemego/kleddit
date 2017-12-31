@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress, TextField } from 'material-ui';
 import moment from 'moment/moment';
+import MainPageMoreReplies from '../../containers/MainPageMoreReplies';
 
 const replyContainer = {
   margin: '2px',
@@ -95,6 +96,7 @@ export class MainPageSubmissionReplies extends Component {
       isShowingReplies,
       replies,
       isLoadingReplies,
+      submissionId,
     } = this.props;
 
     const {
@@ -133,6 +135,7 @@ export class MainPageSubmissionReplies extends Component {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {loadingElement}
         {replies.map(getReplyComponent)}
+        <MainPageMoreReplies submissionId={submissionId}/>
       </div>
     </div>;
   }

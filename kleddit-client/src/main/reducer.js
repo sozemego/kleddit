@@ -17,6 +17,7 @@ const initialState = {
   showingReplies: {
 
   },
+  maxRepliesShown: 15,
   isFetchingNextPage: false
 };
 
