@@ -11,7 +11,6 @@ public class PaginationFactory {
    * Constructs a pagination object.
    * Uses default starting page {@link PaginationFactory#DEFAULT_STARTING_PAGE}.
    * Uses default page size {@link PaginationFactory#DEFAULT_PAGE_SIZE}.
-   * @return
    */
   public static Pagination createPagination() {
     return createPagination(DEFAULT_STARTING_PAGE, DEFAULT_PAGE_SIZE);
@@ -21,7 +20,6 @@ public class PaginationFactory {
    * Constructs a Pagination object with default page size.
    * {@link PaginationFactory#DEFAULT_PAGE_SIZE}.
    * @param page current page you want to display
-   * @return Pagination
    */
   public static Pagination createPagination(int page) {
     return createPagination(page, DEFAULT_PAGE_SIZE);
@@ -33,7 +31,6 @@ public class PaginationFactory {
    * throwing unnecessary exceptions.
    * @param page current page you want to display
    * @param limit number of items on the page
-   * @return Pagination
    */
   public static Pagination createPagination(int page, int limit) {
     if(page < 1) {
@@ -54,13 +51,11 @@ public class PaginationFactory {
    * {@link PaginationFactory#DEFAULT_PAGE_SIZE}
    * @param pageStr page to show
    * @param limitStr number of elements per page
-   * @return Pagination
    */
   public static Pagination createPagination(String pageStr, String limitStr) {
     int page = pageStr != null ? parseInt(pageStr, DEFAULT_STARTING_PAGE) : DEFAULT_STARTING_PAGE;
     int limit = limitStr != null ? parseInt(limitStr, DEFAULT_PAGE_SIZE) : DEFAULT_PAGE_SIZE;
     return createPagination(page, limit);
   }
-
 
 }
