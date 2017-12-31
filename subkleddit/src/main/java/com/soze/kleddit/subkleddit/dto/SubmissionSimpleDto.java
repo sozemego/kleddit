@@ -15,6 +15,7 @@ public class SubmissionSimpleDto {
   private final String content;
   private final String subkleddit;
   private final boolean own;
+  private final int replyCount;
 
   @JsonCreator
   public SubmissionSimpleDto(@JsonProperty("submissionId") String submissionId,
@@ -23,7 +24,8 @@ public class SubmissionSimpleDto {
                              @JsonProperty("title") String title,
                              @JsonProperty("content") String content,
                              @JsonProperty("subkleddit") String subkleddit,
-                             @JsonProperty("own") boolean own
+                             @JsonProperty("own") boolean own,
+                             @JsonProperty("replyCount") int replyCount
   ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.author = Objects.requireNonNull(author);
@@ -31,7 +33,8 @@ public class SubmissionSimpleDto {
     this.title = Objects.requireNonNull(title);
     this.content = Objects.requireNonNull(content);
     this.subkleddit = Objects.requireNonNull(subkleddit);
-    this.own = Objects.requireNonNull(own);
+    this.own = own;
+    this.replyCount = replyCount;
   }
 
   public String getSubmissionId() {
@@ -60,5 +63,9 @@ public class SubmissionSimpleDto {
 
   public boolean isOwn() {
     return own;
+  }
+
+  public int getReplyCount() {
+    return replyCount;
   }
 }

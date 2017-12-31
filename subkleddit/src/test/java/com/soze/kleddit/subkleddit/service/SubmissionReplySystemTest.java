@@ -26,6 +26,7 @@ public class SubmissionReplySystemTest {
   private final String getSubmissionsForSubscribed = "submission/subscribed";
   private final String delete = "submission/delete/";
   private final String postReply = "submission/reply/";
+  private final String getSubmission = "submission/single/";
 
   private final String subscribe = "subscription/subscribe/";
 
@@ -59,6 +60,27 @@ public class SubmissionReplySystemTest {
 
     Response response = client.delete(delete + submissionId);
     assertResponseIsOk(response);
+  }
+
+  @Test
+  public void testSubmissionReplyCount() {
+    String username = "SUBMISSION_TEST_10";
+    login(username);
+    String subkledditName = "Casual";
+    subscribe(subkledditName);
+    String submissionId = submitTo(subkledditName);
+
+    SubmissionReplyForm form = new SubmissionReplyForm(
+      submissionId,
+      "Content"
+    );
+    client.post(form, postReply);
+    client.post(form, postReply);
+    client.post(form, postReply);
+    assertEquals(3, getReplies(client.get(submissionReplies + submissionId)).size());
+
+    SubmissionSimpleDto submissionSimpleDto = getSubmission(client.get(getSubmission + submissionId));
+    assertEquals(3, submissionSimpleDto.getReplyCount());
   }
 
   private void subscribe(String subkledditName) {

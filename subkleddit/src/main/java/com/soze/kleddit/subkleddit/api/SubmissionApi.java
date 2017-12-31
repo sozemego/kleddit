@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log
@@ -47,6 +48,19 @@ public class SubmissionApi {
       .collect(Collectors.toList());
 
     return Response.ok(dtos).build();
+  }
+
+  @Path("/single/{submissionId}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getSubmissionById(@PathParam("submissionId") String submissionId) {
+    Optional<Submission> submissionOptional = submissionService.getSubmissionById(EntityUUID.fromString(submissionId));
+    if(!submissionOptional.isPresent()) {
+      return Response.status(404).build();
+    }
+
+    SubmissionSimpleDto dto = convertSubmission(submissionOptional.get());
+    return Response.ok(dto).build();
   }
 
   @Authenticated
@@ -111,7 +125,8 @@ public class SubmissionApi {
       submission.getTitle(),
       submission.getContent(),
       submission.getSubkleddit().getName(),
-      own
+      own,
+      submission.getReplyCount()
     );
   }
 

@@ -2,6 +2,7 @@ package com.soze.kleddit.subkleddit.entity;
 
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.utils.jpa.EntityUUID;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -32,6 +33,9 @@ public class Submission {
 
   @ManyToOne(fetch = FetchType.EAGER)
   private Subkleddit subkleddit;
+
+  @Formula("(SELECT COUNT(sr.reply_id) FROM submission_replies AS sr WHERE sr.submission_id = submission_id)")
+  private int replyCount;
 
   public Submission() {
 
@@ -83,6 +87,14 @@ public class Submission {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public int getReplyCount() {
+    return replyCount;
+  }
+
+  public void setReplyCount(final int replyCount) {
+    this.replyCount = replyCount;
   }
 
   @Override
