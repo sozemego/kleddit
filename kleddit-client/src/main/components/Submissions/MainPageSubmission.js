@@ -68,7 +68,6 @@ export class MainPageSubmission extends Component {
     const { hover, submission } = this.state;
     const {
       submissionId,
-      own,
       title,
       subkleddit,
       author,
@@ -77,7 +76,7 @@ export class MainPageSubmission extends Component {
     } = submission;
 
     return <Paper zDepth={2}
-                  className={`submission-container ${own ? 'submission-container-own' : ''}`}
+                  className={`submission-container`}
                   onMouseEnter={() => this.setState({ hover: true })}
                   onMouseLeave={() => this.setState({ hover: false })}
                   key={1}>
