@@ -16,30 +16,31 @@ export class MainPageSubmission extends Component {
       deleteIconHover: false,
       replyIconHover: false,
       hover: false,
+      submission: props.submission, //for css transitions
     };
     this.shiftPressed = false;
   }
 
   getDeleteIcon = () => {
-    const { onDelete, submission } = this.props;
+    const { submission } = this.state;
+    const { deleteSubmission } = this.props;
     const { deleteIconHover } = this.state;
 
     return <ActionDelete color={deleteIconHover ? 'red' : iconColor}
                          onMouseEnter={() => this.setState({ deleteIconHover: true })}
                          onMouseLeave={() => this.setState({ deleteIconHover: false })}
-                         onClick={() => onDelete(submission.submissionId)}
+                         onClick={() => deleteSubmission(submission.submissionId)}
                          key={2}
     />;
   };
 
   getIcons = () => {
     const {
-      submission,
       toggleShowReplies,
       isShowingReplies,
     } = this.props;
+    const { replyIconHover, submission } = this.state;
     const { own, submissionId } = submission;
-    const { replyIconHover } = this.state;
 
     const icons = [];
 
@@ -62,8 +63,8 @@ export class MainPageSubmission extends Component {
 
   render() {
     const { getIcons } = this;
-    const { submission, isShowingReplies } = this.props;
-    const { hover } = this.state;
+    const { isShowingReplies } = this.props;
+    const { hover, submission } = this.state;
     const {
       own,
       title,
@@ -106,10 +107,9 @@ MainPageSubmission.propTypes = {
     subkleddit: PropTypes.string.isRequired,
     own: PropTypes.bool.isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired,
+  deleteSubmission: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
   isShowingReplies: PropTypes.bool,
-
 };
 
 MainPageSubmission.defaultProps = {

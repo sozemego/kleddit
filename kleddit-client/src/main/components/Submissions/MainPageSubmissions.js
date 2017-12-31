@@ -4,14 +4,14 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import {MainPageSubmission} from './MainPageSubmission';
 import { MainPageSubmissionReplies } from './MainPageSubmissionReplies';
+import MainPageSubmissionContainer from '../../containers/MainPageSubmissionContainer';
+import MainPageSubmissionRepliesContainer from '../../containers/MainPageSubmissionRepliesContainer';
 
 export class MainPageSubmissions extends Component {
 
   render() {
     const {
       submissions,
-      deleteSubmission,
-      toggleShowReplies,
       showingRepliesSubmissions,
       replies,
       loadingReplies,
@@ -28,20 +28,11 @@ export class MainPageSubmissions extends Component {
         component="div"
         className="main-page-submissions-container"
       >
-        {submissions.map((submission, index) => {
+        {submissions.map(submission => {
           const { submissionId } = submission;
           return <div key={submissionId}>
-            <MainPageSubmission submission={submission}
-                                onDelete={deleteSubmission}
-                                toggleShowReplies={toggleShowReplies}
-                                isShowingReplies={showingRepliesSubmissions[submissionId]}
-            />
-            <MainPageSubmissionReplies submissionId={submissionId}
-                                       replies={replies[submissionId]}
-                                       isLoadingReplies={loadingReplies[submissionId]}
-                                       onReplySubmit={onReplySubmit}
-                                       isShowingReplies={showingRepliesSubmissions[submissionId]}
-            />
+            <MainPageSubmissionContainer submissionId={submissionId}/>
+            <MainPageSubmissionRepliesContainer submissionId={submissionId}/>
           </div>;
         })}
       </ReactCSSTransitionGroup>
@@ -52,7 +43,6 @@ export class MainPageSubmissions extends Component {
 
 MainPageSubmissions.propTypes = {
   submissions: PropTypes.array.isRequired,
-  deleteSubmission: PropTypes.func.isRequired,
   toggleShowReplies: PropTypes.func.isRequired,
   showingRepliesSubmissions: PropTypes.object.isRequired,
   replies: PropTypes.object.isRequired,

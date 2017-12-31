@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LeftMainPageSidebarContainer from './LeftMainPageSidebarContainer';
 import * as mainPageActions from '../actions';
 import SubmissionFormContainer from './MainPageSubmissionFormContainer';
-import SubmissionsContainer from './MainPageSubmissionsContainer';
+import MainPageSubmissionsContainer from './MainPageSubmissionsContainer';
 import { isFetchingNextPage } from '../selectors';
 import { MainPageLoadingIndicator } from '../components/MainPageLoadingIndicator';
 
@@ -28,7 +28,7 @@ class MainPageContainer extends Component {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', width: '84%' }}>
           <SubmissionFormContainer/>
-          <SubmissionsContainer/>
+          <MainPageSubmissionsContainer/>
           <MainPageLoadingIndicator isFetchingNextPage={isFetchingNextPage}/>
         </div>
       </div>
