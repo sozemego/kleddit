@@ -9,6 +9,9 @@ const initialState = {
   replies: {
 
   },
+  replyCounts: {
+
+  },
   loadingReplies: {
 
   },
@@ -20,7 +23,8 @@ const clearSubmissions = (state, action) => {
 
 const addSubmissions = (state, action) => {
   const submissions = Object.assign({}, _.get(state, 'submissions', {}), _.keyBy(action.submissions, 'submissionId'));
-  return {...state, submissions};
+  const replyCounts = Object.assign({}, _.get(state, 'replyCounts', {}), _.mapValues(submissions, s => s.replyCount));
+  return {...state, submissions, replyCounts};
 };
 
 const deleteSubmission = (state, action) => {
@@ -65,6 +69,13 @@ const clearReplyState = (state, action) => {
   return {...state, replies: {}, loadingReplies: {}};
 };
 
+const incrementReplyCount = (state, action) => {
+  const { submissionId } = action;
+  const replyCounts = {...state.replyCounts};
+  ++replyCounts[submissionId];
+  return {...state, replyCounts};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
@@ -73,6 +84,7 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.ADD_REPLIES_FOR_SUBMISSION_ID]: addRepliesForSubmissionId,
   [SUBMISSIONS_ACTIONS.SET_LOADING_REPLIES_FOR_SUBMISSION]: setLoadingRepliesForSubmission,
   [SUBMISSIONS_ACTIONS.CLEAR_REPLY_STATE]: clearReplyState,
+  [SUBMISSIONS_ACTIONS.INCREMENT_REPLY_COUNT]: incrementReplyCount,
 });
 
 export default submissions;

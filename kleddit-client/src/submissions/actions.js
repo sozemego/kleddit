@@ -31,6 +31,9 @@ export const setInputReplyError = makeActionCreator(SET_INPUT_REPLY_ERROR, 'subm
 export const CLEAR_REPLY_STATE = 'CLEAR_REPLY_STATE';
 export const clearReplyState = makeActionCreator(CLEAR_REPLY_STATE);
 
+export const INCREMENT_REPLY_COUNT = 'INCREMENT_REPLY_COUNT';
+export const incrementReplyCount = makeActionCreator(INCREMENT_REPLY_COUNT, 'submissionId');
+
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
@@ -122,27 +125,10 @@ export const validateSubmission = ({title, content}) => {
 
 const MAX_REPLY_CONTENT_LENGTH = 10000;
 
-export const onReplyContentChanged = (submissionId, content) => {
-  return (dispatch, getState) => {
-
-    let error = null;
-    if(content.trim().length > MAX_REPLY_CONTENT_LENGTH) {
-      error = `Maximum of ${MAX_REPLY_CONTENT_LENGTH} characters.`;
-    }
-    if(!content.trim().length) {
-      error = 'Reply cannot be empty';
-    }
-
-    dispatch(setInputReplyError(submissionId, error));
-    dispatch(setInputReplyForSubmission(submissionId, content));
-
-  };
-};
-
 export const onReplySubmit = (submissionId, replyText) => {
   return (dispatch, getState) => {
 
-    if(replyText && replyText.trim()) {
+    if(replyText && replyText.trim() && replyText.length < MAX_REPLY_CONTENT_LENGTH) {
       return dispatch(postReply(submissionId, replyText.trim()));
     }
 
@@ -157,6 +143,7 @@ export const postReply = (submissionId, content) => {
       .then((reply) => {
         dispatch(addRepliesForSubmissionId(submissionId, [reply]));
         dispatch(setInputReplyForSubmission(submissionId, ""));
+        dispatch(incrementReplyCount(submissionId));
       });
   };
 };
