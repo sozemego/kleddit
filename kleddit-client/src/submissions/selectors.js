@@ -8,6 +8,7 @@ export const getSubmissionMap = (state) => submissionsRoot(state).submissions;
 export const getReplies = (state) => submissionsRoot(state).replies;
 export const getLoadingReplies = (state) => submissionsRoot(state).loadingReplies;
 export const getReplyCounts = (state) => submissionsRoot(state).replyCounts;
+export const isPostingReply = (state) => submissionsRoot(state).isPostingReply;
 
 export const getSubmissionById = (state, submissionId) => {
   return getSubmissionMap(state)[submissionId];

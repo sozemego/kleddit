@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {makeActionCreator} from '../state/utils';
 import { setErrorMessage, setSubmissionErrors } from '../main/actions';
 import {SubmissionService as submissionService} from './SubmissionService';
+import { isPostingReply } from './selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -25,14 +26,14 @@ export const setLoadingRepliesForSubmission = makeActionCreator(SET_LOADING_REPL
 export const SET_INPUT_REPLY_FOR_SUBMISSION = 'SET_INPUT_REPLY_FOR_SUBMISSION';
 export const setInputReplyForSubmission = makeActionCreator(SET_INPUT_REPLY_FOR_SUBMISSION, 'submissionId', 'content');
 
-export const SET_INPUT_REPLY_ERROR = 'SET_INPUT_REPLY_ERROR';
-export const setInputReplyError = makeActionCreator(SET_INPUT_REPLY_ERROR, 'submissionId', 'error');
-
 export const CLEAR_REPLY_STATE = 'CLEAR_REPLY_STATE';
 export const clearReplyState = makeActionCreator(CLEAR_REPLY_STATE);
 
 export const INCREMENT_REPLY_COUNT = 'INCREMENT_REPLY_COUNT';
 export const incrementReplyCount = makeActionCreator(INCREMENT_REPLY_COUNT, 'submissionId');
+
+export const SET_IS_POSTING_REPLY = 'SET_IS_POSTING_REPLY';
+export const setIsPostingReply = makeActionCreator(SET_IS_POSTING_REPLY, 'bool');
 
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
@@ -139,11 +140,18 @@ export const onReplySubmit = (submissionId, replyText) => {
 export const postReply = (submissionId, content) => {
   return (dispatch, getState) => {
 
+    if(isPostingReply(getState)) {
+      return Promise.resolve(content);
+    }
+
+    dispatch(setIsPostingReply(true));
+
     return submissionService.postReply(submissionId, content)
       .then((reply) => {
         dispatch(addRepliesForSubmissionId(submissionId, [reply]));
         dispatch(setInputReplyForSubmission(submissionId, ""));
         dispatch(incrementReplyCount(submissionId));
+        dispatch(setIsPostingReply(false));
       });
   };
 };
