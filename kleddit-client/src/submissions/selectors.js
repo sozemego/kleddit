@@ -20,6 +20,17 @@ export const getRepliesForSubmission = (state, submissionId) => {
   return getReplies(state)[submissionId] || [];
 };
 
+export const makeGetRepliesForMainPageSubmission = () => {
+  return createSelector(
+    [getRepliesForSubmission],
+    (replies) => {
+      return replies.slice(0, 15);
+    }
+  );
+};
+
+
+
 export const isLoadingReplies = (state, submissionId) => {
   return getLoadingReplies(state)[submissionId] || false;
 };
