@@ -8,6 +8,7 @@ const initialState = {
   replyCounts: {},
   loadingReplies: {},
   isPostingReply: false,
+  currentSubmissionId: null,
 };
 
 const clearSubmissions = (state, action) => {
@@ -73,6 +74,10 @@ const setIsPostingReply = (state, action) => {
   return { ...state, isPostingReply: action.bool };
 };
 
+const setCurrentSubmissionId = (state, action) => {
+  return {...state, currentSubmissionId: action.currentSubmissionId};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
@@ -83,6 +88,7 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_REPLY_STATE]: clearReplyState,
   [SUBMISSIONS_ACTIONS.INCREMENT_REPLY_COUNT]: incrementReplyCount,
   [SUBMISSIONS_ACTIONS.SET_IS_POSTING_REPLY]: setIsPostingReply,
+  [SUBMISSIONS_ACTIONS.SET_CURRENT_SUBMISSION_ID]: setCurrentSubmissionId,
 });
 
 export default submissions;

@@ -7,6 +7,7 @@ import RegisterUserContainer from '../user/register/RegisterUserContainer';
 import ProfileContainer from '../user/profile/ProfileContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
 import MainPageContainer from '../main/containers/MainPageContainer';
+import SubmissionContainer from '../submissions/containers/SubmissionContainer';
 
 import './kleddit.css';
 
@@ -22,6 +23,7 @@ export class Kleddit extends Component {
             <Route exact path="/profile" component={ProfileContainer}/>
             <Route exact path="/login" component={LoginFormContainer}/>
             <Route exact path="/" component={MainPageContainer}/>
+            <Route path="/submission/:submissionId" component={SubmissionContainer}/>
             <ErrorDisplay/>
           </div>
         </div>
