@@ -1,42 +1,34 @@
 import _ from 'lodash';
-import {createReducer} from '../state/utils';
+import { createReducer } from '../state/utils';
 import * as SUBMISSIONS_ACTIONS from './actions';
 
 const initialState = {
-  submissions: {
-
-  },
-  replies: {
-
-  },
-  replyCounts: {
-
-  },
-  loadingReplies: {
-
-  },
-  isPostingReply: false
+  submissions: {},
+  replies: {},
+  replyCounts: {},
+  loadingReplies: {},
+  isPostingReply: false,
 };
 
 const clearSubmissions = (state, action) => {
-  return {...state, submissions: {}};
+  return { ...state, submissions: {} };
 };
 
 const addSubmissions = (state, action) => {
   const submissions = Object.assign({}, _.get(state, 'submissions', {}), _.keyBy(action.submissions, 'submissionId'));
   const replyCounts = Object.assign({}, _.get(state, 'replyCounts', {}), _.mapValues(submissions, s => s.replyCount));
-  return {...state, submissions, replyCounts};
+  return { ...state, submissions, replyCounts };
 };
 
 const deleteSubmission = (state, action) => {
-  const submissions = {...state.submissions};
+  const submissions = { ...state.submissions };
   delete submissions[action.submissionId];
-  return {...state, submissions};
+  return { ...state, submissions };
 };
 
 const deleteSubmissionsBySubkleddit = (state, action) => {
-  const {subkleddit} = action;
-  const submissions = {...state.submissions};
+  const { subkleddit } = action;
+  const submissions = { ...state.submissions };
   const submissionIdsToRemove = _.values(submissions)
     .filter(submission => submission.subkleddit = subkleddit)
     .map(submission => submission.submissionId);
@@ -45,40 +37,40 @@ const deleteSubmissionsBySubkleddit = (state, action) => {
     _.unset(submissions, `[${id}]`);
   });
 
-  return {...state, submissions};
+  return { ...state, submissions };
 };
 
 const addRepliesForSubmissionId = (state, action) => {
-  const {submissionId, replies: submissionReplies} = action;
+  const { submissionId, replies: submissionReplies } = action;
 
-  const replies = {...state.replies};
+  const replies = { ...state.replies };
   const oldSubmissionReplies = _.get(replies, `[${submissionId}]`, []);
   replies[submissionId] = _.unionBy(oldSubmissionReplies, submissionReplies, 'replyId')
     .sort((a, b) => b.createdAt - a.createdAt);
-  return {...state, replies};
+  return { ...state, replies };
 };
 
 const setLoadingRepliesForSubmission = (state, action) => {
-  const {submissionId, bool} = action;
+  const { submissionId, bool } = action;
 
-  const loadingReplies = {...state.loadingReplies};
+  const loadingReplies = { ...state.loadingReplies };
   loadingReplies[submissionId] = bool;
-  return {...state, loadingReplies};
+  return { ...state, loadingReplies };
 };
 
 const clearReplyState = (state, action) => {
-  return {...state, replies: {}, loadingReplies: {}};
+  return { ...state, replies: {}, loadingReplies: {} };
 };
 
 const incrementReplyCount = (state, action) => {
   const { submissionId } = action;
-  const replyCounts = {...state.replyCounts};
+  const replyCounts = { ...state.replyCounts };
   ++replyCounts[submissionId];
-  return {...state, replyCounts};
+  return { ...state, replyCounts };
 };
 
 const setIsPostingReply = (state, action) => {
-  return {...state, isPostingReply: action.bool};
+  return { ...state, isPostingReply: action.bool };
 };
 
 const submissions = createReducer(initialState, {

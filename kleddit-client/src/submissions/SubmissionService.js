@@ -1,5 +1,5 @@
 import networkService from '../network/NetworkServiceFactory';
-import {QueryBuilder} from '../network/QueryFilter';
+import { QueryBuilder } from '../network/QueryFilter';
 
 const base = '/subkleddit';
 
@@ -17,11 +17,11 @@ SubmissionService.submit = function (subkledditName, title, content) {
   return networkService.post(`${submitPath}`, {
     subkledditName,
     title,
-    content
+    content,
   });
 };
 
-SubmissionService.getSubmissionsForSubscribedSubkleddits = function(page = 1, limit = 15) {
+SubmissionService.getSubmissionsForSubscribedSubkleddits = function (page = 1, limit = 15) {
   const url = QueryBuilder.create(`${subscribedToSubkleddits}`)
     .withPage(page)
     .withLimit(limit)
@@ -30,20 +30,20 @@ SubmissionService.getSubmissionsForSubscribedSubkleddits = function(page = 1, li
   return networkService.get(url);
 };
 
-SubmissionService.deleteSubmission = function(submissionId) {
+SubmissionService.deleteSubmission = function (submissionId) {
   return networkService.delete(`${deleteSubmission}/${submissionId}`);
 };
 
-SubmissionService.getReplies = function(submissionId, page = 1, limit = 15) {
+SubmissionService.getReplies = function (submissionId, page = 1, limit = 15) {
   const queryFilter = QueryBuilder.create(`${getReplies}/${submissionId}`)
     .withPage(page)
     .withLimit(limit);
   return networkService.get(queryFilter.getUrl());
 };
 
-SubmissionService.postReply = function(submissionId, content) {
+SubmissionService.postReply = function (submissionId, content) {
   return networkService.post(`${postReply}`, {
     submissionId,
-    content
+    content,
   });
 };

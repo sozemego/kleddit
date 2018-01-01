@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import user from '../user/state/reducer';
 import main from '../main/reducer';
@@ -15,5 +15,5 @@ export const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(
     thunkMiddleware,
-  )
+  ),
 );

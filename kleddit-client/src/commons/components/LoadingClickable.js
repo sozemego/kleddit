@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {LinearProgress} from 'material-ui';
+import { LinearProgress } from 'material-ui';
 
 const progressStyle = {
-  top: "-6px"
+  top: '-6px',
 };
 
 const invisibleProgressStyle = Object.assign({}, {
-  visibility: "hidden"
+  visibility: 'hidden',
 }, progressStyle);
 
 /**
@@ -27,17 +27,17 @@ export class LoadingClickable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
-    }
+      loading: false,
+    };
   }
 
   onClick = () => {
     const { toggleLoading } = this;
     const { onClick } = this.props;
     const { loading } = this.state;
-    if(!loading && onClick) {
+    if (!loading && onClick) {
       const result = onClick();
-      if(result && result.then && typeof result.then === 'function') {
+      if (result && result.then && typeof result.then === 'function') {
         toggleLoading();
         result.then(() => toggleLoading());
       }
@@ -45,16 +45,16 @@ export class LoadingClickable extends Component {
   };
 
   toggleLoading = () => {
-    this.setState({loading: !this.state.loading});
+    this.setState({ loading: !this.state.loading });
   };
 
   render() {
     const {
-      onClick
+      onClick,
     } = this;
 
     const {
-      children
+      children,
     } = this.props;
 
     const {
@@ -64,11 +64,11 @@ export class LoadingClickable extends Component {
     return (
       <div onClick={onClick}>
         {children}
-        <div style={{display: 'flex', height: '2px'}}>
+        <div style={{ display: 'flex', height: '2px' }}>
           <LinearProgress mode="indeterminate" style={loading ? progressStyle : invisibleProgressStyle}/>
         </div>
       </div>
-    )
+    );
   }
 
 }
@@ -86,5 +86,5 @@ export const LoadingClickableWrapper = (WrappedComponent) => (props) => {
 
   return <LoadingClickable onClick={onClick}>
     <WrappedComponent {...other}/>
-  </LoadingClickable>
+  </LoadingClickable>;
 };

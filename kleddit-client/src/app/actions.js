@@ -1,8 +1,6 @@
-import {setSubscribedToSubkleddits} from '../user/state/actions';
-import {setErrorMessage, setPage} from '../main/actions';
-import {
-  clearReplyState, clearSubmissions,
-} from '../submissions/actions';
+import { setSubscribedToSubkleddits } from '../user/state/actions';
+import { setErrorMessage, setPage } from '../main/actions';
+import { clearReplyState, clearSubmissions, } from '../submissions/actions';
 
 /**
  This file contains actions that can be

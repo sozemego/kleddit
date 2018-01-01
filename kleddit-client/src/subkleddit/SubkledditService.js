@@ -18,13 +18,13 @@ SubkledditService.getSubscribedToSubkleddits = function (username) {
 SubkledditService.subscribe = function (subkledditName) {
   return networkService.post(`${subscribePath}`, {
     subkledditName: subkledditName,
-    subscriptionType: 'SUBSCRIBE'
+    subscriptionType: 'SUBSCRIBE',
   });
 };
 
 SubkledditService.unsubscribe = function (subkledditName) {
   return networkService.post(`${subscribePath}`, {
     subkledditName: subkledditName,
-    subscriptionType: 'UNSUBSCRIBE'
+    subscriptionType: 'UNSUBSCRIBE',
   });
 };

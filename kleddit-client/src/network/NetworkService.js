@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {store} from '../state/init';
-import {fetching, stopFetching} from '../main/actions';
-import {networkConfig} from '../config/network';
+import { store } from '../state/init';
+import { fetching, stopFetching } from '../main/actions';
+import { networkConfig } from '../config/network';
 
 const fetch = () => store.dispatch(fetching());
 const fetched = (response) => {
@@ -45,7 +45,7 @@ const validatePath = (path) => {
 
 const applyPath = (path) => {
   validatePath(path);
-  const {base, port, version} = networkConfig;
+  const { base, port, version } = networkConfig;
   return `${base}:${port}${version}${path}`;
 };
 
@@ -57,6 +57,6 @@ NetworkService.setAuthorizationToken = function (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-NetworkService.clearAuthorizationToken = function() {
+NetworkService.clearAuthorizationToken = function () {
   delete axios.defaults.headers.common['Authorization'];
 };

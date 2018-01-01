@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 
 import './profile.css';
-import {getUsername, isLoggedIn} from '../state/selectors';
+import { getUsername, isLoggedIn } from '../state/selectors';
 import * as userActions from '../state/actions';
-import {RaisedButton} from 'material-ui';
+import { RaisedButton } from 'material-ui';
 
 
 class ProfileContainer extends Component {
@@ -14,13 +14,13 @@ class ProfileContainer extends Component {
     super(props);
 
     this.state = {
-      deleteConfirmationOpen: false
+      deleteConfirmationOpen: false,
     };
   }
 
   getDeleteComponents = () => {
     const {
-      isLoggedIn
+      isLoggedIn,
     } = this.props;
 
     if (!isLoggedIn) {
@@ -31,11 +31,11 @@ class ProfileContainer extends Component {
       onDeleteClicked,
       onDeleteConfirmationClose,
       getDeleteDialogChildren,
-      getDeleteConfirmationDialogActions
+      getDeleteConfirmationDialogActions,
     } = this;
 
     const {
-      deleteConfirmationOpen
+      deleteConfirmationOpen,
     } = this.state;
 
     return <div className="profile-delete-section">
@@ -52,22 +52,21 @@ class ProfileContainer extends Component {
   };
 
   onDeleteClicked = () => {
-    this.setState({deleteConfirmationOpen: true});
+    this.setState({ deleteConfirmationOpen: true });
   };
 
   onDeleteConfirmationClose = () => {
-    this.setState({deleteConfirmationOpen: false});
+    this.setState({ deleteConfirmationOpen: false });
   };
 
   getDeleteConfirmationDialogActions = () => {
     const {
-      onDeleteConfirmationClose
+      onDeleteConfirmationClose,
     } = this;
 
     const {
-      deleteUser
+      deleteUser,
     } = this.props;
-
 
 
     return [
@@ -85,7 +84,7 @@ class ProfileContainer extends Component {
                     primary={false}
                     className="profile-delete-dialog-button"
                     label="Confirm"
-      />
+      />,
     ];
   };
 
@@ -105,12 +104,12 @@ class ProfileContainer extends Component {
     } = this.props;
 
     const {
-      getDeleteComponents
+      getDeleteComponents,
     } = this;
 
     return (
       <div className="profile-container">
-        <div className="profile-welcome">Welcome, {username ? username : "Anonymous"}.</div>
+        <div className="profile-welcome">Welcome, {username ? username : 'Anonymous'}.</div>
         {getDeleteComponents()}
       </div>
     );
@@ -121,7 +120,7 @@ class ProfileContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     username: getUsername(state),
-    isLoggedIn: isLoggedIn(state)
+    isLoggedIn: isLoggedIn(state),
   };
 };
 

@@ -1,12 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './register.css';
 
-import {RegisterFormComponent} from './RegisterFormComponent';
-import {
-  getPasswordRegistrationError,
-  getUsernameRegistrationError,
-} from '../state/selectors';
+import { RegisterFormComponent } from './RegisterFormComponent';
+import { getPasswordRegistrationError, getUsernameRegistrationError, } from '../state/selectors';
 
 import * as userActions from '../state/actions';
 
@@ -21,7 +18,7 @@ export class RegisterUserContainer extends Component {
 
     const {
       usernameRegistrationError,
-      passwordRegistrationError
+      passwordRegistrationError,
     } = this.props;
 
     return (
@@ -41,7 +38,7 @@ export class RegisterUserContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     usernameRegistrationError: getUsernameRegistrationError(state),
-    passwordRegistrationError: getPasswordRegistrationError(state)
+    passwordRegistrationError: getPasswordRegistrationError(state),
   };
 };
 

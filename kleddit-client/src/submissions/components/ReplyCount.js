@@ -7,7 +7,7 @@ const getReplyCountText = (replyCount) => {
   return replyCount !== 1 ? `${replyCount} replies` : `${replyCount} reply`;
 };
 
-export const ReplyCount = ({replyCount, ...other}) => {
+export const ReplyCount = ({ replyCount, ...other }) => {
   return <div {...other}>{getReplyCountText(replyCount)}</div>;
 };
 
@@ -17,13 +17,14 @@ ReplyCount.propTypes = {
 
 ReplyCount.defaultProps = {};
 
-export const ReplyCountPropsProxy = (WrappedComponent) => ({submissionId, dispatch, ...other}) => <WrappedComponent {...other}/>;
+export const ReplyCountPropsProxy = (WrappedComponent) => ({ submissionId, dispatch, ...other }) =>
+  <WrappedComponent {...other}/>;
 
 
-const mapStateToProps = (state, {submissionId}) => {
+const mapStateToProps = (state, { submissionId }) => {
   return {
-    replyCount: getReplyCountForSubmission(state, submissionId)
-  }
+    replyCount: getReplyCountForSubmission(state, submissionId),
+  };
 };
 
 export default connect(mapStateToProps, null)(ReplyCountPropsProxy(ReplyCount));

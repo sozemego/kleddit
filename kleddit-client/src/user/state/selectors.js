@@ -1,4 +1,4 @@
-import {rootSelector} from '../../state/utils';
+import { rootSelector } from '../../state/utils';
 
 export const getUserRoot = rootSelector('user');
 

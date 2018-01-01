@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getShowingRepliesSubmissions } from '../selectors';
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
 
 import { MainPageSubmissions } from '../components/Submissions/MainPageSubmissions';
-import {
-  getLoadingReplies,
-  getReplies,
-  getSubmissions,
-} from '../../submissions/selectors';
+import { getSubmissions, } from '../../submissions/selectors';
 
 class MainPageSubmissionsContainer extends Component {
 
@@ -32,23 +27,10 @@ class MainPageSubmissionsContainer extends Component {
   render() {
     const {
       submissions,
-      deleteSubmission,
-      toggleShowReplies,
-      showingRepliesSubmissions,
-      replies,
-      loadingReplies,
-      onReplySubmit,
     } = this.props;
 
     return (
-      <MainPageSubmissions submissions={submissions}
-                           deleteSubmission={deleteSubmission}
-                           toggleShowReplies={toggleShowReplies}
-                           showingRepliesSubmissions={showingRepliesSubmissions}
-                           replies={replies}
-                           loadingReplies={loadingReplies}
-                           onReplySubmit={onReplySubmit}
-      />
+      <MainPageSubmissions submissions={submissions}/>
     );
   }
 
@@ -56,11 +38,6 @@ class MainPageSubmissionsContainer extends Component {
 
 MainPageSubmissionsContainer.propTypes = {
   submissions: PropTypes.array.isRequired,
-  deleteSubmission: PropTypes.func.isRequired,
-  onScrollBottom: PropTypes.func.isRequired,
-  toggleShowReplies: PropTypes.func.isRequired,
-  replies: PropTypes.object.isRequired,
-  loadingReplies: PropTypes.object.isRequired,
 };
 
 MainPageSubmissionsContainer.defaultProps = {};
@@ -68,9 +45,6 @@ MainPageSubmissionsContainer.defaultProps = {};
 const mapStateToProps = (state) => {
   return {
     submissions: getSubmissions(state),
-    showingRepliesSubmissions: getShowingRepliesSubmissions(state),
-    replies: getReplies(state),
-    loadingReplies: getLoadingReplies(state),
   };
 };
 

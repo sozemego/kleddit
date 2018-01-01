@@ -1,3 +1,3 @@
-import {NetworkService} from './NetworkService';
+import { NetworkService } from './NetworkService';
 
-export {NetworkService as default};
+export { NetworkService as default };

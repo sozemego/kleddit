@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import {rootSelector} from '../state/utils';
+import { rootSelector } from '../state/utils';
 import { getMaxRepliesShown, getShowingRepliesSubmissions } from '../main/selectors';
 
 const submissionsRoot = rootSelector('submissions');
@@ -31,7 +31,7 @@ export const makeGetRepliesForMainPageSubmission = () => {
     [getRepliesForSubmission, getMaxRepliesShown],
     (replies, maxReplyCount) => {
       return replies.slice(0, maxReplyCount);
-    }
+    },
   );
 };
 
@@ -44,5 +44,5 @@ export const getSubmissions = createSelector(
   (submissionMap) => {
 
     return Object.values(submissionMap).sort((a, b) => b.createdAt - a.createdAt);
-  }
+  },
 );

@@ -5,7 +5,7 @@ import { LoadingRaisedButton } from '../buttons/LoadingRaisedButton';
 import './form-button.css';
 
 export const FormSubmitButton = (props) => {
-  return <LoadingRaisedButton {...props} className={"form-submit-button"}/>
+  return <LoadingRaisedButton {...props} className={'form-submit-button'}/>;
 };
 
 FormSubmitButton.propTypes = {

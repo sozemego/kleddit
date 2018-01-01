@@ -1,6 +1,6 @@
 export const makeActionCreator = (type, ...argNames) => (...args) => {
   const action = {
-    type
+    type,
   };
   argNames.forEach((item, index) => {
     action[argNames[index]] = args[index];
@@ -19,5 +19,5 @@ export const createReducer = (initialState, handlers) => {
     } else {
       return state;
     }
-  }
+  };
 };

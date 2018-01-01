@@ -14,18 +14,18 @@ export const UserService = {};
 
 UserService.registerUser = function (username, password) {
   const usernameError = this.validateUsername(username);
-  if (usernameError) return Promise.reject({field: 'username', message: usernameError});
+  if (usernameError) return Promise.reject({ field: 'username', message: usernameError });
 
   const passwordError = this.validatePassword(password);
-  if (passwordError) return Promise.reject({field: 'password', message: passwordError});
+  if (passwordError) return Promise.reject({ field: 'password', message: passwordError });
 
-  return networkService.post(`${registerPath}`, {username, password})
+  return networkService.post(`${registerPath}`, { username, password })
     .catch(error => {
       if (error.response) {
         const response = error.response.data;
         return Promise.reject({
           message: response.error,
-          field: response.data.field
+          field: response.data.field,
         });
       }
       //todo handle network errors
@@ -39,7 +39,7 @@ UserService.checkUsernameAvailability = function (username) {
 };
 
 UserService.login = function (username, password) {
-  return networkService.post(`${loginPath}`, {username, password})
+  return networkService.post(`${loginPath}`, { username, password })
     .then((data) => {
       return data.jwt;
     })

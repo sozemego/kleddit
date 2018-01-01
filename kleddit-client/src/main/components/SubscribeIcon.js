@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import ContentClear from 'material-ui/svg-icons/content/clear';
@@ -18,9 +18,9 @@ export class SubscribeIcon extends Component {
     const { onClick, subkledditName } = this.props;
     const { loading } = this.state;
 
-    if(!loading && onClick) {
+    if (!loading && onClick) {
       const result = onClick(subkledditName);
-      if(result && result.then && typeof result.then === 'function') {
+      if (result && result.then && typeof result.then === 'function') {
         toggleLoading();
         result.then(() => toggleLoading());
       }
@@ -28,7 +28,7 @@ export class SubscribeIcon extends Component {
   };
 
   toggleLoading = () => {
-    this.setState({loading: !this.state.loading});
+    this.setState({ loading: !this.state.loading });
   };
 
   render() {
@@ -44,16 +44,16 @@ export class SubscribeIcon extends Component {
       loading,
     } = this.state;
 
-    const classNames = "main-page-subkleddit-list-subscribe-icon " + (loading ? "main-page-subkleddit-list-subscribe-icon-loading": "");
+    const classNames = 'main-page-subkleddit-list-subscribe-icon ' + (loading ? 'main-page-subkleddit-list-subscribe-icon-loading' : '');
 
     return subscribed ?
-      <ContentClear onClick={onClick}
-                    color="red"
-                    className={classNames}/>
+           <ContentClear onClick={onClick}
+                         color="red"
+                         className={classNames}/>
       :
-      <ContentAddCircle onClick={onClick}
-                        color="#3f51b5"
-                        className={classNames}/>
+           <ContentAddCircle onClick={onClick}
+                             color="#3f51b5"
+                             className={classNames}/>;
   }
 
 }

@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {List, Subheader, Divider} from 'material-ui';
-import {SubscribeIcon} from './SubscribeIcon';
+import { Divider, List, Subheader } from 'material-ui';
+import { SubscribeIcon } from './SubscribeIcon';
 
 import './left-main-page-sidebar.css';
 
@@ -31,17 +31,17 @@ export class LeftMainPageSidebar extends Component {
     } = this.props;
 
     const {
-      getSubscribeIcon
+      getSubscribeIcon,
     } = this;
 
     let elements = [];
 
     elements.push(
-      <Subheader key="A" inset={false}>Default subkleddits</Subheader>
+      <Subheader key="A" inset={false}>Default subkleddits</Subheader>,
     );
 
     elements.push(
-      <Divider key={'B'} className="main-page-subkleddit-list-divider"/>
+      <Divider key={'B'} className="main-page-subkleddit-list-divider"/>,
     );
 
     const subkledditsElements = subkleddits.map((subkleddit, index) => {
@@ -91,6 +91,4 @@ LeftMainPageSidebar.propTypes = {
   onUnsubscribeClicked: PropTypes.func.isRequired,
 };
 
-LeftMainPageSidebar.defaultProps = {
-
-};
+LeftMainPageSidebar.defaultProps = {};

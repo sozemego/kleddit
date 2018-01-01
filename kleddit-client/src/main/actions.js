@@ -1,14 +1,12 @@
 import _ from 'lodash';
-import {makeActionCreator} from '../state/utils';
+import { makeActionCreator } from '../state/utils';
 
-import {subscribe, unsubscribe} from '../user/state/actions';
+import { subscribe, unsubscribe } from '../user/state/actions';
 
 import * as submissionsActions from '../submissions/actions';
-import {SubkledditService as subkledditService} from '../subkleddit/SubkledditService';
-import {SubmissionService as submissionService} from '../submissions/SubmissionService';
-import {getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, isFetchingNextPage} from './selectors';
-import {deleteSubmissionsBySubkleddit} from '../submissions/actions';
-import {getReplies} from '../submissions/actions';
+import { deleteSubmissionsBySubkleddit, getReplies } from '../submissions/actions';
+import { SubkledditService as subkledditService } from '../subkleddit/SubkledditService';
+import { getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, isFetchingNextPage } from './selectors';
 import { getSubmissions } from '../submissions/selectors';
 
 export const FETCHING = 'FETCHING';
@@ -56,7 +54,7 @@ export const mainPageSubscribe = (subkleddit) => {
     return dispatch(subscribe(subkleddit))
       .then(() => dispatch(getSubkleddits()))
       .then(() => dispatch(loadSubmissions()))
-      .catch(_.noop)
+      .catch(_.noop);
 
   };
 };
@@ -87,14 +85,14 @@ export const getSubkleddits = () => {
 export const submit = (subkleddit, title, content) => {
   return (dispatch, getState) => {
 
-    if(typeof subkleddit !== 'string') {
+    if (typeof subkleddit !== 'string') {
       throw new Error('Subkleddit name has to be a string');
     }
 
     return dispatch(submissionsActions.submit(subkleddit, title, content))
       .then(() => dispatch(loadSubmissions()))
-      .then(() => dispatch(setSubmissionErrors({})))
-  }
+      .then(() => dispatch(setSubmissionErrors({})));
+  };
 };
 
 export const loadSubmissions = () => {
@@ -105,7 +103,7 @@ export const loadSubmissions = () => {
 
     return dispatch(submissionsActions.loadSubmissions())
       .catch((error) => {
-        if(_.get(error, 'response.status', 500) === 401) {
+        if (_.get(error, 'response.status', 500) === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
@@ -122,7 +120,7 @@ export const loadSubmissions = () => {
 export const onScrollBottom = () => {
   return (dispatch, getState) => {
 
-    if(isFetchingNextPage(getState) || getSubmissions(getState).length === 0) {
+    if (isFetchingNextPage(getState) || getSubmissions(getState).length === 0) {
       return Promise.resolve();
     }
 
@@ -134,7 +132,7 @@ export const onScrollBottom = () => {
     return dispatch(submissionsActions.loadSubmissions(currentPage, currentPerPage))
       .then(() => dispatch(fetchingNextPage(false)))
       .catch((error) => {
-        if(_.get(error, 'response.status', 500) === 401) {
+        if (_.get(error, 'response.status', 500) === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
@@ -150,7 +148,7 @@ export const toggleShowReplies = (submissionId) => {
     dispatch(_toggleShowingReplies(submissionId));
 
     const shouldShowReplies = getShowingRepliesSubmissions(getState)[submissionId] || false;
-    if(shouldShowReplies) {
+    if (shouldShowReplies) {
       return dispatch(getReplies(submissionId, 1, 15));
     }
 

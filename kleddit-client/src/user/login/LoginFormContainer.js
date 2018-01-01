@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import './login.css';
-import {LoginFormComponent} from './LoginFormComponent';
-import {
-  getLoginError,
-} from '../state/selectors';
+import { LoginFormComponent } from './LoginFormComponent';
+import { getLoginError, } from '../state/selectors';
 import * as userActions from '../state/actions';
 
 class LoginFormContainer extends Component {
@@ -14,11 +12,11 @@ class LoginFormContainer extends Component {
     const {
       onLogin,
       onLoginUsernameChange,
-      onLoginPasswordChange
+      onLoginPasswordChange,
     } = this.props;
 
     const {
-      loginError
+      loginError,
     } = this.props;
 
     return (
@@ -36,7 +34,7 @@ class LoginFormContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loginError: getLoginError(state)
+    loginError: getLoginError(state),
   };
 };
 

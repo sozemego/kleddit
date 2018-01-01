@@ -1,10 +1,10 @@
-import {UserService as userService} from '../UserService';
-import {NavigationService as navigationService} from '../../navigation/NavigationService';
-import {NetworkService as networkService} from '../../network/NetworkService';
-import {SubkledditService as subkledditService} from "../../subkleddit/SubkledditService";
-import {makeActionCreator} from '../../state/utils';
-import {getUsername} from './selectors';
-import {afterLogout} from '../../app/actions';
+import { UserService as userService } from '../UserService';
+import { NavigationService as navigationService } from '../../navigation/NavigationService';
+import { NetworkService as networkService } from '../../network/NetworkService';
+import { SubkledditService as subkledditService } from '../../subkleddit/SubkledditService';
+import { makeActionCreator } from '../../state/utils';
+import { getUsername } from './selectors';
+import { afterLogout } from '../../app/actions';
 
 export const onRegister = (username, password) => {
   return (dispatch, getState) => {
@@ -124,7 +124,7 @@ export const deleteUser = () => {
     return userService
       .delete()
       .then(() => dispatch(logout()))
-      .then(() => navigationService.mainPage())
+      .then(() => navigationService.mainPage());
 
   };
 };
@@ -143,8 +143,8 @@ export const subscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
     return subkledditService.subscribe(subkledditName)
-      .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)))
-  }
+      .then(() => dispatch(addSubscribedToSubkleddit(subkledditName)));
+  };
 };
 
 //TODO move to main page?
@@ -152,20 +152,20 @@ export const unsubscribe = (subkledditName) => {
   return (dispatch, getState) => {
 
     return subkledditService.unsubscribe(subkledditName)
-      .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)))
-  }
+      .then(() => dispatch(removeSubscribedToSubkleddit(subkledditName)));
+  };
 };
 
 export const getSubscribedToSubkleddits = () => {
   return (dispatch, getState) => {
 
     const username = getUsername(getState);
-    if(!username) {
+    if (!username) {
       return Promise.resolve();
     }
     return subkledditService.getSubscribedToSubkleddits(username)
       .then(subkleddits => dispatch(setSubscribedToSubkleddits(subkleddits.map(subkleddit => subkleddit.name))));
-  }
+  };
 };
 
 export const USERNAME_REGISTRATION_ERROR = 'USERNAME_REGISTRATION_ERROR';

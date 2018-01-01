@@ -1,6 +1,6 @@
-import {NavigationService as navigationService} from '../navigation/NavigationService';
-import {logout} from '../user/state/actions';
-import {getSubkleddits, loadSubmissions} from '../main/actions';
+import { NavigationService as navigationService } from '../navigation/NavigationService';
+import { logout } from '../user/state/actions';
+import { getSubkleddits, loadSubmissions } from '../main/actions';
 
 export const navigateToRegister = () => {
   return (dispatch, getState) => {

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import './login.css';
-import {FormInputField} from '../../commons/components/form/FormInputField';
-import {Form} from '../../commons/components/form/Form';
-import {FormSubmitButton} from '../../commons/components/form/FormSubmitButton';
+import { FormInputField } from '../../commons/components/form/FormInputField';
+import { Form } from '../../commons/components/form/Form';
+import { FormSubmitButton } from '../../commons/components/form/FormSubmitButton';
 
 export class LoginFormComponent extends Component {
 
@@ -12,36 +12,36 @@ export class LoginFormComponent extends Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
     };
   }
 
   onUsernameChange = (username) => {
     const {
-      onUsernameChange
+      onUsernameChange,
     } = this.props;
 
     onUsernameChange(username);
-    this.setState({username});
+    this.setState({ username });
   };
 
   onPasswordChange = (password) => {
     const {
-      onPasswordChange
+      onPasswordChange,
     } = this.props;
 
     onPasswordChange(password);
-    this.setState({password});
+    this.setState({ password });
   };
 
   onSubmit = () => {
     const {
-      onSubmit
+      onSubmit,
     } = this.props;
 
     const {
       username,
-      password
+      password,
     } = this.state;
 
     return onSubmit(username, password);
@@ -51,11 +51,11 @@ export class LoginFormComponent extends Component {
     const {
       onUsernameChange,
       onPasswordChange,
-      onSubmit
+      onSubmit,
     } = this;
 
     const {
-      loginError
+      loginError,
     } = this.props;
 
     const {

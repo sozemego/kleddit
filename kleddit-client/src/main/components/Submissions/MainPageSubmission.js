@@ -85,12 +85,13 @@ export class MainPageSubmission extends Component {
           {title}
           <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
         </div>
-        <div className={'submission-icon-container ' + (hover || isShowingReplies ? '' : 'submission-icon-container-invisible')}>
+        <div
+          className={'submission-icon-container ' + (hover || isShowingReplies ? '' : 'submission-icon-container-invisible')}>
           {getIcons()}
         </div>
       </div>
       <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
-      <ReplyCount submissionId={submissionId} style={{fontSize: "0.85em", padding: "2px 0 2px 0"}}/>
+      <ReplyCount submissionId={submissionId} style={{ fontSize: '0.85em', padding: '2px 0 2px 0' }}/>
       <Divider/>
       <Paper className="submission-content" zDepth={1}>{content}</Paper>
     </Paper>;

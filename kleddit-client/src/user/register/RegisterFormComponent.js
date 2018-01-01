@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {Form} from '../../commons/components/form/Form';
-import {FormInputField} from '../../commons/components/form/FormInputField';
-import {FormSubmitButton} from '../../commons/components/form/FormSubmitButton';
+import { Form } from '../../commons/components/form/Form';
+import { FormInputField } from '../../commons/components/form/FormInputField';
+import { FormSubmitButton } from '../../commons/components/form/FormSubmitButton';
 
 import './register.css';
 
@@ -13,36 +13,36 @@ export class RegisterFormComponent extends Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
     };
   }
 
   onUsernameChange = (username) => {
     const {
-      onUsernameChange
+      onUsernameChange,
     } = this.props;
 
     onUsernameChange(username);
-    this.setState({username});
+    this.setState({ username });
   };
 
   onPasswordChange = (password) => {
     const {
-      onPasswordChange
+      onPasswordChange,
     } = this.props;
 
     onPasswordChange(password);
-    this.setState({password});
+    this.setState({ password });
   };
 
   onSubmit = () => {
     const {
-      onSubmit
+      onSubmit,
     } = this.props;
 
     const {
       username,
-      password
+      password,
     } = this.state;
 
     return onSubmit(username, password);
@@ -52,7 +52,7 @@ export class RegisterFormComponent extends Component {
     const {
       onUsernameChange,
       onPasswordChange,
-      onSubmit
+      onSubmit,
     } = this;
 
     const {
@@ -62,7 +62,7 @@ export class RegisterFormComponent extends Component {
 
     const {
       username,
-      password
+      password,
     } = this.state;
 
     return (

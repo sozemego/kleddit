@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import {makeActionCreator} from '../state/utils';
+import { makeActionCreator } from '../state/utils';
 import { setErrorMessage, setSubmissionErrors } from '../main/actions';
-import {SubmissionService as submissionService} from './SubmissionService';
+import { SubmissionService as submissionService } from './SubmissionService';
 import { isPostingReply } from './selectors';
 import { getUsername } from '../user/state/selectors';
 
@@ -50,11 +50,11 @@ export const loadSubmissions = (page, limit) => {
         dispatch(addSubmissions(submissions));
       })
       .catch((error) => {
-        if(_.get(error, 'response.status', 500) === 401) {
+        if (_.get(error, 'response.status', 500) === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
-      })
+      });
 
   };
 };
@@ -62,19 +62,19 @@ export const loadSubmissions = (page, limit) => {
 export const submit = (subkleddit, title, content) => {
   return (dispatch, getState) => {
 
-    if(typeof subkleddit !== 'string') {
+    if (typeof subkleddit !== 'string') {
       throw new Error('Subkleddit name has to be a string');
     }
 
     return submissionService.submit(subkleddit, title, content)
       .catch(() => dispatch(setErrorMessage('Problem with submitting, please try again later.')));
-  }
+  };
 };
 
 export const deleteSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
-    if(!submissionId) {
+    if (!submissionId) {
       throw new Error(`Needs to a defined submission id ${submissionId}`);
     }
 
@@ -104,25 +104,25 @@ export const getReplies = (submissionId, page, limit) => {
 const MAX_TITLE_LENGTH = 100;
 const MAX_CONTENT_LENGTH = 10000;
 
-export const validateSubmission = ({title, content}) => {
+export const validateSubmission = ({ title, content }) => {
   return (dispatch, getState) => {
 
     const error = {
       title: null,
-      content: null
+      content: null,
     };
 
-    if(title.length === 0) {
+    if (title.length === 0) {
       error.title = 'Title is too short!';
     }
-    if(title.length > MAX_TITLE_LENGTH) {
+    if (title.length > MAX_TITLE_LENGTH) {
       error.title = `Title is too long, it cannot be longer than ${MAX_TITLE_LENGTH}`;
     }
 
-    if(content.length === 0) {
+    if (content.length === 0) {
       error.content = 'Content is too short!';
     }
-    if(content.length > MAX_CONTENT_LENGTH) {
+    if (content.length > MAX_CONTENT_LENGTH) {
       error.title = `Content is too long, it cannot be longer than ${MAX_CONTENT_LENGTH}`;
     }
 
@@ -136,7 +136,7 @@ const MAX_REPLY_CONTENT_LENGTH = 10000;
 export const onReplySubmit = (submissionId, replyText) => {
   return (dispatch, getState) => {
 
-    if(replyText && replyText.trim() && replyText.length < MAX_REPLY_CONTENT_LENGTH) {
+    if (replyText && replyText.trim() && replyText.length < MAX_REPLY_CONTENT_LENGTH) {
       return dispatch(postReply(submissionId, replyText.trim()));
     }
 
@@ -147,7 +147,7 @@ export const onReplySubmit = (submissionId, replyText) => {
 export const postReply = (submissionId, content) => {
   return (dispatch, getState) => {
 
-    if(isPostingReply(getState)) {
+    if (isPostingReply(getState)) {
       return Promise.resolve(content);
     }
 
@@ -156,7 +156,7 @@ export const postReply = (submissionId, content) => {
     return submissionService.postReply(submissionId, content)
       .then((reply) => {
         dispatch(addRepliesForSubmissionId(submissionId, [reply]));
-        dispatch(setInputReplyForSubmission(submissionId, ""));
+        dispatch(setInputReplyForSubmission(submissionId, ''));
         dispatch(incrementReplyCount(submissionId));
         dispatch(setIsPostingReply(false));
       });

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 
 import './form-input-field.css';
@@ -11,7 +11,8 @@ export class FormInputField extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = () => {};
+    this.onChange = () => {
+    };
   }
 
   render() {
@@ -19,13 +20,13 @@ export class FormInputField extends Component {
       value,
       errorText,
       hintText,
-      type
+      type,
     } = this.props;
 
     const onChange = this.props.onChange || this.onChange;
 
     return (
-      <TextField className={"form-input-field"}
+      <TextField className={'form-input-field'}
                  errorText={errorText}
                  value={value}
                  type={type}

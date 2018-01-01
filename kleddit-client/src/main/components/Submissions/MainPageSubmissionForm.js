@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {MenuItem, RaisedButton, SelectField, TextField} from 'material-ui';
+import React, { Component } from 'react';
+import { MenuItem, RaisedButton, SelectField, TextField } from 'material-ui';
 
 import './submission-form.css';
 
@@ -9,41 +9,41 @@ export class MainPageSubmissionForm extends Component {
     super(props);
 
     this.state = {
-      title: "",
-      content: "",
-      subkleddit: 0
-    }
+      title: '',
+      content: '',
+      subkleddit: 0,
+    };
   }
 
   onSubmit = () => {
     const {
       onSubmit,
-      subkleddits
+      subkleddits,
     } = this.props;
 
     const {
       title,
       content,
-      subkleddit
+      subkleddit,
     } = this.state;
 
     onSubmit(subkleddits[subkleddit], title, content);
     this.setState({
-      title: "",
-      content: ""
-    })
+      title: '',
+      content: '',
+    });
   };
 
   onContentChange = (content) => {
     const { onChange } = this.props;
-    const nextState = {...this.state, content};
+    const nextState = { ...this.state, content };
     onChange(nextState);
     this.setState(nextState);
   };
 
   onTitleChange = (title) => {
     const { onChange } = this.props;
-    const nextState = {...this.state, title};
+    const nextState = { ...this.state, title };
     onChange(nextState);
     this.setState(nextState);
   };
@@ -52,22 +52,22 @@ export class MainPageSubmissionForm extends Component {
     const {
       onSubmit,
       onTitleChange,
-      onContentChange
+      onContentChange,
     } = this;
 
     const {
       subkleddits = [],
-      submissionErrors
+      submissionErrors,
     } = this.props;
 
-    if(subkleddits.length === 0) {
+    if (subkleddits.length === 0) {
       return <div className="submission-form-container">Subscribe to at least one subkleddit to post!</div>;
     }
 
     const {
       title,
       content,
-      subkleddit
+      subkleddit,
     } = this.state;
 
     return (
@@ -77,14 +77,14 @@ export class MainPageSubmissionForm extends Component {
           <div className="submission-form-label-container">Subkleddit</div>
           <SelectField multiple={false}
                        value={subkleddit !== null ? subkleddits[subkleddit] : subkleddits[0] || null}
-                       onChange={(event, subkleddit) => this.setState({subkleddit})}
-                       labelStyle={{display: "flex", justifyContent: "center"}}
+                       onChange={(event, subkleddit) => this.setState({ subkleddit })}
+                       labelStyle={{ display: 'flex', justifyContent: 'center' }}
           >
             {subkleddits.map((subkleddit, index) => {
               return <MenuItem key={index}
                                value={subkleddit}
                                primaryText={subkleddit}
-              />
+              />;
             })}
           </SelectField>
         </div>
@@ -92,7 +92,7 @@ export class MainPageSubmissionForm extends Component {
           <div className="submission-form-label-container">Title</div>
           <TextField
             className="submission-form-title-input"
-            style={{margin: "4px"}}
+            style={{ margin: '4px' }}
             value={title}
             errorText={submissionErrors.title}
             onChange={(event, title) => onTitleChange(title)}
@@ -103,7 +103,7 @@ export class MainPageSubmissionForm extends Component {
           <TextField
             className="submission-form-content-input"
             multiLine={true}
-            style={{margin: "4px"}}
+            style={{ margin: '4px' }}
             value={content}
             errorText={submissionErrors.content}
             onChange={(event, content) => onContentChange(content)}

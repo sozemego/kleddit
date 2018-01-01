@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {LinearProgress} from 'material-ui';
+import { LinearProgress } from 'material-ui';
 
 import './header.css';
 
@@ -12,7 +12,7 @@ export const Header = (props) => {
   } = props;
 
   return (
-    <div style={{display: "flex", flexDirection: "column", borderBottom: "1px solid white"}}>
+    <div style={{ display: 'flex', flexDirection: 'column', borderBottom: '1px solid white' }}>
       <div className="header-container">
         <div className="header-section header-invisible">
           A
@@ -22,7 +22,7 @@ export const Header = (props) => {
         </div>
         <div className="header-section header-buttons-container">{buttons}</div>
       </div>
-      <LinearProgress mode="indeterminate" style={isFetching ? {}: {visibility: "hidden"}}/>
+      <LinearProgress mode="indeterminate" style={isFetching ? {} : { visibility: 'hidden' }}/>
     </div>
   );
 };
@@ -33,6 +33,4 @@ Header.propTypes = {
   buttons: PropTypes.node.isRequired,
 };
 
-Header.defaultProps = {
-
-};
+Header.defaultProps = {};

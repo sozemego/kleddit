@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {MainPageSubmissionForm} from '../components/Submissions/MainPageSubmissionForm';
+import { MainPageSubmissionForm } from '../components/Submissions/MainPageSubmissionForm';
 import * as subkledditActions from '../actions';
 import * as submissionActions from '../../submissions/actions';
 import * as subkledditSelectors from '../selectors';
-import {getSubscribedToSubkleddits} from '../../user/state/selectors';
+import { getSubscribedToSubkleddits } from '../../user/state/selectors';
 
 class MainPageSubmissionFormContainer extends Component {
 
@@ -50,5 +50,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps,
   {
     ...subkledditActions,
-    validateSubmission: submissionActions.validateSubmission
+    validateSubmission: submissionActions.validateSubmission,
   })(MainPageSubmissionFormContainer);

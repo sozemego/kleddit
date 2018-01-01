@@ -16,11 +16,11 @@ const replyContainer = {
 };
 
 const oddReplyContainer = Object.assign({}, replyContainer, {
-  backgroundColor: 'rgba(15, 15, 15, 1)'
+  backgroundColor: 'rgba(15, 15, 15, 1)',
 });
 
 const eventReplyContainer = Object.assign({}, replyContainer, {
-  backgroundColor: 'rgba(17, 17, 17, 1)'
+  backgroundColor: 'rgba(17, 17, 17, 1)',
 });
 
 const KEYS = {
@@ -38,7 +38,7 @@ export class MainPageSubmissionReplies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      replyText: ""
+      replyText: '',
     };
   }
 
@@ -62,7 +62,7 @@ export class MainPageSubmissionReplies extends Component {
   };
 
   onReplyChanged = (event, replyText) => {
-    this.setState({replyText});
+    this.setState({ replyText });
   };
 
   onReplySubmit = () => {
@@ -71,22 +71,22 @@ export class MainPageSubmissionReplies extends Component {
       submissionId,
     } = this.props;
     const { replyText } = this.state;
-    return onReplySubmit(submissionId, replyText).then((replyText = "") => {
-      this.setState({replyText});
+    return onReplySubmit(submissionId, replyText).then((replyText = '') => {
+      this.setState({ replyText });
     });
   };
 
   onReplyTextKeyDown = (event) => {
-    const {onReplySubmit} = this;
-    if (keyCodes[ event.keyCode ] === KEYS.ENTER && !this.shiftPressed) {
+    const { onReplySubmit } = this;
+    if (keyCodes[event.keyCode] === KEYS.ENTER && !this.shiftPressed) {
       onReplySubmit();
       event.preventDefault();
     }
-    this.shiftPressed = keyCodes[ event.keyCode ] === KEYS.SHIFT;
+    this.shiftPressed = keyCodes[event.keyCode] === KEYS.SHIFT;
   };
 
   onReplyTextKeyUp = (event) => {
-    if (keyCodes[ event.keyCode ] === KEYS.SHIFT) {
+    if (keyCodes[event.keyCode] === KEYS.SHIFT) {
       this.shiftPressed = false;
     }
   };
@@ -100,14 +100,14 @@ export class MainPageSubmissionReplies extends Component {
     } = this.props;
 
     const {
-      replyText
+      replyText,
     } = this.state;
 
     const {
       onReplyChanged,
       getReplyComponent,
       onReplyTextKeyDown,
-      onReplyTextKeyUp
+      onReplyTextKeyUp,
     } = this;
 
     if (!isShowingReplies) return null;
@@ -125,7 +125,7 @@ export class MainPageSubmissionReplies extends Component {
         <TextField
           hintText={'Reply'}
           multiLine
-          style={{ width: '100%'}}
+          style={{ width: '100%' }}
           onChange={onReplyChanged}
           value={replyText}
           onKeyDown={onReplyTextKeyDown}

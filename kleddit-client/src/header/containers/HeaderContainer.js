@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import {isLoggedIn} from '../../user/state/selectors';
+import { isLoggedIn } from '../../user/state/selectors';
 import * as userActions from '../../user/state/actions';
 import * as headerActions from '../actions';
-import {RaisedButton} from 'material-ui';
-import {isFetching} from '../../main/selectors';
+import { RaisedButton } from 'material-ui';
+import { isFetching } from '../../main/selectors';
 
 import '../../index.css';
-import {Header} from '../components/Header';
+import { Header } from '../components/Header';
 
 class HeaderContainer extends Component {
 
@@ -31,7 +31,7 @@ class HeaderContainer extends Component {
                     primary={true}
                     className={buttonClasses}
                     label="Profile"
-      />
+      />,
     );
 
     buttons.push(
@@ -40,7 +40,7 @@ class HeaderContainer extends Component {
                     primary={true}
                     className={buttonClasses}
                     label="Register"
-      />
+      />,
     );
 
     if (isLoggedIn) {
@@ -50,7 +50,7 @@ class HeaderContainer extends Component {
                       primary={true}
                       className={buttonClasses}
                       label="Logout"
-        />
+        />,
       );
     } else {
       buttons.push(
@@ -59,7 +59,7 @@ class HeaderContainer extends Component {
                       primary={true}
                       className={buttonClasses}
                       label="Login"
-        />
+        />,
       );
     }
 
@@ -69,11 +69,11 @@ class HeaderContainer extends Component {
   render() {
     const {
       navigateToMain,
-      isFetching
+      isFetching,
     } = this.props;
 
     const {
-      getButtons
+      getButtons,
     } = this;
 
     return (
@@ -89,8 +89,8 @@ class HeaderContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: isLoggedIn(state),
-    isFetching: isFetching(state)
+    isFetching: isFetching(state),
   };
 };
 
-export default connect(mapStateToProps, {...headerActions, ...userActions})(HeaderContainer);
+export default connect(mapStateToProps, { ...headerActions, ...userActions })(HeaderContainer);

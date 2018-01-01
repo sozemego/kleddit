@@ -1,12 +1,12 @@
 import * as USER_ACTIONS from './actions';
 import _ from 'lodash';
 
-import {NetworkService as networkService} from '../../network/NetworkService';
-import {createReducer} from '../../state/utils';
+import { NetworkService as networkService } from '../../network/NetworkService';
+import { createReducer } from '../../state/utils';
 
 const anonymousUser = {
   name: null,
-  token: null
+  token: null,
 };
 
 //TODO abstraction over localStorage
@@ -19,7 +19,7 @@ const _getCurrentUser = () => {
   }
 
   networkService.setAuthorizationToken(token);
-  return {name, token};
+  return { name, token };
 };
 
 const initialState = {
@@ -28,45 +28,45 @@ const initialState = {
   usernameRegistrationError: null,
   passwordRegistrationError: null,
   loginError: null,
-  subscribedToSubkleddits: []
+  subscribedToSubkleddits: [],
 
 };
 
 const setUsernameRegistrationError = (state, action) => {
-  return {...state, usernameRegistrationError: action.message};
+  return { ...state, usernameRegistrationError: action.message };
 };
 
 const setPasswordRegistrationError = (state, action) => {
-  return {...state, passwordRegistrationError: action.message};
+  return { ...state, passwordRegistrationError: action.message };
 };
 
 const setLoginError = (state, action) => {
-  return {...state, loginError: action.message};
+  return { ...state, loginError: action.message };
 };
 
 const setUsername = (state, action) => {
   action.username ? localStorage.setItem('username', action.username) : localStorage.removeItem('username');
-  return {...state, currentUser: {...state.currentUser, name: action.username}};
+  return { ...state, currentUser: { ...state.currentUser, name: action.username } };
 };
 
 const setToken = (state, action) => {
   action.token ? localStorage.setItem('jwt', action.token) : localStorage.removeItem('jwt');
-  return {...state, currentUser: {...state.currentUser, token: action.token}};
+  return { ...state, currentUser: { ...state.currentUser, token: action.token } };
 };
 
 const setSubscribedToSubkleddits = (state, action) => {
-  return {...state, subscribedToSubkleddits: [...action.subkleddits]}
+  return { ...state, subscribedToSubkleddits: [...action.subkleddits] };
 };
 
 const addSubscribedToSubkleddit = (state, action) => {
   const nextSubkleddits = [...state.subscribedToSubkleddits, action.subkleddit];
-  return {...state, subscribedToSubkleddits: nextSubkleddits}
+  return { ...state, subscribedToSubkleddits: nextSubkleddits };
 };
 
 const removeSubscribedToSubkleddit = (state, action) => {
   const subscribedToSubkleddits = [...state.subscribedToSubkleddits];
   _.remove(subscribedToSubkleddits, n => n === action.subkleddit);
-  return {...state, subscribedToSubkleddits}
+  return { ...state, subscribedToSubkleddits };
 };
 
 const user = createReducer(initialState, {
@@ -77,7 +77,7 @@ const user = createReducer(initialState, {
   [USER_ACTIONS.SET_TOKEN]: setToken,
   [USER_ACTIONS.SET_SUBSCRIBED_TO_SUBKLEDDITS]: setSubscribedToSubkleddits,
   [USER_ACTIONS.ADD_SUBSCRIBED_TO_SUBKLEDDIT]: addSubscribedToSubkleddit,
-  [USER_ACTIONS.REMOVE_SUBSCRIBED_TO_SUBKLEDDIT]: removeSubscribedToSubkleddit
+  [USER_ACTIONS.REMOVE_SUBSCRIBED_TO_SUBKLEDDIT]: removeSubscribedToSubkleddit,
 });
 
 export default user;

@@ -2,11 +2,7 @@ import { connect } from 'react-redux';
 
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
-import {
-  isLoadingReplies,
-  isShowingReplies,
-  makeGetRepliesForMainPageSubmission,
-} from '../../submissions/selectors';
+import { isLoadingReplies, isShowingReplies, makeGetRepliesForMainPageSubmission, } from '../../submissions/selectors';
 import { MainPageSubmissionReplies } from '../components/Submissions/MainPageSubmissionReplies';
 
 const makeMapStateToProps = () => {

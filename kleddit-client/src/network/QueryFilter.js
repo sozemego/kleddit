@@ -40,8 +40,8 @@ export class QueryBuilder {
   };
 
   applyQueryParameter = (parameter, value) => {
-    if(value) {
-      if(this.appliedQueryParams > 0) {
+    if (value) {
+      if (this.appliedQueryParams > 0) {
         this.url += '&';
       }
       this.url += `${parameter}=${value}`;
@@ -55,15 +55,15 @@ export class QueryBuilder {
    * @param url
    */
   applyQuestionMark = (url) => {
-    if(typeof url !== 'string') {
+    if (typeof url !== 'string') {
       throw new Error(`Url has to be a string, it was ${url}`);
     }
 
     const lastChar = url.charAt(url.length - 1);
-    if(lastChar !== '?') {
+    if (lastChar !== '?') {
       url += '?';
     }
     return url;
-  }
+  };
 
 }
