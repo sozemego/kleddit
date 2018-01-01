@@ -4,9 +4,10 @@ import { fetching, stopFetching } from '../main/actions';
 import { networkConfig } from '../config/network';
 
 const fetch = () => store.dispatch(fetching());
-const fetched = (response) => {
+
+const fetched = ({data}) => {
   store.dispatch(stopFetching());
-  return response;
+  return data;
 };
 
 const fetchedError = (error) => {
@@ -14,27 +15,25 @@ const fetchedError = (error) => {
   throw error;
 };
 
+axios.interceptors.request.use((config) => {
+  fetch();
+  return config;
+});
+
+axios.interceptors.response.use(fetched, fetchedError);
+
 export const NetworkService = {};
 
 NetworkService.delete = (path) => {
-  fetch();
-  return axios.delete(applyPath(path))
-    .then(response => fetched(response.data))
-    .catch(error => fetchedError(error));
+  return axios.delete(applyPath(path));
 };
 
 NetworkService.post = (path, payload) => {
-  fetch();
-  return axios.post(applyPath(path), payload)
-    .then(response => fetched(response.data))
-    .catch(error => fetchedError(error));
+  return axios.post(applyPath(path), payload);
 };
 
 NetworkService.get = (path) => {
-  fetch();
-  return axios.get(applyPath(path))
-    .then(response => fetched(response.data))
-    .catch(error => fetchedError(error)); //TODO for now, extract data always. later, will throw custom errors
+  return axios.get(applyPath(path));
 };
 
 const validatePath = (path) => {
@@ -49,7 +48,7 @@ const applyPath = (path) => {
   return `${base}:${port}${version}${path}`;
 };
 
-NetworkService.setAuthorizationToken = function (token) {
+NetworkService.setAuthorizationToken = (token) => {
   if (!token || typeof token !== 'string') {
     throw new Error(`Token has to be defined and be a string, it was ${token}.`);
   }
@@ -57,6 +56,6 @@ NetworkService.setAuthorizationToken = function (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-NetworkService.clearAuthorizationToken = function () {
+NetworkService.clearAuthorizationToken = () => {
   delete axios.defaults.headers.common['Authorization'];
 };
