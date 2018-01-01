@@ -4,6 +4,7 @@ import {makeActionCreator} from '../state/utils';
 import { setErrorMessage, setSubmissionErrors } from '../main/actions';
 import {SubmissionService as submissionService} from './SubmissionService';
 import { isPostingReply } from './selectors';
+import { getUsername } from '../user/state/selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -38,8 +39,14 @@ export const setIsPostingReply = makeActionCreator(SET_IS_POSTING_REPLY, 'bool')
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
 
+    const username = getUsername(getState);
+
     return submissionService.getSubmissionsForSubscribedSubkleddits(page, limit)
       .then((submissions) => {
+        submissions = submissions.map(submission => {
+          submission.own = submission.author === username;
+          return submission;
+        });
         dispatch(addSubmissions(submissions));
       })
       .catch((error) => {
