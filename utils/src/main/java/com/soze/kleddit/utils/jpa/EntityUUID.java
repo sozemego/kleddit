@@ -1,5 +1,7 @@
 package com.soze.kleddit.utils.jpa;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -27,6 +29,7 @@ public class EntityUUID implements Serializable {
     return new EntityUUID(UUID.randomUUID());
   }
 
+  @JsonCreator
   public static EntityUUID fromString(String id) {
     return new EntityUUID(id);
   }

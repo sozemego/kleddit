@@ -31,12 +31,12 @@ public class SubmissionReplyApi {
   @Path("/{submissionId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getReplies(@PathParam("submissionId") String submissionId,
+  public Response getReplies(@PathParam("submissionId") EntityUUID submissionId,
                              @QueryParam("page") String page,
                              @QueryParam("limit") String limit) {
 
     List<SubmissionReply> replies = submissionReplyService.getReplies(
-      EntityUUID.fromString(submissionId),
+      submissionId,
       PaginationFactory.createPagination(page, limit)
     );
 
@@ -60,11 +60,11 @@ public class SubmissionReplyApi {
   @DELETE
   @Authenticated
   @Produces(MediaType.APPLICATION_JSON)
-  public Response deleteReply(@PathParam("replyId") String replyId) {
+  public Response deleteReply(@PathParam("replyId") EntityUUID replyId) {
 
     submissionReplyService.deleteReply(
       securityContext.getUserPrincipal().getName(),
-      EntityUUID.fromString(replyId)
+      replyId
     );
 
     return Response.ok().build();

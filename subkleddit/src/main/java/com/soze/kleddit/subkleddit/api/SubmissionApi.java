@@ -53,8 +53,8 @@ public class SubmissionApi {
   @Path("/single/{submissionId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getSubmissionById(@PathParam("submissionId") String submissionId) {
-    Optional<Submission> submissionOptional = submissionService.getSubmissionById(EntityUUID.fromString(submissionId));
+  public Response getSubmissionById(@PathParam("submissionId") EntityUUID submissionId) {
+    Optional<Submission> submissionOptional = submissionService.getSubmissionById(submissionId);
     if(!submissionOptional.isPresent()) {
       return Response.status(404).build();
     }
@@ -100,10 +100,10 @@ public class SubmissionApi {
   @DELETE
   @Authenticated
   @Produces(MediaType.APPLICATION_JSON)
-  public Response deleteSubmission(@PathParam("submissionId") String submissionId) {
+  public Response deleteSubmission(@PathParam("submissionId") EntityUUID submissionId) {
     Objects.requireNonNull(submissionId);
     String username = securityContext.getUserPrincipal().getName();
-    submissionService.deleteSubmission(username, EntityUUID.fromString(submissionId));
+    submissionService.deleteSubmission(username, submissionId);
 
     return Response.ok().build();
   }
