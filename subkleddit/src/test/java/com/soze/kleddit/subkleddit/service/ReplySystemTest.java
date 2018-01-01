@@ -1,9 +1,8 @@
 package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.*;
-import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
+import com.soze.kleddit.subkleddit.test.SubkledditTest;
 import com.soze.kleddit.utils.CommonUtils;
-import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 import com.soze.kleddit.utils.json.JsonUtils;
 import com.soze.kleddit.utils.sql.DatabaseReset;
@@ -16,24 +15,14 @@ import java.util.List;
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
 import static org.junit.Assert.assertEquals;
 
-public class ReplySystemTest {
+public class ReplySystemTest extends SubkledditTest {
 
-  private final String submissionReplies = "submission/reply/";
-  private final String postReply = "submission/reply/";
-  private final String deleteReply = "submission/reply/";
-
-  private final String postSubmission = "submission/submit/";
-  private final String subscribe = "subscription/subscribe/";
-
-  private HttpClient client;
-  private HttpClientTestAuthHelper authHelper;
+  private final String base = "/subkleddit";
+  private final String submissionReplies = base + "submission/reply/";
 
   @Before
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();
-    //TODO load paths from file
-    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
-    authHelper = new HttpClientTestAuthHelper("http://localhost:8180/");
   }
 
   @Test
@@ -49,10 +38,10 @@ public class ReplySystemTest {
       "Content"
     );
 
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsCreated(response);
 
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId));
+    List<SubmissionReplyDto> replies = getReplies(submissionId);
     assertEquals(1, replies.size());
   }
 
@@ -68,7 +57,7 @@ public class ReplySystemTest {
       "Content"
     );
 
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
   }
 
@@ -79,7 +68,7 @@ public class ReplySystemTest {
       "Content"
     );
 
-    assertResponseIsUnauthorized(client.post(form, postReply));
+    assertResponseIsUnauthorized(post(form));
   }
 
   @Test
@@ -94,29 +83,21 @@ public class ReplySystemTest {
       submissionId,
       "Content"
     );
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
       submissionId,
       "Content"
     );
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
       submissionId,
       "Content"
     );
-    response = client.post(form, postReply);
-    assertResponseIsCreated(response);
-
-    form = new SubmissionReplyForm(
-      submissionId,
-      "Content"
-    );
-
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
@@ -124,16 +105,19 @@ public class ReplySystemTest {
       "Content"
     );
 
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId));
+    form = new SubmissionReplyForm(
+      submissionId,
+      "Content"
+    );
+
+    response = post(form);
+    assertResponseIsCreated(response);
+
+    List<SubmissionReplyDto> replies = getReplies(submissionId);
     assertEquals(5, replies.size());
-  }
-
-  @Test
-  public void testGetRepliesForInvalidSubmission() throws Exception {
-    assertResponseIsBadRequest(client.get(submissionReplies + EntityUUID.randomId().toString()));
   }
 
   @Test
@@ -148,29 +132,21 @@ public class ReplySystemTest {
       submissionId,
       "Content"
     );
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
       submissionId,
       "Content"
     );
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
       submissionId,
       "Content"
     );
-    response = client.post(form, postReply);
-    assertResponseIsCreated(response);
-
-    form = new SubmissionReplyForm(
-      submissionId,
-      "Content"
-    );
-
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
     form = new SubmissionReplyForm(
@@ -178,10 +154,18 @@ public class ReplySystemTest {
       "Content"
     );
 
-    response = client.post(form, postReply);
+    response = post(form);
     assertResponseIsCreated(response);
 
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId + "?page=1&limit=3"));
+    form = new SubmissionReplyForm(
+      submissionId,
+      "Content"
+    );
+
+    response = post(form);
+    assertResponseIsCreated(response);
+
+    List<SubmissionReplyDto> replies = getReplies(submissionId + "?page=1&limit=3");
     assertEquals(3, replies.size());
   }
 
@@ -198,7 +182,7 @@ public class ReplySystemTest {
       CommonUtils.generateRandomString(15000)
     );
 
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
   }
 
@@ -215,15 +199,15 @@ public class ReplySystemTest {
       "Content"
     );
 
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsCreated(response);
     SubmissionReplyDto responseDto = getReply(response);
 
-    List<SubmissionReplyDto> replies = getReplies(client.get(submissionReplies + submissionId));
+    List<SubmissionReplyDto> replies = getReplies(submissionId);
     assertEquals(1, replies.size());
 
-    client.delete(deleteReply + responseDto.getReplyId());
-    replies = getReplies(client.get(submissionReplies + submissionId));
+    deleteReply(responseDto.getReplyId());
+    replies = getReplies(submissionId);
     assertEquals(0, replies.size());
   }
 
@@ -232,7 +216,7 @@ public class ReplySystemTest {
     login("USER");
 
     String replyId = EntityUUID.randomId().toString();
-    Response response = client.delete(deleteReply + replyId);
+    Response response = deleteReply(replyId);
     assertResponseIsBadRequest(response);
   }
 
@@ -248,44 +232,17 @@ public class ReplySystemTest {
       "Content"
     );
 
-    Response response = client.post(form, postReply);
+    Response response = post(form);
     assertResponseIsCreated(response);
     SubmissionReplyDto responseDto = getReply(response);
 
     login("Another_user");
-    response = client.delete(deleteReply + responseDto.getReplyId());
+    response = deleteReply(responseDto.getReplyId());
     assertResponseIsBadRequest(response);
-  }
-
-  private List<SubmissionReplyDto> getReplies(Response response) {
-    return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionReplyDto.class);
   }
 
   private SubmissionReplyDto getReply(Response response) {
     return JsonUtils.jsonToObject(response.readEntity(String.class), SubmissionReplyDto.class);
-  }
-
-  private void login(String username) {
-    authHelper.login(username);
-    client.setToken(authHelper.getToken(username));
-  }
-
-  private void subscribe(String subkledditName) {
-    SubscriptionForm form = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    Response response = client.post(form, subscribe);
-    assertResponseIsOk(response);
-  }
-
-  private String submitTo(String subkledditName) {
-    SubmissionForm form = new SubmissionForm(
-      subkledditName,
-      "Title",
-      "Content!"
-    );
-    Response response = client.post(form, postSubmission);
-    assertResponseIsCreated(response);
-    SubmissionSimpleDto submissionDto = JsonUtils.jsonToObject(response.readEntity(String.class), SubmissionSimpleDto.class);
-    return submissionDto.getSubmissionId();
   }
 
 }
