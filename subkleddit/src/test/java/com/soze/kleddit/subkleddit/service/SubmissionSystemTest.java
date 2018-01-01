@@ -4,11 +4,9 @@ import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.dto.SubmissionSimpleDto;
 import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.dto.SubscriptionType;
-import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
+import com.soze.kleddit.subkleddit.test.SubkledditTest;
 import com.soze.kleddit.utils.CommonUtils;
-import com.soze.kleddit.utils.http.HttpClient;
 import com.soze.kleddit.utils.jpa.EntityUUID;
-import com.soze.kleddit.utils.json.JsonUtils;
 import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,24 +17,11 @@ import java.util.List;
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
 import static org.junit.Assert.assertEquals;
 
-public class SubmissionSystemTest {
-
-  private final String getAllSubmissions = "submission/subkleddit/";
-  private final String postSubmission = "submission/submit/";
-  private final String getSubmissionsForSubscribed = "submission/subscribed";
-  private final String delete = "submission/delete/";
-
-  private final String subscribe = "subscription/subscribe/";
-
-  private HttpClient client;
-  private HttpClientTestAuthHelper authHelper;
+public class SubmissionSystemTest extends SubkledditTest {
 
   @Before
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();
-    //TODO extract to files
-    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
-    authHelper = new HttpClientTestAuthHelper("http://localhost:8180/");
   }
 
   @Test
@@ -46,18 +31,17 @@ public class SubmissionSystemTest {
     String subkledditName = "General";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
       "Content!"
     );
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsCreated(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(1, submissions.size());
   }
 
@@ -72,11 +56,10 @@ public class SubmissionSystemTest {
       "Title",
       "Content!"
     );
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -88,11 +71,10 @@ public class SubmissionSystemTest {
       "Title",
       "Content!"
     );
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsUnauthorized(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -107,7 +89,7 @@ public class SubmissionSystemTest {
       "Title",
       "Content!"
     );
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
   }
 
@@ -118,18 +100,17 @@ public class SubmissionSystemTest {
     String subkledditName = "pOrN";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
       "Content!"
     );
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsCreated(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(1, submissions.size());
   }
 
@@ -140,7 +121,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -148,11 +129,10 @@ public class SubmissionSystemTest {
       "Content!"
     );
 
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -163,7 +143,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -171,11 +151,10 @@ public class SubmissionSystemTest {
       "Content!"
     );
 
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -186,7 +165,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -194,11 +173,10 @@ public class SubmissionSystemTest {
       ""
     );
 
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -209,7 +187,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -217,11 +195,10 @@ public class SubmissionSystemTest {
       CommonUtils.generateRandomString(10005)
     );
 
-    Response response = client.post(form, postSubmission);
+    Response response = post(form);
     assertResponseIsBadRequest(response);
 
-    response = client.get(getAllSubmissions + subkledditName);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(0, submissions.size());
   }
 
@@ -232,7 +209,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -240,13 +217,10 @@ public class SubmissionSystemTest {
       "Super content"
     );
 
-    client.post(form, postSubmission);
+    post(form);
 
-    Response response = client.get(getSubmissionsForSubscribed);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
-
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(1, submissions.size());
-    assertEquals(true, submissions.get(0).isOwn());
   }
 
   @Test
@@ -256,7 +230,7 @@ public class SubmissionSystemTest {
     String subkledditName = "Casual";
 
     SubscriptionForm subscriptionForm = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    client.post(subscriptionForm, subscribe);
+    post(subscriptionForm);
 
     SubmissionForm form = new SubmissionForm(
       subkledditName,
@@ -264,41 +238,27 @@ public class SubmissionSystemTest {
       "Super content"
     );
 
-    SubmissionSimpleDto responseSubmission = getSubmission(client.post(form, postSubmission));
+    SubmissionSimpleDto responseSubmission = getSubmission(post(form));
 
-    Response response = client.get(getSubmissionsForSubscribed);
-    List<SubmissionSimpleDto> submissions = getSubmissions(response);
+    List<SubmissionSimpleDto> submissions = getSubmissionsForSubkleddit(subkledditName);
     assertEquals(1, submissions.size());
 
-    client.delete(delete + responseSubmission.getSubmissionId());
-    assertEquals(0, getSubmissions(client.get(getSubmissionsForSubscribed)).size());
+    deleteSubmission(responseSubmission.getSubmissionId());
+    assertEquals(0, getSubmissionsForSubkleddit(subkledditName).size());
   }
 
   @Test
   public void testDeleteNonExistentSubmission() {
     String username = "SUBMISSION_TEST_10";
     login(username);
-    Response response = client.delete(delete + EntityUUID.randomId().toString());
+    Response response = deleteSubmission(EntityUUID.randomId().toString());
     assertResponseIsBadRequest(response);
   }
 
   @Test
   public void testDeleteSubmissionUnauthorized() {
-    Response response = client.delete(delete + EntityUUID.randomId().toString());
+    Response response = deleteSubmission(EntityUUID.randomId().toString());
     assertResponseIsUnauthorized(response);
-  }
-
-  private List<SubmissionSimpleDto> getSubmissions(Response response) {
-    return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionSimpleDto.class);
-  }
-
-  private SubmissionSimpleDto getSubmission(Response response) {
-    return JsonUtils.jsonToObject(response.readEntity(String.class), SubmissionSimpleDto.class);
-  }
-
-  private void login(String username) {
-    authHelper.login(username);
-    client.setToken(authHelper.getToken(username));
   }
 
 }

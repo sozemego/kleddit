@@ -32,8 +32,8 @@
         <!--<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>-->
         <!--&lt;!&ndash;<class>com.soze.kleddit.user.entity.User</class>&ndash;&gt;-->
         <!--<properties>-->
-            <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
-            <!--<property name="hibernate.show_sql" value="true"/>-->
+        <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
+        <!--<property name="hibernate.show_sql" value="true"/>-->
         <!--</properties>-->
     </persistence-unit>
 </persistence>

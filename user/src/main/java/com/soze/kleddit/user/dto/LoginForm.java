@@ -25,7 +25,7 @@ public class LoginForm {
   }
 
   public void reset() {
-    for(int i = 0; i < password.length; i++) {
+    for (int i = 0; i < password.length; i++) {
       password[i] = 0; //attempts to clear password from memory
     }
     this.password = null;

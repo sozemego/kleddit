@@ -3,9 +3,7 @@ package com.soze.kleddit.subkleddit.service;
 import com.soze.kleddit.subkleddit.dto.SubkledditSimpleDto;
 import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.dto.SubscriptionType;
-import com.soze.kleddit.user.test.HttpClientTestAuthHelper;
-import com.soze.kleddit.utils.http.HttpClient;
-import com.soze.kleddit.utils.json.JsonUtils;
+import com.soze.kleddit.subkleddit.test.SubkledditTest;
 import com.soze.kleddit.utils.sql.DatabaseReset;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,21 +14,14 @@ import java.util.List;
 import static com.soze.kleddit.utils.http.ResponseAssertUtils.*;
 import static org.junit.Assert.assertEquals;
 
-public class SubkledditSubscribeSystemTest {
+public class SubkledditSubscribeSystemTest extends SubkledditTest {
 
-  private final String subscribe = "subscription/subscribe/";
   private final String userSubscriptions = "subscription/user/subkleddits/";
   private final String subkledditSubscriptions = "subscription/subkleddit/subscriptions/";
-
-  private HttpClient client;
-  private HttpClientTestAuthHelper authHelper;
 
   @Before
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();
-    //TODO load paths from file
-    client = new HttpClient("http://localhost:8180/api/0.1/subkleddit/");
-    authHelper = new HttpClientTestAuthHelper("http://localhost:8180/");
   }
 
   @Test
@@ -39,16 +30,13 @@ public class SubkledditSubscribeSystemTest {
     login(username);
     String subkledditName = "General";
     SubscriptionForm form = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    Response response = client.post(form, subscribe);
+    Response response = post(form);
     assertResponseIsOk(response);
 
-    response = client.get(userSubscriptions + username);
-    assertResponseIsOk(response);
-    List<SubkledditSimpleDto> subkleddits = getSubkleddits(response);
+    List<SubkledditSimpleDto> subkleddits = getSubscriptions(username);
     assertEquals(1, subkleddits.size());
     assertEquals(subkledditName, subkleddits.get(0).getName());
-    response = client.getPlainText(subkledditSubscriptions + subkledditName);
-    long subscriberCount = response.readEntity(Long.class);
+    long subscriberCount = getSubscribedCount(subkledditName);
     assertEquals(1, subscriberCount);
   }
 
@@ -58,26 +46,20 @@ public class SubkledditSubscribeSystemTest {
     login(username);
     String subkledditName = "Porn";
     SubscriptionForm form = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    Response response = client.post(form, subscribe);
-    assertResponseIsOk(response);
+    assertResponseIsOk(post(form));
 
-    response = client.get(userSubscriptions + username);
-    List<SubkledditSimpleDto> subkleddits = getSubkleddits(response);
+    List<SubkledditSimpleDto> subkleddits = getSubscriptions(username);
     assertEquals(1, subkleddits.size());
     assertEquals(subkledditName, subkleddits.get(0).getName());
-    response = client.getPlainText(subkledditSubscriptions + subkledditName);
-    long subscriberCount = response.readEntity(Long.class);
+    long subscriberCount = getSubscribedCount(subkledditName);
     assertEquals(1L, subscriberCount);
 
-    response = client.post(form, subscribe);
-    assertResponseIsBadRequest(response);
+    assertResponseIsBadRequest(post(form));
 
-    response = client.get(userSubscriptions + username);
-    subkleddits = getSubkleddits(response);
+    subkleddits = getSubscriptions(username);
     assertEquals(1, subkleddits.size());
     assertEquals(subkledditName, subkleddits.get(0).getName());
-    response = client.getPlainText(subkledditSubscriptions + subkledditName);
-    subscriberCount = response.readEntity(Long.class);
+    subscriberCount = getSubscribedCount(subkledditName);
     assertEquals(1L, subscriberCount);
   }
 
@@ -87,26 +69,19 @@ public class SubkledditSubscribeSystemTest {
     login(username);
     String subkledditName = "Gifs";
     SubscriptionForm form = new SubscriptionForm(subkledditName, SubscriptionType.SUBSCRIBE);
-    Response response = client.post(form, subscribe);
-    assertResponseIsOk(response);
+    assertResponseIsOk(post(form));
 
-    response = client.get(userSubscriptions + username);
-    List<SubkledditSimpleDto> subkleddits = getSubkleddits(response);
+    List<SubkledditSimpleDto> subkleddits = getSubscriptions(username);
     assertEquals(1, subkleddits.size());
     assertEquals(subkledditName, subkleddits.get(0).getName());
-    response = client.getPlainText(subkledditSubscriptions + subkledditName);
-    long subscriberCount = response.readEntity(Long.class);
+    long subscriberCount = getSubscribedCount(subkledditName);
     assertEquals(1L, subscriberCount);
 
-    form = new SubscriptionForm(subkledditName, SubscriptionType.UNSUBSCRIBE);
-    response = client.post(form, subscribe);
-    assertResponseIsOk(response);
+    assertResponseIsOk(post(new SubscriptionForm(subkledditName, SubscriptionType.UNSUBSCRIBE)));
 
-    response = client.get(userSubscriptions + username);
-    subkleddits = getSubkleddits(response);
+    subkleddits = getSubscriptions(username);
     assertEquals(0, subkleddits.size());
-    response = client.getPlainText(subkledditSubscriptions + subkledditName);
-    subscriberCount = response.readEntity(Long.class);
+    subscriberCount = getSubscribedCount(subkledditName);
     assertEquals(0L, subscriberCount);
   }
 
@@ -117,7 +92,7 @@ public class SubkledditSubscribeSystemTest {
     String subkledditName = "Pictures";
     SubscriptionForm form = new SubscriptionForm(subkledditName, SubscriptionType.UNSUBSCRIBE);
 
-    Response response = client.post(form, subscribe);
+    Response response = post(form);
 
     assertResponseIsBadRequest(response);
   }
@@ -127,62 +102,48 @@ public class SubkledditSubscribeSystemTest {
     String username = "USER_10";
     login(username);
 
-    client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
-    client.post(new SubscriptionForm("Gifs", SubscriptionType.SUBSCRIBE), subscribe);
-    client.post(new SubscriptionForm("Porn", SubscriptionType.SUBSCRIBE), subscribe);
-    client.post(new SubscriptionForm("Pictures", SubscriptionType.SUBSCRIBE), subscribe);
-    client.post(new SubscriptionForm("News", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
+    post(new SubscriptionForm("Gifs", SubscriptionType.SUBSCRIBE));
+    post(new SubscriptionForm("Porn", SubscriptionType.SUBSCRIBE));
+    post(new SubscriptionForm("Pictures", SubscriptionType.SUBSCRIBE));
+    post(new SubscriptionForm("News", SubscriptionType.SUBSCRIBE));
 
-    Response response = client.get(userSubscriptions + username);
-    List<SubkledditSimpleDto> subkleddits = getSubkleddits(response);
+    List<SubkledditSimpleDto> subkleddits = getSubscriptions(username);
     assertEquals(5, subkleddits.size());
   }
 
   @Test
   public void testGetNumberOfSubscriptions() throws Exception {
     login("USER_25");
-    client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
     login("USER_26");
-    client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
     login("USER_27");
-    client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
     login("USER_28");
-    client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
 
-    Response response = client.getPlainText(subkledditSubscriptions + "General");
-    long subscriberCount = response.readEntity(Long.class);
-    assertEquals(4, subscriberCount);
+    assertEquals(4, getSubscribedCount("GENERAL"));
   }
 
   @Test
   public void testSubscribeCaseInsensitive() throws Exception {
     login("USER_30");
-    client.post(new SubscriptionForm("GeNeRaL", SubscriptionType.SUBSCRIBE), subscribe);
+    post(new SubscriptionForm("GeNeRaL", SubscriptionType.SUBSCRIBE));
 
-    Response response = client.getPlainText(subkledditSubscriptions + "General");
-    long subscriberCount = response.readEntity(Long.class);
-    assertEquals(1, subscriberCount);
+    assertEquals(1, getSubscribedCount("General"));
   }
 
   @Test
   public void testSubscribeUnauthorized() throws Exception {
-    Response response = client.post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE), subscribe);
+    Response response = post(new SubscriptionForm("General", SubscriptionType.SUBSCRIBE));
     assertResponseIsUnauthorized(response);
   }
 
   @Test
   public void testUnsubscribeUnauthorized() throws Exception {
-    Response response = client.post(new SubscriptionForm("General", SubscriptionType.UNSUBSCRIBE), subscribe);
+    Response response = post(new SubscriptionForm("General", SubscriptionType.UNSUBSCRIBE));
     assertResponseIsUnauthorized(response);
-  }
-
-  private void login(String username) {
-    authHelper.login(username);
-    client.setToken(authHelper.getToken(username));
-  }
-
-  private List<SubkledditSimpleDto> getSubkleddits(Response response) {
-    return JsonUtils.jsonToList(response.readEntity(String.class), SubkledditSimpleDto.class);
   }
 
 }

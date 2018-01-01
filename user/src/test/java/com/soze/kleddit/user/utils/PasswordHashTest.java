@@ -82,7 +82,7 @@ public class PasswordHashTest {
     int hashCount = 5;
 
     Set<String> hashes = new HashSet<>();
-    for(int i = 0; i < hashCount; i++) {
+    for (int i = 0; i < hashCount; i++) {
       hashes.add(passwordHash.hashWithSalt(password));
     }
 
@@ -95,7 +95,7 @@ public class PasswordHashTest {
     int hashCount = 5;
 
     Set<String> hashes = new HashSet<>();
-    for(int i = 0; i < hashCount; i++) {
+    for (int i = 0; i < hashCount; i++) {
       hashes.add(passwordHash.hashWithSalt(password));
     }
 

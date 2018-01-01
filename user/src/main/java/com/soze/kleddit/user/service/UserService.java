@@ -22,6 +22,7 @@ public interface UserService {
    * Username case is ignored.
    * Must clear password field from RegisterUserForm using the reset() method.
    * Username cannot be longer than 25 characters.
+   *
    * @throws UserRegistrationException if there is a problem with the registration
    */
   void addUser(RegisterUserForm userForm);

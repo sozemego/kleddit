@@ -61,13 +61,13 @@ public class UserApi {
 
     Optional<User> userOptional = userService.getUserByUsername(username);
 
-    if(!userOptional.isPresent()) {
+    if (!userOptional.isPresent()) {
       ErrorResponse errorResponse = new ErrorResponse(404, "User does not exist.");
       errorResponse.addData("username", username);
       return Response.status(404).entity(errorResponse).build();
     }
 
-    return Response.ok(new SimpleUserDto(userOptional.get().getUsername())).build() ;
+    return Response.ok(new SimpleUserDto(userOptional.get().getUsername())).build();
   }
 
   @Authenticated

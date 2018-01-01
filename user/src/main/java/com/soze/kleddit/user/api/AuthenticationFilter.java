@@ -28,13 +28,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
     String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-    if(!isTokenBasedAuthentication(authorizationHeader)) {
+    if (!isTokenBasedAuthentication(authorizationHeader)) {
       unauthorized(requestContext);
       return;
     }
 
     String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
-    if(!authService.validateToken(token)) {
+    if (!authService.validateToken(token)) {
       unauthorized(requestContext);
       return;
     }
@@ -42,7 +42,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     String username = authService.getUsernameClaim(token);
 
     SecurityContext securityContext = requestContext.getSecurityContext();
-    requestContext.setSecurityContext(new SecurityContext() {
+    requestContext.setSecurityContext(new SecurityContext() {//TODO own class implementing this
       @Override
       public Principal getUserPrincipal() {
         return () -> username;

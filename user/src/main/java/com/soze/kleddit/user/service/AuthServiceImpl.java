@@ -90,14 +90,14 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private DecodedJWT decodeToken(String token) {
-      return JWT.require(algorithm).build().verify(token);
+    return JWT.require(algorithm).build().verify(token);
   }
 
   @Override
   public String getUsernameClaim(String token) {
     DecodedJWT decodedJWT = decodeToken(token);
     Claim claim = decodedJWT.getClaim(USER_NAME_CLAIM);
-    if(claim.isNull()) {
+    if (claim.isNull()) {
       //TODO make own exception
       throw new IllegalArgumentException("NO USERNAME CLAIM");
     }

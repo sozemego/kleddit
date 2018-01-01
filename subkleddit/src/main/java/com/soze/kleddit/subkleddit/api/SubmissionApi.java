@@ -111,13 +111,6 @@ public class SubmissionApi {
   private SubmissionSimpleDto convertSubmission(Submission submission) {
     Objects.requireNonNull(submission);
 
-    boolean own = false;
-
-    if(securityContext.getUserPrincipal() != null) {
-      String username = securityContext.getUserPrincipal().getName();
-      own = username.equals(submission.getAuthor().getUsername());
-    }
-
     return new SubmissionSimpleDto(
       submission.getSubmissionId().toString(),
       submission.getAuthor().getNuked() ? "[DELETED]" : submission.getAuthor().getUsername(),
@@ -125,7 +118,6 @@ public class SubmissionApi {
       submission.getTitle(),
       submission.getContent(),
       submission.getSubkleddit().getName(),
-      own,
       submission.getReplyCount()
     );
   }

@@ -39,12 +39,24 @@ public class SubkledditTest extends HttpClient {
   private static final String SUBKLEDDIT_API_VERSION = "SUBKLEDDIT_API_VERSION";
   private static final String LOGIN = "LOGIN";
   private static final String REGISTER = "REGISTER";
+  private static final String SUBKLEDDIT_GET_ALL = "SUBKLEDDIT_GET_ALL";
+  private static final String SUBKLEDDIT_GET_SINGLE = "SUBKLEDDIT_GET_SINGLE";
+  private static final String SUBKLEDDIT_SEARCH_BY_NAME = "SUBKLEDDIT_SEARCH_BY_NAME";
   private static final String SUBKLEDDIT_SUBSCRIBE = "SUBKLEDDIT_SUBSCRIBE";
   private static final String SUBKLEDDIT_POST_SUBMISSION = "SUBKLEDDIT_POST_SUBMISSION";
+  private static final String SUBKLEDDIT_GET_SUBSCRIBED = "SUBKLEDDIT_GET_SUBSCRIBED";
+  private static final String SUBKLEDDIT_SUBSCRIBER_COUNT = "SUBKLEDDIT_SUBSCRIBER_COUNT";
+  private static final String SUBMISSION_GET_SINGLE = "SUBMISSION_GET_SINGLE";
   private static final String SUBMISSION_POST_REPLY = "SUBMISSION_POST_REPLY";
   private static final String SUBMISSION_DELETE_REPLY = "SUBMISSION_DELETE_REPLY";
+  private static final String SUBMISSION_DELETE = "SUBMISSION_DELETE";
   private static final String SUBMISSION_GET_REPLIES = "SUBMISSION_GET_REPLIES";
+  private static final String SUBMISSION_GET_BY_SUBKLEDDIT = "SUBMISSION_GET_BY_SUBKLEDDIT";
 
+
+  /**
+   * Default values for properties.
+   */
   private static final String DEFAULT_BASE = "http://localhost";
   private static final String DEFAULT_PORT = "8180";
   private static final String DEFAULT_USER_API_VERSION = "/api/0.1";
@@ -53,12 +65,20 @@ public class SubkledditTest extends HttpClient {
   private static final String DEFAULT_SUBKLEDDIT_BASE = DEFAULT_SUBKLEDDIT_API_VERSION + "/subkleddit";
   private static final String DEFAULT_LOGIN = DEFAULT_USER_BASE + "/auth/login";
   private static final String DEFAULT_REGISTER = DEFAULT_USER_BASE + "/register";
+  private static final String DEFAULT_SUBKLEDDIT_GET_ALL = DEFAULT_SUBKLEDDIT_BASE + "/all";
+  private static final String DEFAULT_SUBKLEDDIT_GET_SINGLE = DEFAULT_SUBKLEDDIT_BASE + "/single";
+  private static final String DEFAULT_SUBKLEDDIT_SEARCH_BY_NAME = DEFAULT_SUBKLEDDIT_BASE + "/search";
   private static final String DEFAULT_SUBKLEDDIT_SUBSCRIBE = DEFAULT_SUBKLEDDIT_BASE + "/subscription/subscribe";
   private static final String DEFAULT_SUBKLEDDIT_POST_SUBMISSION = DEFAULT_SUBKLEDDIT_BASE + "/submission/submit";
+  private static final String DEFAULT_SUBKLEDDIT_GET_SUBSCRIBED = DEFAULT_SUBKLEDDIT_BASE + "/subscription/user/subkleddits";
+  private static final String DEFAULT_SUBKLEDDIT_SUBSCRIBER_COUNT = DEFAULT_SUBKLEDDIT_BASE + "/subscription/subkleddit/subscriptions";
 
+  private static final String DEFAULT_SUBMISSION_GET_SINGLE = DEFAULT_SUBKLEDDIT_BASE + "/submission/single";
   private static final String DEFAULT_SUBMISSION_POST_REPLY = DEFAULT_SUBKLEDDIT_BASE + "/submission/reply";
   private static final String DEFAULT_SUBMISSION_DELETE_REPLY = DEFAULT_SUBKLEDDIT_BASE + "/submission/reply";
+  private static final String DEFAULT_SUBMISSION_DELETE = DEFAULT_SUBKLEDDIT_BASE + "/submission/delete";
   private static final String DEFAULT_SUBMISSION_GET_REPLIES = DEFAULT_SUBKLEDDIT_BASE + "/submission/reply";
+  private static final String DEFAULT_SUBMISSION_GET_BY_SUBKLEDDIT = DEFAULT_SUBKLEDDIT_BASE + "/submission/subkleddit";
 
   private final Map<String, String> properties = getDefaultProperties();
 
@@ -118,24 +138,89 @@ public class SubkledditTest extends HttpClient {
     return submissionDto.getSubmissionId();
   }
 
+  protected Response post(SubmissionForm form) {
+    return post(form, getPath(SUBKLEDDIT_POST_SUBMISSION));
+  }
+
   protected Response post(SubmissionReplyForm form) {
     return post(form, getPath(SUBMISSION_POST_REPLY));
+  }
+
+  protected Response post(SubscriptionForm form) {
+    return post(form, getPath(SUBKLEDDIT_SUBSCRIBE));
   }
 
   protected Response deleteReply(String replyId) {
     return delete(getPath(SUBMISSION_DELETE_REPLY) + "/" + replyId);
   }
 
+  protected Response deleteSubmission(String submissionId) {
+    return delete(getPath(SUBMISSION_DELETE) + "/" + submissionId);
+  }
+
+  protected List<SubkledditSimpleDto> getSubscriptions(String username) {
+    Objects.requireNonNull(username);
+    return getSubkleddits(get(getPath(SUBKLEDDIT_GET_SUBSCRIBED) + "/" + username));
+  }
+
+  protected long getSubscribedCount(String subkledditName) {
+    return readLong(getPlainText(getPath(SUBKLEDDIT_SUBSCRIBER_COUNT) + "/" + subkledditName));
+  }
+
+  protected List<SubmissionSimpleDto> getSubmissionsForSubkleddit(String subkledditName) {
+    return getSubmissions(get(getPath(SUBMISSION_GET_BY_SUBKLEDDIT) + "/" + subkledditName));
+  }
+
   protected List<SubmissionReplyDto> getReplies(String submissionId) {
     return getReplies(get(getPath(SUBMISSION_GET_REPLIES) + "/" + submissionId));
   }
 
-  private List<SubmissionReplyDto> getReplies(Response response) {
+  protected List<SubmissionReplyDto> getReplies(Response response) {
     return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionReplyDto.class);
+  }
+
+  protected List<SubkledditSimpleDto> getSubkleddits(Response response) {
+    return JsonUtils.jsonToList(response.readEntity(String.class), SubkledditSimpleDto.class);
+  }
+
+  protected List<SubkledditSimpleDto> getAllSubkleddits() {
+    return getSubkleddits(get(getPath(SUBKLEDDIT_GET_ALL)));
+  }
+
+  protected SubkledditSimpleDto getSubkledditByName(String subkledditName) {
+    return getSubkledditDto(get(getPath(SUBKLEDDIT_GET_SINGLE) + "/" + subkledditName));
+  }
+
+  protected Response getSubkledditByNameResponse(String subkledditName) {
+    return get(getPath(SUBKLEDDIT_GET_SINGLE) + "/" + subkledditName);
+  }
+
+  protected List<SubkledditSimpleDto> searchSubkledditsByName(String subkledditName) {
+    return getSubkleddits(get(getPath(SUBKLEDDIT_SEARCH_BY_NAME) + "/" + subkledditName));
+  }
+
+  protected SubmissionSimpleDto getSubmissionById(String submissionId) {
+    return getSubmission(get(getPath(SUBMISSION_GET_SINGLE) + "/" + submissionId));
+  }
+
+  protected SubkledditSimpleDto getSubkledditDto(Response response) {
+    return JsonUtils.jsonToObject(response.readEntity(String.class), SubkledditSimpleDto.class);
+  }
+
+  protected List<SubmissionSimpleDto> getSubmissions(Response response) {
+    return JsonUtils.jsonToList(response.readEntity(String.class), SubmissionSimpleDto.class);
+  }
+
+  protected SubmissionSimpleDto getSubmission(Response response) {
+    return JsonUtils.jsonToObject(response.readEntity(String.class), SubmissionSimpleDto.class);
   }
 
   private String getPath(String name) {
     return properties.get(name);
+  }
+
+  private long readLong(Response response) {
+    return response.readEntity(Long.class);
   }
 
   private static Map<String, String> getDefaultProperties() {
@@ -150,9 +235,17 @@ public class SubkledditTest extends HttpClient {
     properties.put(SUBKLEDDIT_BASE, DEFAULT_SUBKLEDDIT_BASE);
     properties.put(SUBKLEDDIT_SUBSCRIBE, DEFAULT_SUBKLEDDIT_SUBSCRIBE);
     properties.put(SUBKLEDDIT_POST_SUBMISSION, DEFAULT_SUBKLEDDIT_POST_SUBMISSION);
+    properties.put(SUBKLEDDIT_GET_SUBSCRIBED, DEFAULT_SUBKLEDDIT_GET_SUBSCRIBED);
+    properties.put(SUBKLEDDIT_SUBSCRIBER_COUNT, DEFAULT_SUBKLEDDIT_SUBSCRIBER_COUNT);
+    properties.put(SUBKLEDDIT_GET_ALL, DEFAULT_SUBKLEDDIT_GET_ALL);
+    properties.put(SUBKLEDDIT_GET_SINGLE, DEFAULT_SUBKLEDDIT_GET_SINGLE);
+    properties.put(SUBKLEDDIT_SEARCH_BY_NAME, DEFAULT_SUBKLEDDIT_SEARCH_BY_NAME);
+    properties.put(SUBMISSION_GET_SINGLE, DEFAULT_SUBMISSION_GET_SINGLE);
     properties.put(SUBMISSION_POST_REPLY, DEFAULT_SUBMISSION_POST_REPLY);
     properties.put(SUBMISSION_DELETE_REPLY, DEFAULT_SUBMISSION_DELETE_REPLY);
+    properties.put(SUBMISSION_DELETE, DEFAULT_SUBMISSION_DELETE);
     properties.put(SUBMISSION_GET_REPLIES, DEFAULT_SUBMISSION_GET_REPLIES);
+    properties.put(SUBMISSION_GET_BY_SUBKLEDDIT, DEFAULT_SUBMISSION_GET_BY_SUBKLEDDIT);
     return properties;
   }
 

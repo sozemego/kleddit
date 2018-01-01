@@ -17,9 +17,6 @@ import static org.junit.Assert.assertEquals;
 
 public class ReplySystemTest extends SubkledditTest {
 
-  private final String base = "/subkleddit";
-  private final String submissionReplies = base + "submission/reply/";
-
   @Before
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();

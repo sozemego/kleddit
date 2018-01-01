@@ -53,4 +53,8 @@
 
     </dependencies>
 
+    <build>
+        <finalName>user</finalName>
+    </build>
+
 </project>

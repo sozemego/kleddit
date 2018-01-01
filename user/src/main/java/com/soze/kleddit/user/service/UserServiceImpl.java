@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
       throw new UserRegistrationException("password", "Password cannot be longer than " + MAX_PASSWORD_LENGTH);
     }
 
-    if(userRepository.usernameExists(username)) {
+    if (userRepository.usernameExists(username)) {
       LOG.info("Username [{}] already exists!", username);
       throw new UserRegistrationException("username", username + " already exists.");
     }
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
       throw new UserRegistrationException("username", "Username can only contain letters, numbers, '-' and '_'");
     }
 
-    if(username.length() > MAX_USERNAME_LENGTH) {
+    if (username.length() > MAX_USERNAME_LENGTH) {
       LOG.info("Username [{}] was too long!", username);
       throw new UserRegistrationException("username", "Username cannot be longer than " + MAX_USERNAME_LENGTH);
     }
