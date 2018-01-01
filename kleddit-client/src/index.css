@@ -8,6 +8,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    font-size: 0.9em !important;
     width: 100%;
     position: relative;
     /*height: 100%;*/
