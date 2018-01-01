@@ -7,7 +7,7 @@ import { getReplyCountForSubmission } from '../../submissions/selectors';
 import { getMaxRepliesShown } from '../selectors';
 
 export const MainPageMoreReplies = ({ replyCount, maxRepliesShown, ...other }) => {
-  if (replyCount < maxRepliesShown) return null;
+  if (replyCount <= maxRepliesShown) return null;
 
   return <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} {...other}>
     <NavigationArrowForward/>

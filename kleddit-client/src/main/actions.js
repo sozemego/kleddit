@@ -8,15 +8,7 @@ import { deleteSubmissionsBySubkleddit, getReplies } from '../submissions/action
 import { SubkledditService as subkledditService } from '../subkleddit/SubkledditService';
 import { getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, isFetchingNextPage } from './selectors';
 import { getSubmissions } from '../submissions/selectors';
-
-export const FETCHING = 'FETCHING';
-export const fetching = makeActionCreator(FETCHING);
-
-export const STOP_FETCHING = 'STOP_FETCHING';
-export const stopFetching = makeActionCreator(STOP_FETCHING);
-
-export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
-export const setErrorMessage = makeActionCreator(SET_ERROR_MESSAGE, 'error');
+import { setErrorMessage } from '../app/actions';
 
 export const SET_SUBKLEDDITS = 'SET_SUBKLEDDITS';
 const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');

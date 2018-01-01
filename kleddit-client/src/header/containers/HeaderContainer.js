@@ -5,10 +5,10 @@ import { isLoggedIn } from '../../user/state/selectors';
 import * as userActions from '../../user/state/actions';
 import * as headerActions from '../actions';
 import { RaisedButton } from 'material-ui';
-import { isFetching } from '../../main/selectors';
 
 import '../../index.css';
 import { Header } from '../components/Header';
+import { isFetching } from '../../app/selectors';
 
 class HeaderContainer extends Component {
 

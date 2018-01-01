@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import HeaderContainer from '../header/containers/HeaderContainer';
 import ErrorDisplay from '../app/containers/ErrorDisplay';
-import { isFetching } from '../main/selectors';
 import RegisterUserContainer from '../user/register/RegisterUserContainer';
 import ProfileContainer from '../user/profile/ProfileContainer';
 import LoginFormContainer from '../user/login/LoginFormContainer';
@@ -12,7 +10,7 @@ import MainPageContainer from '../main/containers/MainPageContainer';
 
 import './kleddit.css';
 
-class Kleddit extends Component {
+export class Kleddit extends Component {
 
   render() {
     return (
@@ -32,11 +30,3 @@ class Kleddit extends Component {
   }
 
 }
-
-const mapStateToProps = (state) => {
-  return {
-    isFetching: isFetching(state),
-  };
-};
-
-export default connect(mapStateToProps, null)(Kleddit);

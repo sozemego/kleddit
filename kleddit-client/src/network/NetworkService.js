@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from '../state/init';
-import { fetching, stopFetching } from '../main/actions';
 import { networkConfig } from '../config/network';
+import { fetching, stopFetching } from '../app/actions';
 
 const fetch = () => store.dispatch(fetching());
 

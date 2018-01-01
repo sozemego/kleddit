@@ -8,8 +8,6 @@ const emptySubmissionErrors = {
 };
 
 const initialState = {
-  fetchingActions: 0,
-  errorMessage: '',
   page: 1,
   perPage: 15,
   subkleddits: [],
@@ -17,20 +15,6 @@ const initialState = {
   showingReplies: {},
   maxRepliesShown: 15,
   isFetchingNextPage: false,
-};
-
-const fetching = (state, action) => {
-  let fetchingActions = state.fetchingActions;
-  return { ...state, fetchingActions: ++fetchingActions };
-};
-
-const stopFetching = (state, action) => {
-  let fetchingActions = state.fetchingActions;
-  return { ...state, fetchingActions: --fetchingActions };
-};
-
-const setErrorMessage = (state, action) => {
-  return { ...state, errorMessage: action.error };
 };
 
 const setPage = (state, action) => {
@@ -72,9 +56,6 @@ const clearReplyState = (state, action) => {
 };
 
 const main = createReducer(initialState, {
-  [MAIN_ACTIONS.FETCHING]: fetching,
-  [MAIN_ACTIONS.STOP_FETCHING]: stopFetching,
-  [MAIN_ACTIONS.SET_ERROR_MESSAGE]: setErrorMessage,
   [MAIN_ACTIONS.INCREMENT_PAGE]: incrementPage,
   [MAIN_ACTIONS.SET_PAGE]: setPage,
   [MAIN_ACTIONS.FETCHING_NEXT_PAGE]: fetchingNextPage,

@@ -6,7 +6,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { store } from '../state/init';
-import Kleddit from '../kleddit/Kleddit';
+import { Kleddit } from '../kleddit/Kleddit';
 
 const theme = getMuiTheme(darkBaseTheme);
 

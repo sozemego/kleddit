@@ -2,10 +2,6 @@ import { rootSelector } from '../state/utils';
 
 export const mainPageRoot = rootSelector('main');
 
-export const isFetching = state => mainPageRoot(state).fetchingActions > 0;
-
-export const getErrorMessage = state => mainPageRoot(state).errorMessage;
-
 export const getSubkleddits = (state) => mainPageRoot(state).subkleddits;
 export const isFetchingNextPage = (state) => mainPageRoot(state).fetchingNextPage;
 export const getCurrentPage = (state) => mainPageRoot(state).page;

@@ -1,10 +1,11 @@
 import _ from 'lodash';
 
 import { makeActionCreator } from '../state/utils';
-import { setErrorMessage, setSubmissionErrors } from '../main/actions';
+import { setSubmissionErrors } from '../main/actions';
 import { SubmissionService as submissionService } from './SubmissionService';
 import { isPostingReply } from './selectors';
 import { getUsername } from '../user/state/selectors';
+import { setErrorMessage } from '../app/actions';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
