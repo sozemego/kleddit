@@ -119,7 +119,14 @@ export class MainPageSubmissionReplies extends Component {
     }
 
     return <div
-      style={{ backgroundColor: 'rgb(54, 54, 54)', padding: '4px', marginLeft: '6px', marginTop: '-3px', width: '90%' }}
+      style={{
+        backgroundColor: 'rgb(54, 54, 54)',
+        padding: '4px',
+        marginLeft: '6px',
+        marginTop: '-4px',
+        width: '90%',
+        borderTop: '1px dotted black',
+      }}
       key={2}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <TextField
