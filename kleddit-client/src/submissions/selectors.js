@@ -9,7 +9,7 @@ export const getReplies = (state) => submissionsRoot(state).replies;
 export const getLoadingReplies = (state) => submissionsRoot(state).loadingReplies;
 export const getReplyCounts = (state) => submissionsRoot(state).replyCounts;
 export const isPostingReply = (state) => submissionsRoot(state).isPostingReply;
-export const getCurrentSubmissionId = (state) => submissionsRoot(state).currentSubmissionId;
+export const getCurrentSubmission = (state) => submissionsRoot(state).currentSubmission;
 
 export const getSubmissionById = (state, submissionId) => {
   return getSubmissionMap(state)[submissionId];
@@ -47,9 +47,3 @@ export const getSubmissions = createSelector(
     return Object.values(submissionMap).sort((a, b) => b.createdAt - a.createdAt);
   },
 );
-
-export const getCurrentSubmission = (state) => {
-  const submissionId = getCurrentSubmissionId(state);
-  const submissionMap = getSubmissionMap(state);
-  return submissionMap[submissionId];
-};

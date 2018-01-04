@@ -4,8 +4,9 @@ import moment from 'moment';
 import { Divider, Paper } from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import './submission.css';
 import ReplyCount from '../../../submissions/components/ReplyCount';
+import { StylelessLink } from '../../../app/components/StylelessLink';
+import './submission.css';
 
 const iconColor = '#424255';
 
@@ -91,7 +92,9 @@ export class MainPageSubmission extends Component {
         </div>
       </div>
       <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
-      <ReplyCount submissionId={submissionId} style={{ fontSize: '0.85em', padding: '2px 0 2px 0' }}/>
+      <StylelessLink to={`/submission/${submissionId}`}>
+        <ReplyCount submissionId={submissionId} style={{ fontSize: '0.85em', padding: '2px 0 2px 0' }}/>
+      </StylelessLink>
       <Divider/>
       <Paper className="submission-content" zDepth={1}>{content}</Paper>
     </Paper>;

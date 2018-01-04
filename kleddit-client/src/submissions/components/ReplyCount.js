@@ -8,7 +8,7 @@ const getReplyCountText = (replyCount) => {
 };
 
 export const ReplyCount = ({ replyCount, ...other }) => {
-  return <div {...other}>{getReplyCountText(replyCount)}</div>;
+  return <span {...other}>{getReplyCountText(replyCount)}</span>;
 };
 
 ReplyCount.propTypes = {

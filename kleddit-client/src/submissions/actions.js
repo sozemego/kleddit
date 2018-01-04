@@ -37,8 +37,8 @@ export const incrementReplyCount = makeActionCreator(INCREMENT_REPLY_COUNT, 'sub
 export const SET_IS_POSTING_REPLY = 'SET_IS_POSTING_REPLY';
 export const setIsPostingReply = makeActionCreator(SET_IS_POSTING_REPLY, 'bool');
 
-export const SET_CURRENT_SUBMISSION_ID = 'SET_CURRENT_SUBMISSION_ID';
-export const _setCurrentSubmissionId = makeActionCreator(SET_CURRENT_SUBMISSION_ID, 'submissionId');
+export const SET_CURRENT_SUBMISSION = 'SET_CURRENT_SUBMISSION';
+export const setCurrentSubmission = makeActionCreator(SET_CURRENT_SUBMISSION, 'submission');
 
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
@@ -167,10 +167,13 @@ export const postReply = (submissionId, content) => {
   };
 };
 
-export const setCurrentSubmissionId = (submissionId) => {
+export const fetchCurrentSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
-
+    return submissionService.getSubmissionById(submissionId)
+      .then(submission => {
+        dispatch(setCurrentSubmission(submission));
+      });
 
   };
 };

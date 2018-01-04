@@ -6,7 +6,7 @@ const base = '/subkleddit';
 const submitPath = `${base}/submission/submit`;
 const subscribedToSubkleddits = `${base}/submission/subscribed`;
 const deleteSubmission = `${base}/submission/delete`;
-
+const single = `${base}/submission/single`;
 const reply = '/submission/reply';
 const getReplies = `${base}${reply}`;
 const postReply = `${base}${reply}`;
@@ -19,6 +19,10 @@ SubmissionService.submit = function (subkledditName, title, content) {
     title,
     content,
   });
+};
+
+SubmissionService.getSubmissionById = function(submissionId) {
+  return networkService.get(`${single}/${submissionId}`);
 };
 
 SubmissionService.getSubmissionsForSubscribedSubkleddits = function (page = 1, limit = 15) {
