@@ -30,6 +30,7 @@ export const navigateToMain = () => {
   return (dispatch, getState) => {
 
     navigationService.mainPage();
+    navigationService.refresh();
 
   };
 };
