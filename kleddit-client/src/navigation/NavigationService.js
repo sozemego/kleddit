@@ -27,4 +27,8 @@ export const NavigationService = {
     navigate('/');
   },
 
+  refresh: () => {
+    window.location.reload();
+  }
+
 };
