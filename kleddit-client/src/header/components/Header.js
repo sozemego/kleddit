@@ -9,13 +9,14 @@ export const Header = (props) => {
     navigateToMain,
     isFetching,
     buttons,
+    leftButtons
   } = props;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', borderBottom: '1px solid white' }}>
       <div className="header-container">
-        <div className="header-section header-invisible">
-          A
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "33.33%"}}>
+          {leftButtons}
         </div>
         <div className="header-section header-app-name">
           <div className="link" onClick={navigateToMain}>KLEDDIT</div>
@@ -31,6 +32,9 @@ Header.propTypes = {
   navigateToMain: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   buttons: PropTypes.node.isRequired,
+  leftButtons: PropTypes.node,
 };
 
-Header.defaultProps = {};
+Header.defaultProps = {
+  leftButtons: ""
+};

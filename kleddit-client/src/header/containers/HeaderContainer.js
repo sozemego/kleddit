@@ -9,6 +9,7 @@ import { RaisedButton } from 'material-ui';
 import '../../index.css';
 import { Header } from '../components/Header';
 import { isFetching } from '../../app/selectors';
+import { getCurrentSubmission } from '../../submissions/selectors';
 
 class HeaderContainer extends Component {
 
@@ -66,6 +67,29 @@ class HeaderContainer extends Component {
     return buttons;
   };
 
+  getLeftButtons = () => {
+
+    const buttons = [];
+
+    const {
+      submission,
+      navigateToMain
+    } = this.props;
+
+    if(submission) {
+      buttons.push(
+        <RaisedButton onClick={navigateToMain}
+                      key={1}
+                      primary={true}
+                      style={{fontSize: "0.8em"}}
+                      label="Back to main page"
+        />
+      )
+    }
+
+    return buttons;
+  };
+
   render() {
     const {
       navigateToMain,
@@ -74,10 +98,12 @@ class HeaderContainer extends Component {
 
     const {
       getButtons,
+      getLeftButtons,
     } = this;
 
     return (
       <Header buttons={getButtons()}
+              leftButtons={getLeftButtons()}
               isFetching={isFetching}
               navigateToMain={navigateToMain}
       />
@@ -90,6 +116,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: isLoggedIn(state),
     isFetching: isFetching(state),
+    submission: getCurrentSubmission(state),
   };
 };
 
