@@ -11,7 +11,7 @@ const replyContainer = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'flex-start',
-  padding: '1px',
+  padding: '2px',
   borderRadius: '4px',
 };
 

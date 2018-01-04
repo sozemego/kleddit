@@ -170,10 +170,12 @@ export const postReply = (submissionId, content) => {
 export const fetchCurrentSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
-    return submissionService.getSubmissionById(submissionId)
-      .then(submission => {
+    return Promise.all([
+        submissionService.getSubmissionById(submissionId),
+        dispatch(getReplies(submissionId, 1, 50)),
+      ])
+      .then(([submission]) => {
         dispatch(setCurrentSubmission(submission));
       });
-
   };
 };

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as submissionActions from '../actions';
-import { getCurrentSubmission } from '../selectors';
+import { getCurrentSubmission, getCurrentSubmissionReplies } from '../selectors';
 import { Submission } from '../components/submission/Submission';
 import { SubmissionNotFound } from '../components/submission/SubmissionNotFound';
 
@@ -15,14 +15,14 @@ export class SubmissionContainer extends Component {
   }
 
   render() {
-    const { submission } = this.props;
+    const { submission, replies, onReplySubmit } = this.props;
 
     if(!submission) {
       return <SubmissionNotFound />;
     }
 
     return (
-      <Submission />
+      <Submission submission={submission} replies={replies} onReplySubmit={onReplySubmit}/>
     );
   }
 
@@ -32,14 +32,30 @@ SubmissionContainer.propTypes = {
   fetchCurrentSubmission: PropTypes.func.isRequired,
   submission: PropTypes.shape({
     submissionId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    createdAt: PropTypes.number.isRequired,
+    replyCount: PropTypes.number.isRequired,
   }),
+  replies: PropTypes.arrayOf(
+    PropTypes.shape({
+      replyId: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
+      createdAt: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
-SubmissionContainer.defaultProps = {};
+SubmissionContainer.defaultProps = {
+
+};
 
 const mapStateToProps = (state) => {
   return {
-    submission: getCurrentSubmission(state)
+    submission: getCurrentSubmission(state),
+    replies: getCurrentSubmissionReplies(state),
   }
 };
 

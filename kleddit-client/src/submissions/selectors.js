@@ -27,6 +27,14 @@ export const getReplyCountForSubmission = (state, submissionId) => {
   return getReplyCounts(state)[submissionId] || 0;
 };
 
+export const getCurrentSubmissionReplies = createSelector(
+  getCurrentSubmission, getReplies,
+  (submission, replies) => {
+    if(!submission) return [];
+    return replies[submission.submissionId] || [];
+  }
+);
+
 export const makeGetRepliesForMainPageSubmission = () => {
   return createSelector(
     [getRepliesForSubmission, getMaxRepliesShown],
