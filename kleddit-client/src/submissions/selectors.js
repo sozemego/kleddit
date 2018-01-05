@@ -11,6 +11,10 @@ export const getReplyCounts = (state) => submissionsRoot(state).replyCounts;
 export const isPostingReply = (state) => submissionsRoot(state).isPostingReply;
 export const getCurrentSubmission = (state) => submissionsRoot(state).currentSubmission;
 
+export const isFetchingNextReplyPage = (state) => submissionsRoot(state).isFetchingNextReplyPage;
+export const getCurrentReplyPage = (state) => submissionsRoot(state).currentSubmissionReplyPage;
+export const getRepliesPerPage = (state) => submissionsRoot(state).repliesPerPage;
+
 export const getSubmissionById = (state, submissionId) => {
   return getSubmissionMap(state)[submissionId];
 };

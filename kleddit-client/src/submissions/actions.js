@@ -3,9 +3,13 @@ import _ from 'lodash';
 import { makeActionCreator } from '../state/utils';
 import { setSubmissionErrors } from '../main/actions';
 import { SubmissionService as submissionService } from './SubmissionService';
-import { isPostingReply } from './selectors';
+import {
+  getCurrentReplyPage, getCurrentSubmission, getRepliesPerPage, getSubmissions, isFetchingNextReplyPage,
+  isPostingReply,
+} from './selectors';
 import { getUsername } from '../user/state/selectors';
 import { setErrorMessage } from '../app/actions';
+import { getCurrentPage, getCurrentPerPage, isFetchingNextPage } from '../main/selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -39,6 +43,15 @@ export const setIsPostingReply = makeActionCreator(SET_IS_POSTING_REPLY, 'bool')
 
 export const SET_CURRENT_SUBMISSION = 'SET_CURRENT_SUBMISSION';
 export const setCurrentSubmission = makeActionCreator(SET_CURRENT_SUBMISSION, 'submission');
+
+export const INCREMENT_REPLY_PAGE = 'INCREMENT_REPLY_PAGE';
+export const incrementReplyPage = makeActionCreator(INCREMENT_REPLY_PAGE);
+
+export const SET_REPLY_PAGE = 'SET_REPLY_PAGE';
+export const setReplyPage = makeActionCreator(SET_REPLY_PAGE, 'page');
+
+export const FETCHING_NEXT_REPLY_PAGE = 'FETCHING_NEXT_REPLY_PAGE';
+export const fetchingNextReplyPage = makeActionCreator(FETCHING_NEXT_REPLY_PAGE, 'bool');
 
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
@@ -170,12 +183,40 @@ export const postReply = (submissionId, content) => {
 export const fetchCurrentSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
+    dispatch(fetchingNextReplyPage(true));
+    dispatch(setReplyPage(1));
+
     return Promise.all([
         submissionService.getSubmissionById(submissionId),
-        dispatch(getReplies(submissionId, 1, 50)),
+        dispatch(getReplies(submissionId, 1, getRepliesPerPage(getState))),
       ])
       .then(([submission]) => {
         dispatch(setCurrentSubmission(submission));
+        dispatch(fetchingNextReplyPage(false));
       });
+  };
+};
+
+export const onScrollBottom = () => {
+  return (dispatch, getState) => {
+
+    if (isFetchingNextReplyPage(getState)) {
+      return Promise.resolve();
+    }
+
+    dispatch(incrementReplyPage());
+    dispatch(fetchingNextReplyPage(true));
+
+    const currentPage = getCurrentReplyPage(getState);
+    const currentPerPage = getRepliesPerPage(getState);
+    const currentSubmission = getCurrentSubmission(getState);
+
+    return dispatch(getReplies(currentSubmission.submissionId, currentPage, currentPerPage))
+      .then(() => dispatch(fetchingNextReplyPage(false)))
+      .catch((error) => {
+        dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
+        dispatch(fetchingNextReplyPage(false));
+      });
+
   };
 };

@@ -9,6 +9,9 @@ const initialState = {
   loadingReplies: {},
   isPostingReply: false,
   currentSubmission: null,
+  currentSubmissionReplyPage: 1,
+  repliesPerPage: 50,
+  isFetchingNextReplyPage: false,
 };
 
 const clearSubmissions = (state, action) => {
@@ -75,7 +78,20 @@ const setIsPostingReply = (state, action) => {
 };
 
 const setCurrentSubmission = (state, action) => {
-  return {...state, currentSubmission: action.submission};
+  return { ...state, currentSubmission: action.submission };
+};
+
+const incrementReplyPage = (state, action) => {
+  let currentSubmissionReplyPage = state.currentSubmissionReplyPage;
+  return { ...state, currentSubmissionReplyPage: ++currentSubmissionReplyPage };
+};
+
+const setReplyPage = (state, action) => {
+  return { ...state, currentSubmissionReplyPage: action.page };
+};
+
+const fetchingNextReplyPage = (state, action) => {
+  return { ...state, isFetchingNextReplyPage: action.bool };
 };
 
 const submissions = createReducer(initialState, {
@@ -89,6 +105,9 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.INCREMENT_REPLY_COUNT]: incrementReplyCount,
   [SUBMISSIONS_ACTIONS.SET_IS_POSTING_REPLY]: setIsPostingReply,
   [SUBMISSIONS_ACTIONS.SET_CURRENT_SUBMISSION]: setCurrentSubmission,
+  [SUBMISSIONS_ACTIONS.INCREMENT_REPLY_PAGE]: incrementReplyPage,
+  [SUBMISSIONS_ACTIONS.SET_REPLY_PAGE]: setReplyPage,
+  [SUBMISSIONS_ACTIONS.FETCHING_NEXT_REPLY_PAGE]: fetchingNextReplyPage,
 });
 
 export default submissions;
