@@ -5,7 +5,7 @@ import { Divider, Paper } from 'material-ui';
 import CommunicationChat from 'material-ui/svg-icons/communication/chat';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ReplyCount from '../../../submissions/components/ReplyCount';
-import { StylelessLink } from '../../../app/components/StylelessLink';
+import StylelessLink from '../../../app/components/StylelessLink';
 import './submission.css';
 
 const iconColor = '#424255';

@@ -14,6 +14,8 @@ export const StylelessLink = ({children, to, ...other}) => {
   </Link>
 };
 
+export default StylelessLink;
+
 StylelessLink.propTypes = {
   to: PropTypes.string.isRequired,
 };
