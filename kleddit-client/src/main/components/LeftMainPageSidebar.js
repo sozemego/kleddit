@@ -3,7 +3,64 @@ import PropTypes from 'prop-types';
 import { Divider, List, Subheader } from 'material-ui';
 import { SubscribeIcon } from './SubscribeIcon';
 
-import './left-main-page-sidebar.css';
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '186px',
+    height: '100%',
+    minHeight: 'calc(100vh - 67px)',
+    borderRight: '1px solid white',
+    borderRadius: '2px',
+    backgroundColor: 'rgba(37, 37, 37, 1)',
+    boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
+    overflow: 'hidden',
+  },
+  subkledditListDivider: {
+    width: '100%',
+  },
+  subkledditListElementContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '2px 4px',
+    height: '24px',
+  },
+  subkledditListElementSubscribersContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  subkledditListContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  mainPageSubkledditListHeaderContainer: {
+    display: 'flex',
+    width: '100%',
+    backgroundColor: 'black',
+    justifyContent: 'center',
+  },
+  mainPageSubkledditListTitle: {
+    padding: '6px 6px',
+    backgroundColor: 'black',
+  },
+  mainPageSubkledditListSubscribeIcon: {
+    opacity: '0.65',
+  },
+  mainPageSubkledditListSubscribeIconLoading: {
+    animationName: 'subscribe-icon-loading-animation',
+    animationDuration: '0.5s',
+    animationIterationCount: 'infinite',
+  },
+  mainPageSubkledditListSubscribeIconHover: {
+    opacity: '1',
+  },
+};
 
 export class LeftMainPageSidebar extends Component {
 
@@ -41,13 +98,13 @@ export class LeftMainPageSidebar extends Component {
     );
 
     elements.push(
-      <Divider key={'B'} className="main-page-subkleddit-list-divider"/>,
+      <Divider key={'B'} style={styles.subkledditListDivider}/>,
     );
 
     const subkledditsElements = subkleddits.map((subkleddit, index) => {
-      return <div key={index} className="main-page-subkleddit-list-element-container">
+      return <div key={index} style={styles.subkledditListElementContainer}>
         <div>{subkleddit.name}</div>
-        <div className="main-page-subkleddit-list-element-subscribers-container">
+        <div style={styles.subkledditListElementSubscribersContainer}>
           ({subkleddit.subscribers})
           {getSubscribeIcon(subkleddit.name)}
         </div>
@@ -57,28 +114,14 @@ export class LeftMainPageSidebar extends Component {
     return elements.concat(subkledditsElements);
   };
 
-  getListClassNames = () => {
-    const defaultClassNames = ['main-page-subkleddit-list-container'];
-
-    return defaultClassNames.join(' ');
-  };
-
-  getContainerClassNames = () => {
-    const defaultClassNames = ['main-page-sidebar-container'];
-
-    return defaultClassNames.join(' ');
-  };
-
   render() {
     const {
       getSubkledditElements,
-      getListClassNames,
-      getContainerClassNames,
     } = this;
 
     return (
-      <div className={getContainerClassNames()}>
-        <List className={getListClassNames()} children={getSubkledditElements()}/>
+      <div style={styles.container}>
+        <List style={styles.subkledditListContainer} children={getSubkledditElements()}/>
       </div>
     );
   }

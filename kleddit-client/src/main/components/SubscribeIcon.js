@@ -3,6 +3,31 @@ import PropTypes from 'prop-types';
 
 import ContentClear from 'material-ui/svg-icons/content/clear';
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
+import './subscribe-icon.css';
+
+const styles = {
+  mainPageSubkledditListHeaderContainer: {
+    display: 'flex',
+    width: '100%',
+    backgroundColor: 'black',
+    justifyContent: 'center',
+  },
+  mainPageSubkledditListTitle: {
+    padding: '6px 6px',
+    backgroundColor: 'black',
+  },
+  subscribeIcon: {
+    opacity: '0.65',
+  },
+  subscribeIconLoading: {
+    animationName: 'subscribe-icon-loading-animation',
+    animationDuration: '0.5s',
+    animationIterationCount: 'infinite',
+  },
+  subscribeIconHover: {
+    opacity: '1',
+  },
+};
 
 export class SubscribeIcon extends Component {
 
@@ -10,6 +35,7 @@ export class SubscribeIcon extends Component {
     super(props);
     this.state = {
       loading: false,
+      hover: false,
     };
   }
 
@@ -31,6 +57,14 @@ export class SubscribeIcon extends Component {
     this.setState({ loading: !this.state.loading });
   };
 
+  onMouseEnter = () => {
+    this.setState({hover: true});
+  };
+
+  onMouseLeave = () => {
+    this.setState({hover: false});
+  };
+
   render() {
     const {
       onClick,
@@ -42,21 +76,25 @@ export class SubscribeIcon extends Component {
 
     const {
       loading,
+      hover,
     } = this.state;
 
-    const classNames = ['main-page-subkleddit-list-subscribe-icon'];
-    if(loading) {
-      classNames.push('main-page-subkleddit-list-subscribe-icon-loading');
-    }
+    let style = loading ? styles.subscribeIconLoading: styles.subscribeIcon;
+    style = hover ? Object.assign({}, style, styles.subscribeIconHover) : style;
 
     return subscribed ?
            <ContentClear onClick={onClick}
                          color="red"
-                         className={classNames.join(' ')}/>
+                         style={style}
+                         onMouseEnter={this.onMouseEnter}
+                         onMouseLeave={this.onMouseLeave}
+           />
            :
            <ContentAddCircle onClick={onClick}
                              color="#3f51b5"
-                             className={classNames.join(' ')}/>;
+                             onMouseEnter={this.onMouseEnter}
+                             onMouseLeave={this.onMouseLeave}
+                             style={style}/>;
   }
 
 }

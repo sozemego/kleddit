@@ -8,6 +8,50 @@ import ReplyCount from '../../../submissions/components/ReplyCount';
 import StylelessLink from '../../../app/components/StylelessLink';
 import './submission.css';
 
+const styles = {
+  submissionContainer: {
+    margin: '4px',
+    padding: '4px',
+  },
+  replyIconStyle: {
+    marginTop: '2px',
+  },
+  submissionHeaderContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  submissionTitle: {
+    fontSize: '1.1em',
+  },
+  submissionSubkleddit: {
+    opacity: '0.45',
+    fontSize: '0.75em',
+  },
+  submissionIconContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  submissionAuthor: {
+    opacity: '0.45',
+    fontSize: '0.75em',
+  },
+  replyCount: {
+    fontSize: '0.85em',
+    padding: '2px 0 2px 0',
+  },
+  submissionContent: {
+    backgroundColor: 'rgba(127, 127, 127, 0.5)',
+    margin: '6px 6px',
+    wordBreak: 'break-all',
+    padding: '4px',
+  },
+};
+
+styles.submissionIconContainerInvisible = Object.assign({}, styles.submissionIconContainer, {
+  visibility: 'hidden',
+});
+
+
 const iconColor = '#424255';
 
 export class MainPageSubmission extends Component {
@@ -47,7 +91,7 @@ export class MainPageSubmission extends Component {
     const icons = [];
 
     icons.push(
-      <CommunicationChat style={{ marginTop: '2px' }}
+      <CommunicationChat style={styles.replyIconStyle}
                          color={replyIconHover || isShowingReplies ? 'orange' : iconColor}
                          onMouseEnter={() => this.setState({ replyIconHover: true })}
                          onMouseLeave={() => this.setState({ replyIconHover: false })}
@@ -77,26 +121,26 @@ export class MainPageSubmission extends Component {
     } = submission;
 
     return <Paper zDepth={2}
-                  className={`submission-container`}
+                  style={styles.submissionContainer}
                   onMouseEnter={() => this.setState({ hover: true })}
                   onMouseLeave={() => this.setState({ hover: false })}
                   key={1}>
-      <div className="submission-header-container">
-        <div className="submission-title">
+      <div style={styles.submissionHeaderContainer}>
+        <div style={styles.submissionTitle}>
           {title}
-          <span className="submission-subkleddit">{'\u0020'}[{subkleddit}]</span>
+          <span style={styles.submissionSubkleddit}>{'\u0020'}[{subkleddit}]</span>
         </div>
         <div
-          className={'submission-icon-container ' + (hover || isShowingReplies ? '' : 'submission-icon-container-invisible')}>
+          style={hover || isShowingReplies ? styles.submissionIconContainer : styles.submissionIconContainerInvisible}>
           {getIcons()}
         </div>
       </div>
-      <div>by <span className="submission-author">{author}</span> {moment(createdAt).fromNow()}</div>
+      <div>by <span style={styles.submissionAuthor}>{author}</span> {moment(createdAt).fromNow()}</div>
       <StylelessLink to={`/submission/${submissionId}`}>
-        <ReplyCount submissionId={submissionId} style={{ fontSize: '0.85em', padding: '2px 0 2px 0' }}/>
+        <ReplyCount submissionId={submissionId} style={styles.replyCount}/>
       </StylelessLink>
       <Divider/>
-      <Paper className="submission-content" zDepth={1}>{content}</Paper>
+      <Paper style={styles.submissionContent} zDepth={1}>{content}</Paper>
     </Paper>;
   }
 

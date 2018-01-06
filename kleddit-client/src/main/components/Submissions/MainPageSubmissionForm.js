@@ -1,7 +1,47 @@
 import React, { Component } from 'react';
 import { MenuItem, RaisedButton, SelectField, TextField } from 'material-ui';
 
-import './submission-form.css';
+const styles = {
+  submissionFormContainer: {
+    display: 'flex',
+    backgroundColor: 'black',
+    flexDirection: 'column',
+    padding: '6px',
+  },
+  submissionFormInputContainer: {},
+  submissionFormTitleInput: {
+    margin: '6px',
+    width: '100%',
+  },
+  submissionFormContentInput: {
+    flexGrow: '1',
+  },
+  submissionFormLabelContainer: {
+    width: '80px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  submissionFormButtonInputContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+};
+
+styles.submissionFormSubkledditInputContainer = Object.assign({}, styles.submissionFormInputContainer, {
+  display: 'flex',
+  alignItems: 'center',
+});
+
+styles.submissionFormTitleInputContainer = Object.assign({}, styles.submissionFormInputContainer, {
+  display: 'flex',
+  alignItems: 'center',
+});
+
+styles.submissionFormContentInputContainer = Object.assign({}, styles.submissionFormInputContainer, {
+  display: 'flex',
+  alignItems: 'center',
+});
 
 export class MainPageSubmissionForm extends Component {
 
@@ -61,7 +101,7 @@ export class MainPageSubmissionForm extends Component {
     } = this.props;
 
     if (subkleddits.length === 0) {
-      return <div className="submission-form-container">Subscribe to at least one subkleddit to post!</div>;
+      return <div style={styles.submissionFormContainer}>Subscribe to at least one subkleddit to post!</div>;
     }
 
     const {
@@ -71,10 +111,10 @@ export class MainPageSubmissionForm extends Component {
     } = this.state;
 
     return (
-      <div className="submission-form-container">
+      <div style={styles.submissionFormContainer}>
         <div>If you wish to submit a new post, please do it in the form below</div>
-        <div className="submission-form-input-container submission-form-subkleddit-input-container">
-          <div className="submission-form-label-container">Subkleddit</div>
+        <div style={styles.submissionFormSubkledditInputContainer}>
+          <div style={styles.submissionFormLabelContainer}>Subkleddit</div>
           <SelectField multiple={false}
                        value={subkleddit !== null ? subkleddits[subkleddit] : subkleddits[0] || null}
                        onChange={(event, subkleddit) => this.setState({ subkleddit })}
@@ -88,28 +128,26 @@ export class MainPageSubmissionForm extends Component {
             })}
           </SelectField>
         </div>
-        <div className="submission-form-input-container submission-form-title-input-container">
-          <div className="submission-form-label-container">Title</div>
+        <div style={styles.submissionFormTitleInputContainer}>
+          <div style={styles.submissionFormLabelContainer}>Title</div>
           <TextField
-            className="submission-form-title-input"
-            style={{ margin: '4px' }}
+            style={styles.submissionFormTitleInput}
             value={title}
             errorText={submissionErrors.title}
             onChange={(event, title) => onTitleChange(title)}
           />
         </div>
-        <div className="submission-form-input-container submission-form-content-input-container">
-          <div className="submission-form-label-container">Content</div>
+        <div style={styles.submissionFormContentInputContainer}>
+          <div style={styles.submissionFormLabelContainer}>Content</div>
           <TextField
-            className="submission-form-content-input"
             multiLine={true}
-            style={{ margin: '4px' }}
+            style={styles.submissionFormContentInput}
             value={content}
             errorText={submissionErrors.content}
             onChange={(event, content) => onContentChange(content)}
           />
         </div>
-        <div className="submission-form-button-input-container">
+        <div style={styles.submissionFormButtonInputContainer}>
           <RaisedButton label="Submit"
                         onClick={onSubmit}
                         primary={true}

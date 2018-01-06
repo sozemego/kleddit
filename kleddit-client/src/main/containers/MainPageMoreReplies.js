@@ -5,13 +5,24 @@ import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forwa
 import { connect } from 'react-redux';
 import { getReplyCountForSubmission } from '../../submissions/selectors';
 import { getMaxRepliesShown } from '../selectors';
+import StylelessLink from '../../app/components/StylelessLink';
 
-export const MainPageMoreReplies = ({ replyCount, maxRepliesShown, ...other }) => {
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+};
+
+export const MainPageMoreReplies = ({ replyCount, maxRepliesShown, submissionId, ...other }) => {
   if (replyCount <= maxRepliesShown) return null;
 
-  return <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} {...other}>
+  return <div style={styles.container} {...other}>
     <NavigationArrowForward/>
-    <span>There are {replyCount - maxRepliesShown} more replies, click here...</span>
+    <StylelessLink to={`/submission/${submissionId}`}>There are {replyCount - maxRepliesShown} more replies, click
+      here...
+    </StylelessLink>
   </div>;
 };
 
@@ -27,7 +38,7 @@ const mapStateToProps = (state, { submissionId }) => {
   };
 };
 
-const MainPageMoreRepliesPropsProxy = (WrappedComponent) => ({ submissionId, dispatch, ...other }) =>
+const MainPageMoreRepliesPropsProxy = (WrappedComponent) => ({ dispatch, ...other }) =>
   <WrappedComponent {...other}/>;
 
 export default connect(mapStateToProps, null)(MainPageMoreRepliesPropsProxy(MainPageMoreReplies));

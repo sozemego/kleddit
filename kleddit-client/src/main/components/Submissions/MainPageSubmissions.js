@@ -5,6 +5,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import MainPageSubmissionContainer from '../../containers/MainPageSubmissionContainer';
 import MainPageSubmissionRepliesContainer from '../../containers/MainPageSubmissionRepliesContainer';
 
+import './submission.css';
+
 export class MainPageSubmissions extends Component {
 
   render() {

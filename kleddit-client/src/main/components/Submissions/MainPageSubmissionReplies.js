@@ -4,22 +4,63 @@ import { CircularProgress, TextField } from 'material-ui';
 import moment from 'moment/moment';
 import MainPageMoreReplies from '../../containers/MainPageMoreReplies';
 
-const replyContainer = {
-  margin: '2px',
-  display: 'flex',
-  position: 'relative',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  padding: '2px',
-  borderRadius: '4px',
+const styles = {
+  repliesContainer: {
+    backgroundColor: 'rgb(54, 54, 54)',
+    padding: '4px',
+    marginLeft: '6px',
+    marginTop: '-4px',
+    width: '90%',
+    borderTop: '1px dotted black',
+  },
+  replyContainer: {
+    margin: '2px',
+    display: 'flex',
+    position: 'relative',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: '2px',
+    borderRadius: '4px',
+  },
+  replyHeaderContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: '100%',
+    padding: '2px',
+  },
+  replyHeaderAuthor: {
+    color: 'rgba(190, 190, 190, 0.9)',
+  },
+  replyHeaderTimestamp: {
+    color: 'gray',
+    marginLeft: '4px',
+  },
+  replyContent: {
+    marginLeft: '4px',
+    width: '100%',
+    padding: '2px',
+  },
+  loadingElementStyle: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  replyTextField: {
+    width: '100%',
+  },
+  repliesListContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
 };
 
-const oddReplyContainer = Object.assign({}, replyContainer, {
+styles.oddReplyContainer = Object.assign({}, styles.replyContainer, {
   backgroundColor: 'rgba(15, 15, 15, 1)',
 });
 
-const eventReplyContainer = Object.assign({}, replyContainer, {
+styles.eventReplyContainer = Object.assign({}, styles.replyContainer, {
   backgroundColor: 'rgba(17, 17, 17, 1)',
 });
 
@@ -44,20 +85,14 @@ export class MainPageSubmissionReplies extends Component {
 
   getReplyComponent = ({ replyId, content, author, createdAt }, index) => {
     return <div key={replyId}
-                style={index % 2 ? eventReplyContainer : oddReplyContainer}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        width: '100%',
-        padding: '2px',
-      }}>
-        <div style={{ color: 'rgba(190, 190, 190, 0.9)' }}>{author}</div>
-        <div style={{ color: 'gray', marginLeft: '4px' }}>
+                style={index % 2 ? styles.eventReplyContainer : styles.oddReplyContainer}>
+      <div style={styles.replyHeaderContainer}>
+        <div style={styles.replyHeaderAuthor}>{author}</div>
+        <div style={styles.replyHeaderTimestamp}>
           {moment(createdAt).format('LTS')}
         </div>
       </div>
-      <div style={{ marginLeft: '4px', width: '100%', padding: '2px' }}>{content}</div>
+      <div style={styles.replyContent}>{content}</div>
     </div>;
   };
 
@@ -115,31 +150,20 @@ export class MainPageSubmissionReplies extends Component {
     let loadingElement = null;
     if (isLoadingReplies) {
       loadingElement = <CircularProgress size={32}
-                                         style={{ display: 'flex', justifyContent: 'center', width: '100%' }}/>;
+                                         style={styles.loadingElementStyle}/>;
     }
 
-    return <div
-      style={{
-        backgroundColor: 'rgb(54, 54, 54)',
-        padding: '4px',
-        marginLeft: '6px',
-        marginTop: '-4px',
-        width: '90%',
-        borderTop: '1px dotted black',
-      }}
-      key={2}>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-        <TextField
-          hintText={'Reply'}
-          multiLine
-          style={{ width: '100%' }}
-          onChange={onReplyChanged}
-          value={replyText}
-          onKeyDown={onReplyTextKeyDown}
-          onKeyUp={onReplyTextKeyUp}
-        />
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+    return <div style={styles.repliesContainer} key={2}>
+      <TextField
+        hintText={'Reply'}
+        multiLine
+        style={styles.replyTextField}
+        onChange={onReplyChanged}
+        value={replyText}
+        onKeyDown={onReplyTextKeyDown}
+        onKeyUp={onReplyTextKeyUp}
+      />
+      <div style={styles.repliesListContainer}>
         {loadingElement}
         {replies.map(getReplyComponent)}
         <MainPageMoreReplies submissionId={submissionId}/>

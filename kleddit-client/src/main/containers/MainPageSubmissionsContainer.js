@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as mainPageActions from '../actions';
-import * as submissionsActions from '../../submissions/actions';
 
 import { MainPageSubmissions } from '../components/Submissions/MainPageSubmissions';
 import { getSubmissions, } from '../../submissions/selectors';
