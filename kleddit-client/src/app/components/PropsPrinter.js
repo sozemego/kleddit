@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Radium from 'radium';
 
 const styles = {
   propContainer: {
@@ -11,7 +10,7 @@ const styles = {
   },
 };
 
-class PropsPrinter extends Component {
+export class PropsPrinter extends Component {
 
   render() {
     return (
@@ -41,4 +40,4 @@ PropsPrinter.defaultProps = {
 
 };
 
-export default Radium(PropsPrinter);
+export default PropsPrinter;
