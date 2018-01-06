@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { LoadingRaisedButton } from '../buttons/LoadingRaisedButton';
-import './form-button.css';
+
+const style = {
+  margin: "24px auto 6px auto",
+};
 
 export const FormSubmitButton = (props) => {
-  return <LoadingRaisedButton {...props} className={'form-submit-button'}/>;
+  return <LoadingRaisedButton {...props} style={style}/>;
 };
 
 FormSubmitButton.propTypes = {
