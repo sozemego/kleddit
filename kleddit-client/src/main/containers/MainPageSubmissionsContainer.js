@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { ...mainPageActions, ...submissionsActions })(MainPageSubmissionsContainer);
+export default connect(mapStateToProps, { ...mainPageActions })(MainPageSubmissionsContainer);
