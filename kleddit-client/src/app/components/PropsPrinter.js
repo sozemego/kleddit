@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import Radium from 'radium';
 
-export class PropsPrinter extends Component {
+const styles = {
+  propContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  separator: {
+    width: "12px",
+  },
+};
 
-  constructor(props) {
-    super(props);
-  }
+class PropsPrinter extends Component {
 
   render() {
     return (
       <div>
         {Object.entries(this.props).map(([key, value]) => {
-          return <div style={{display: "flex", flexDirection: "row"}}>
+          return <div style={styles.propContainer} key={key}>
             <div>
               {key}
             </div>
-            <div style={{width: "12px"}}>:</div>
+            <div style={styles.separator}>:</div>
             <div>
               {value}
             </div>
@@ -27,6 +33,12 @@ export class PropsPrinter extends Component {
 
 }
 
-PropsPrinter.propTypes = {};
+PropsPrinter.propTypes = {
 
-PropsPrinter.defaultProps = {};
+};
+
+PropsPrinter.defaultProps = {
+
+};
+
+export default Radium(PropsPrinter);
