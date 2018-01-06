@@ -55,7 +55,6 @@ export const isLoadingReplies = (state, submissionId) => {
 export const getSubmissions = createSelector(
   [getSubmissionMap],
   (submissionMap) => {
-
     return Object.values(submissionMap).sort((a, b) => b.createdAt - a.createdAt);
   },
 );
