@@ -92,7 +92,7 @@ export const deleteSubmission = (submissionId) => {
   return (dispatch, getState) => {
 
     if (!submissionId) {
-      throw new Error(`Needs to a defined submission id ${submissionId}`);
+      throw new Error(`Needs to pass a defined submission id ${submissionId}`);
     }
 
     return submissionService.deleteSubmission(submissionId)
