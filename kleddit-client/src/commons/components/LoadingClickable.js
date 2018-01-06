@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LinearProgress } from 'material-ui';
 
+const progressContainer = {
+  display: 'flex',
+  height: '2px',
+};
+
 const progressStyle = {
   top: '-6px',
 };
@@ -64,7 +69,7 @@ export class LoadingClickable extends Component {
     return (
       <div onClick={onClick}>
         {children}
-        <div style={{ display: 'flex', height: '2px' }}>
+        <div style={progressContainer}>
           <LinearProgress mode="indeterminate" style={loading ? progressStyle : invisibleProgressStyle}/>
         </div>
       </div>
