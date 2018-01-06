@@ -44,16 +44,19 @@ export class SubscribeIcon extends Component {
       loading,
     } = this.state;
 
-    const classNames = 'main-page-subkleddit-list-subscribe-icon ' + (loading ? 'main-page-subkleddit-list-subscribe-icon-loading' : '');
+    const classNames = ['main-page-subkleddit-list-subscribe-icon'];
+    if(loading) {
+      classNames.push('main-page-subkleddit-list-subscribe-icon-loading');
+    }
 
     return subscribed ?
            <ContentClear onClick={onClick}
                          color="red"
-                         className={classNames}/>
-      :
+                         className={classNames.join(' ')}/>
+           :
            <ContentAddCircle onClick={onClick}
                              color="#3f51b5"
-                             className={classNames}/>;
+                             className={classNames.join(' ')}/>;
   }
 
 }
