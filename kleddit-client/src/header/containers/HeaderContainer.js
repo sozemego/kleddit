@@ -10,6 +10,7 @@ import { Header } from '../components/Header';
 import { isFetching } from '../../app/selectors';
 import { getCurrentSubmission } from '../../submissions/selectors';
 import { HeaderButton } from '../components/HeaderButton';
+import { Route } from 'react-router-dom';
 
 class HeaderContainer extends Component {
 
@@ -58,24 +59,15 @@ class HeaderContainer extends Component {
   };
 
   getLeftButtons = () => {
-
-    const buttons = [];
-
     const {
-      submission,
       navigateToMain
     } = this.props;
 
-    if(submission) {
-      buttons.push(
-        <HeaderButton onClick={navigateToMain}
-                      key={1}
-                      label="Back to main page"
-        />
-      )
-    }
-
-    return buttons;
+    return <Route path="/submission/:submissionId" component={() => {
+      return <HeaderButton onClick={navigateToMain}
+                    key={1}
+                    label="Back to main page"/>;
+    }}/>;
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { Form } from '../../commons/components/form/Form';
 import { FormInputField } from '../../commons/components/form/FormInputField';
@@ -94,5 +95,10 @@ export class RegisterFormComponent extends Component {
 
     );
   }
-
 }
+
+RegisterFormComponent.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onPasswordChange: PropTypes.func.isRequired,
+  onUsernameChange: PropTypes.func.isRequired,
+};
