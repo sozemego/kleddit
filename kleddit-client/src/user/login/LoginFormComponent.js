@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 
-import './login.css';
 import { FormInputField } from '../../commons/components/form/FormInputField';
 import { Form } from '../../commons/components/form/Form';
 import { FormSubmitButton } from '../../commons/components/form/FormSubmitButton';
+
+const styles = {
+  container: {
+    display: 'flex',
+    width: '100%',
+    marginTop: '48px',
+  },
+};
+
 
 export class LoginFormComponent extends Component {
 
@@ -64,22 +72,24 @@ export class LoginFormComponent extends Component {
     } = this.state;
 
     return (
-      <Form title="Login">
-        <FormInputField value={username}
-                        onChange={onUsernameChange}
-                        hintText="Username"
-                        errorText={loginError}
-        />
-        <FormInputField value={password}
-                        type="password"
-                        hintText="Password"
-                        onChange={onPasswordChange}
-        />
-        <FormSubmitButton onClick={onSubmit}
-                          label="Login"
-                          secondary
-        />
-      </Form>
+      <div style={styles.container}>
+        <Form title="Login">
+          <FormInputField value={username}
+                          onChange={onUsernameChange}
+                          hintText="Username"
+                          errorText={loginError}
+          />
+          <FormInputField value={password}
+                          type="password"
+                          hintText="Password"
+                          onChange={onPasswordChange}
+          />
+          <FormSubmitButton onClick={onSubmit}
+                            label="Login"
+                            secondary
+          />
+        </Form>
+      </div>
     );
   }
 

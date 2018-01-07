@@ -48,7 +48,7 @@ export class Form extends Component {
     }
 
     return (
-      <div style={styles.formContainer}>
+      <form style={styles.formContainer}>
         {title ?
          <div style={styles.formHeader}>
            <span style={styles.formTitle}>{title}</span>
@@ -59,7 +59,7 @@ export class Form extends Component {
         <div style={styles.formChildrenContainer}>
           {this.props.children}
         </div>
-      </div>
+      </form>
     );
   }
 

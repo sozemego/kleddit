@@ -4,7 +4,13 @@ import { Form } from '../../commons/components/form/Form';
 import { FormInputField } from '../../commons/components/form/FormInputField';
 import { FormSubmitButton } from '../../commons/components/form/FormSubmitButton';
 
-import './register.css';
+const styles = {
+  container: {
+    display: 'flex',
+    width: '100%',
+    marginTop: '48px',
+  },
+};
 
 export class RegisterFormComponent extends Component {
 
@@ -66,23 +72,26 @@ export class RegisterFormComponent extends Component {
     } = this.state;
 
     return (
-      <Form title="Register">
-        <FormInputField value={username}
-                        onChange={onUsernameChange}
-                        hintText='Username'
-                        errorText={usernameRegistrationError}
-        />
-        <FormInputField value={password}
-                        type='password'
-                        hintText='Password'
-                        errorText={passwordRegistrationError}
-                        onChange={onPasswordChange}
-        />
-        <FormSubmitButton onClick={onSubmit}
-                          label='Register'
-                          secondary={true}
-        />
-      </Form>
+      <div style={styles.container}>
+        <Form title="Register">
+          <FormInputField value={username}
+                          onChange={onUsernameChange}
+                          hintText='Username'
+                          errorText={usernameRegistrationError}
+          />
+          <FormInputField value={password}
+                          type='password'
+                          hintText='Password'
+                          errorText={passwordRegistrationError}
+                          onChange={onPasswordChange}
+          />
+          <FormSubmitButton onClick={onSubmit}
+                            label='Register'
+                            secondary={true}
+          />
+        </Form>
+      </div>
+
     );
   }
 

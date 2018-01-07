@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './register.css';
 
 import { RegisterFormComponent } from './RegisterFormComponent';
 import { getPasswordRegistrationError, getUsernameRegistrationError, } from '../state/selectors';
-
 import * as userActions from '../state/actions';
 
 export class RegisterUserContainer extends Component {
@@ -22,14 +20,12 @@ export class RegisterUserContainer extends Component {
     } = this.props;
 
     return (
-      <div className="register-page-container">
-        <RegisterFormComponent onSubmit={onRegister}
-                               onUsernameChange={onRegisterUsernameChange}
-                               onPasswordChange={onRegisterPasswordChange}
-                               usernameRegistrationError={usernameRegistrationError}
-                               passwordRegistrationError={passwordRegistrationError}
-        />
-      </div>
+      <RegisterFormComponent onSubmit={onRegister}
+                             onUsernameChange={onRegisterUsernameChange}
+                             onPasswordChange={onRegisterPasswordChange}
+                             usernameRegistrationError={usernameRegistrationError}
+                             passwordRegistrationError={passwordRegistrationError}
+      />
     );
   }
 
