@@ -4,8 +4,17 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import MainPageSubmissionContainer from '../../containers/MainPageSubmissionContainer';
 import MainPageSubmissionRepliesContainer from '../../containers/MainPageSubmissionRepliesContainer';
-
 import './submission.css';
+
+const styles = {
+  submissionsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    flexGrow: '1',
+    padding: '6px',
+  },
+};
 
 export class MainPageSubmissions extends Component {
 
@@ -22,6 +31,7 @@ export class MainPageSubmissions extends Component {
         transitionEnterTimeout={250}
         transitionLeaveTimeout={250}
         component="div"
+        style={styles.submissionsContainer}
         className="main-page-submissions-container"
       >
         {submissions.map(submission => {

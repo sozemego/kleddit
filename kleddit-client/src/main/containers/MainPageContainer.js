@@ -8,8 +8,6 @@ import MainPageSubmissionsContainer from './MainPageSubmissionsContainer';
 import { isFetchingNextPage } from '../selectors';
 import { MainPageLoadingIndicator } from '../components/MainPageLoadingIndicator';
 
-import '../components/main-page.css'; //TODO MOVE THIS
-
 class MainPageContainer extends Component {
 
   componentWillMount() {
