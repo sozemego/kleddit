@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 import HeaderContainer from '../header/containers/HeaderContainer';
 import ErrorDisplay from '../app/containers/ErrorDisplay';
