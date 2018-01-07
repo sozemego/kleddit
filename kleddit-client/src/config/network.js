@@ -6,17 +6,20 @@ const currentEnv = prodEnv;
 
 const configurations = {
   [localEnv]: {
-    base: 'http://localhost',
+    protocol: 'http',
+    base: 'localhost',
     port: 8080,
     version: '/api/0.1',
   },
   [testEnv]: {
-    base: 'http://localhost',
+    protocol: 'http',
+    base: 'localhost',
     port: 8180,
     version: '/api/0.1',
   },
   [prodEnv]: {
-    base: 'http://localhost',
+    protocol: 'http',
+    base: 'localhost',
     port: 8080,
     version: '/api/0.1',
   },

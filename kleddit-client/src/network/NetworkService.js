@@ -44,8 +44,8 @@ const validatePath = (path) => {
 
 const applyPath = (path) => {
   validatePath(path);
-  const { base, port, version } = networkConfig;
-  return `${base}:${port}${version}${path}`;
+  const { protocol, base, port, version } = networkConfig;
+  return `${protocol}://${base}:${port}${version}${path}`;
 };
 
 NetworkService.setAuthorizationToken = (token) => {
