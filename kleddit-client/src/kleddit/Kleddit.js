@@ -9,12 +9,6 @@ import LoginFormContainer from '../user/login/LoginFormContainer';
 import MainPageContainer from '../main/containers/MainPageContainer';
 import SubmissionContainer from '../submissions/containers/SubmissionContainer';
 
-const styles = {
-  appContainer: {
-    height: "100%",
-  },
-};
-
 export class Kleddit extends Component {
 
   render() {
@@ -22,7 +16,7 @@ export class Kleddit extends Component {
       <Router>
         <div>
           <HeaderContainer/>
-          <div style={styles.appContainer}>
+          <div>
             <Route exact path="/register" component={RegisterUserContainer}/>
             <Route exact path="/profile" component={ProfileContainer}/>
             <Route exact path="/login" component={LoginFormContainer}/>
