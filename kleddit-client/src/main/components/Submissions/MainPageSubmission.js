@@ -163,8 +163,4 @@ MainPageSubmission.propTypes = {
 
 MainPageSubmission.defaultProps = {
   isShowingReplies: false,
-  replies: [],
-  isLoadingReplies: false,
-  inputReply: '',
-  inputReplyError: '',
 };

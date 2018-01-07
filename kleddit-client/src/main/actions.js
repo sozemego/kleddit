@@ -9,6 +9,9 @@ import { SubkledditService as subkledditService } from '../subkleddit/Subkleddit
 import { getCurrentPage, getCurrentPerPage, getShowingRepliesSubmissions, isFetchingNextPage } from './selectors';
 import { getSubmissions } from '../submissions/selectors';
 import { setErrorMessage } from '../app/actions';
+import { ReplyTypingService as replyTypingService } from '../submissions/ReplyTypingService';
+import { onStartTyping } from '../submissions/actions';
+import { onStopTyping } from '../submissions/actions';
 
 export const SET_SUBKLEDDITS = 'SET_SUBKLEDDITS';
 const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');
@@ -34,6 +37,10 @@ export const clearReplyState = makeActionCreator(CLEAR_REPLY_STATE);
 export const init = () => {
   return (dispatch, getState) => {
 
+    replyTypingService.connect();
+    replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
+    replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
+
     dispatch(getSubkleddits());
     dispatch(loadSubmissions());
 
@@ -53,7 +60,6 @@ export const mainPageSubscribe = (subkleddit) => {
 
 export const mainPageUnsubscribe = (subkleddit) => {
   return (dispatch, getState) => {
-
 
     dispatch(deleteSubmissionsBySubkleddit(subkleddit));
 
@@ -140,10 +146,25 @@ export const toggleShowReplies = (submissionId) => {
     dispatch(_toggleShowingReplies(submissionId));
 
     const shouldShowReplies = getShowingRepliesSubmissions(getState)[submissionId] || false;
+
+    if(shouldShowReplies) {
+      replyTypingService.register(submissionId);
+    } else {
+      replyTypingService.unregister(submissionId);
+    }
+
     if (shouldShowReplies) {
       return dispatch(getReplies(submissionId, 1, 15));
     }
 
     return Promise.resolve();
+  };
+};
+
+export const onReplyTextChanged = (submissionId) => {
+  return (dispatch, getState) => {
+
+    replyTypingService.startTyping(submissionId);
+
   };
 };

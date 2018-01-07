@@ -7,18 +7,21 @@ const currentEnv = prodEnv;
 const configurations = {
   [localEnv]: {
     protocol: 'http',
+    wsProtocol: 'ws',
     base: 'localhost',
     port: 8080,
     version: '/api/0.1',
   },
   [testEnv]: {
     protocol: 'http',
+    wsProtocol: 'ws',
     base: 'localhost',
     port: 8180,
     version: '/api/0.1',
   },
   [prodEnv]: {
     protocol: 'http',
+    wsProtocol: 'ws',
     base: 'localhost',
     port: 8080,
     version: '/api/0.1',

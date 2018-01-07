@@ -97,7 +97,9 @@ export class MainPageSubmissionReplies extends Component {
   };
 
   onReplyChanged = (event, replyText) => {
+    const { onReplyTextChanged, submissionId } = this.props;
     this.setState({ replyText });
+    onReplyTextChanged(submissionId);
   };
 
   onReplySubmit = () => {
@@ -132,6 +134,7 @@ export class MainPageSubmissionReplies extends Component {
       replies,
       isLoadingReplies,
       submissionId,
+      someoneTypingReply,
     } = this.props;
 
     const {
@@ -165,6 +168,7 @@ export class MainPageSubmissionReplies extends Component {
         name="Reply"
       />
       <div style={styles.repliesListContainer}>
+        {someoneTypingReply ? 'Someone is typing a reply...' : null}
         {loadingElement}
         {replies.map(getReplyComponent)}
         <MainPageMoreReplies submissionId={submissionId}/>
@@ -184,13 +188,14 @@ MainPageSubmissionReplies.propTypes = {
         content: PropTypes.string.isRequired,
       },
     ),
-  ),
+  ).isRequired,
   isShowingReplies: PropTypes.bool,
   isLoadingReplies: PropTypes.bool,
   onReplySubmit: PropTypes.func.isRequired,
+  onReplyTextChanged: PropTypes.func.isRequired,
+  someoneTypingReply: PropTypes.bool.isRequired,
 };
 
 MainPageSubmissionReplies.defaultProps = {
-  replies: [],
   isLoadingReplies: false,
 };

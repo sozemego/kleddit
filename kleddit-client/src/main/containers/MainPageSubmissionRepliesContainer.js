@@ -2,7 +2,12 @@ import { connect } from 'react-redux';
 
 import * as mainPageActions from '../actions';
 import * as submissionsActions from '../../submissions/actions';
-import { isLoadingReplies, isShowingReplies, makeGetRepliesForMainPageSubmission, } from '../../submissions/selectors';
+import {
+  isLoadingReplies,
+  isShowingReplies,
+  isTypingReply,
+  makeGetRepliesForMainPageSubmission,
+} from '../../submissions/selectors';
 import { MainPageSubmissionReplies } from '../components/Submissions/MainPageSubmissionReplies';
 
 const makeMapStateToProps = () => {
@@ -13,6 +18,7 @@ const makeMapStateToProps = () => {
       isLoadingReplies: isLoadingReplies(state, submissionId),
       replies: getRepliesForMainPageSubmission(state, submissionId),
       submissionId,
+      someoneTypingReply: isTypingReply(state, submissionId),
     };
   };
 };

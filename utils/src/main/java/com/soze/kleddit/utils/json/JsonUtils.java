@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class JsonUtils {
@@ -47,6 +49,19 @@ public class JsonUtils {
 
     try {
       return MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
+    } catch (IOException e) {
+      //TODO throw own exception
+      throw new IllegalArgumentException(e);
+    }
+  }
+
+  public static <T, E> Map<T, E> jsonToMap(String json, Class<T> key, Class<E> value) {
+    Objects.requireNonNull(json);
+    Objects.requireNonNull(key);
+    Objects.requireNonNull(value);
+
+    try {
+      return MAPPER.readValue(json, MAPPER.getTypeFactory().constructMapType(HashMap.class, key, value));
     } catch (IOException e) {
       //TODO throw own exception
       throw new IllegalArgumentException(e);

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createReducer } from '../state/utils';
+import { createReducer, makeActionCreator } from '../state/utils';
 import * as SUBMISSIONS_ACTIONS from './actions';
 
 const initialState = {
@@ -12,6 +12,9 @@ const initialState = {
   currentSubmissionReplyPage: 1,
   repliesPerPage: 50,
   isFetchingNextReplyPage: false,
+  submissionRepliesTyped: {
+
+  }
 };
 
 const clearSubmissions = (state, action) => {
@@ -94,6 +97,18 @@ const fetchingNextReplyPage = (state, action) => {
   return { ...state, isFetchingNextReplyPage: action.bool };
 };
 
+const addSubmissionIdReplyTyped = (state, action) => {
+  const submissionRepliesTyped = {...state.submissionRepliesTyped};
+  submissionRepliesTyped[action.submissionId] = true;
+  return {...state, submissionRepliesTyped};
+};
+
+const removeSubmissionIdReplyTyped = (state, action) => {
+  const submissionRepliesTyped = {...state.submissionRepliesTyped};
+  submissionRepliesTyped[action.submissionId] = false;
+  return {...state, submissionRepliesTyped};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
@@ -108,6 +123,8 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.INCREMENT_REPLY_PAGE]: incrementReplyPage,
   [SUBMISSIONS_ACTIONS.SET_REPLY_PAGE]: setReplyPage,
   [SUBMISSIONS_ACTIONS.FETCHING_NEXT_REPLY_PAGE]: fetchingNextReplyPage,
+  [SUBMISSIONS_ACTIONS.ADD_SUBMISSION_ID_REPLY_TYPED]: addSubmissionIdReplyTyped,
+  [SUBMISSIONS_ACTIONS.REMOVE_SUBMISSION_ID_REPLY_TYPED]: removeSubmissionIdReplyTyped,
 });
 
 export default submissions;

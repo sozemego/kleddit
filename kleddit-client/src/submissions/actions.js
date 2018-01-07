@@ -12,6 +12,7 @@ import {
 } from './selectors';
 import { getUsername } from '../user/state/selectors';
 import { setErrorMessage } from '../app/actions';
+import { ReplyTypingService as replyTypingService } from './ReplyTypingService';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -54,6 +55,12 @@ export const setReplyPage = makeActionCreator(SET_REPLY_PAGE, 'page');
 
 export const FETCHING_NEXT_REPLY_PAGE = 'FETCHING_NEXT_REPLY_PAGE';
 export const fetchingNextReplyPage = makeActionCreator(FETCHING_NEXT_REPLY_PAGE, 'bool');
+
+export const ADD_SUBMISSION_ID_REPLY_TYPED = 'ADD_SUBMISSION_ID_REPLY_TYPED';
+export const addSubmissionIdReplyTyped = makeActionCreator(ADD_SUBMISSION_ID_REPLY_TYPED, 'submissionId');
+
+export const REMOVE_SUBMISSION_ID_REPLY_TYPED = 'REMOVE_SUBMISSION_ID_REPLY_TYPED';
+export const removeSubmissionIdReplyTyped = makeActionCreator(REMOVE_SUBMISSION_ID_REPLY_TYPED, 'submissionId');
 
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
@@ -170,6 +177,10 @@ export const postReply = (submissionId, content) => {
       return Promise.resolve(content);
     }
 
+    replyTypingService.connect();
+    replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
+    replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
+
     dispatch(setIsPostingReply(true));
 
     return submissionService.postReply(submissionId, content)
@@ -220,5 +231,17 @@ export const onScrollBottom = () => {
         dispatch(fetchingNextReplyPage(false));
       });
 
+  };
+};
+
+export const onStartTyping = (submissionId) => {
+  return (dispatch, getState) => {
+    dispatch(addSubmissionIdReplyTyped(submissionId));
+  };
+};
+
+export const onStopTyping = (submissionId) => {
+  return (dispatch, getState) => {
+    dispatch(removeSubmissionIdReplyTyped(submissionId));
   };
 };
