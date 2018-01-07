@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { isLoggedIn } from '../../user/state/selectors';
 import * as userActions from '../../user/state/actions';
 import * as headerActions from '../actions';
-import { RaisedButton } from 'material-ui';
 
 import { Header } from '../components/Header';
 import { isFetching } from '../../app/selectors';
@@ -60,13 +59,13 @@ class HeaderContainer extends Component {
 
   getLeftButtons = () => {
     const {
-      navigateToMain
+      navigateToMain,
     } = this.props;
 
     return <Route path="/submission/:submissionId" component={() => {
       return <HeaderButton onClick={navigateToMain}
-                    key={1}
-                    label="Back to main page"/>;
+                           key={1}
+                           label="Back to main page"/>;
     }}/>;
   };
 
