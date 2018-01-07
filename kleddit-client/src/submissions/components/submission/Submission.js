@@ -15,6 +15,28 @@ const keyCodes = {
   16: KEYS.SHIFT,
 };
 
+const styles = {
+  container: {
+    margin: '12px',
+  },
+  topContainer: {
+    padding: '12px',
+  },
+  infoContainer: { fontSize: '0.9em', marginTop: '6px', color: 'gray' },
+  content: { border: '1px solid gray', marginTop: '12px', padding: '12px' },
+  replyTextFieldContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    margin: '12px 0px 12px 0px',
+    padding: '0px 4px 0px 4px',
+  },
+  replyTextField: {
+    width: "100%",
+  },
+};
+
 export class Submission extends Component {
 
   constructor(props) {
@@ -72,31 +94,24 @@ export class Submission extends Component {
     } = submission;
 
     return (
-      <div style={{ margin: '12px' }}>
-        <Paper zDepth={0} style={{ padding: '12px' }}>
+      <div style={styles.container}>
+        <Paper zDepth={0} style={styles.topContainer}>
           <div>
             {title}
           </div>
-          <div style={{ fontSize: '0.9em', marginTop: '6px', color: 'gray' }}>
+          <div style={styles.infoContainer}>
             {moment(createdAt).fromNow()} by {author} in [{subkleddit}]
           </div>
-          <div style={{ border: '1px solid gray', marginTop: '12px', padding: '12px' }}>
+          <div style={styles.content}>
             {content}
           </div>
         </Paper>
-        <Paper zDepth={3} style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          margin: '12px 0px 12px 0px',
-          padding: '0px 4px 0px 4px',
-        }}>
+        <Paper zDepth={3} style={styles.replyTextFieldContainer}>
           <TextField
             underlineShow={false}
             hintText={'Reply'}
             multiLine
-            style={{ width: '100%' }}
+            style={styles.replyTextField}
             onChange={onReplyChanged}
             value={replyText}
             onKeyDown={onReplyTextKeyDown}

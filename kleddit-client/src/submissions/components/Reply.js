@@ -3,6 +3,29 @@ import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import { Paper } from 'material-ui';
 
+const styles = {
+  container: { margin: '8px 0px 8px 0px', backgroundColor: 'rgba(16, 16, 16, 1)' },
+  infoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: '100%',
+    padding: '2px',
+  },
+  author: {
+    color: 'rgba(190, 190, 190, 0.9)',
+  },
+  timestamp: {
+    color: 'gray',
+    marginLeft: '4px',
+  },
+  content: {
+    marginLeft: '4px',
+    width: '100%',
+    padding: '2px',
+  },
+};
+
 export class Reply extends Component {
 
   constructor(props) {
@@ -15,27 +38,20 @@ export class Reply extends Component {
     } = this.props;
 
     const {
-      replyId,
       createdAt,
       author,
       content,
     } = reply;
 
     return (
-      <Paper zDepth={1} style={{margin: "8px 0px 8px 0px", backgroundColor: 'rgba(16, 16, 16, 1)'}}>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'flex-end',
-          width: '100%',
-          padding: '2px',
-        }}>
-          <div style={{ color: 'rgba(190, 190, 190, 0.9)' }}>{author}</div>
-          <div style={{ color: 'gray', marginLeft: '4px' }}>
+      <Paper zDepth={1} style={styles.container}>
+        <div style={styles.infoContainer}>
+          <div style={styles.author}>{author}</div>
+          <div style={styles.timestamp}>
             {moment(createdAt).format('LTS')}
           </div>
         </div>
-        <div style={{ marginLeft: '4px', width: '100%', padding: '2px' }}>{content}</div>
+        <div style={styles.content}>{content}</div>
       </Paper>
     );
   }
