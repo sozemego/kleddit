@@ -28,10 +28,6 @@ const styles = {
 
 export class Reply extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       reply,

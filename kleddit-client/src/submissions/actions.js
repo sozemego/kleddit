@@ -4,12 +4,14 @@ import { makeActionCreator } from '../state/utils';
 import { setSubmissionErrors } from '../main/actions';
 import { SubmissionService as submissionService } from './SubmissionService';
 import {
-  getCurrentReplyPage, getCurrentSubmission, getRepliesPerPage, getSubmissions, isFetchingNextReplyPage,
+  getCurrentReplyPage,
+  getCurrentSubmission,
+  getRepliesPerPage,
+  isFetchingNextReplyPage,
   isPostingReply,
 } from './selectors';
 import { getUsername } from '../user/state/selectors';
 import { setErrorMessage } from '../app/actions';
-import { getCurrentPage, getCurrentPerPage, isFetchingNextPage } from '../main/selectors';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -187,9 +189,9 @@ export const fetchCurrentSubmission = (submissionId) => {
     dispatch(setReplyPage(1));
 
     return Promise.all([
-        submissionService.getSubmissionById(submissionId),
-        dispatch(getReplies(submissionId, 1, getRepliesPerPage(getState))),
-      ])
+      submissionService.getSubmissionById(submissionId),
+      dispatch(getReplies(submissionId, 1, getRepliesPerPage(getState))),
+    ])
       .then(([submission]) => {
         dispatch(setCurrentSubmission(submission));
         dispatch(fetchingNextReplyPage(false));

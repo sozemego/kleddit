@@ -116,6 +116,7 @@ export class Submission extends Component {
             value={replyText}
             onKeyDown={onReplyTextKeyDown}
             onKeyUp={onReplyTextKeyUp}
+            name="Reply"
           />
         </Paper>
         <div>

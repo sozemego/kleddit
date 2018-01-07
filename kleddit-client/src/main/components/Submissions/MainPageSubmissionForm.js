@@ -134,6 +134,7 @@ export class MainPageSubmissionForm extends Component {
             style={styles.submissionFormTitleInput}
             value={title}
             errorText={submissionErrors.title}
+            name="Title"
             onChange={(event, title) => onTitleChange(title)}
           />
         </div>
@@ -144,6 +145,7 @@ export class MainPageSubmissionForm extends Component {
             style={styles.submissionFormContentInput}
             value={content}
             errorText={submissionErrors.content}
+            name="Content"
             onChange={(event, content) => onContentChange(content)}
           />
         </div>

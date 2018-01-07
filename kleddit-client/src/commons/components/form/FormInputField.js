@@ -36,6 +36,7 @@ export class FormInputField extends Component {
                  type={type}
                  hintText={hintText}
                  onChange={(event, value) => onChange(value)}
+                 name="Form input"
       />
     );
   }

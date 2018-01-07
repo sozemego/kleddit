@@ -162,6 +162,7 @@ export class MainPageSubmissionReplies extends Component {
         value={replyText}
         onKeyDown={onReplyTextKeyDown}
         onKeyUp={onReplyTextKeyUp}
+        name="Reply"
       />
       <div style={styles.repliesListContainer}>
         {loadingElement}
