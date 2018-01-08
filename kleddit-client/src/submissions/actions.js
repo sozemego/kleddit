@@ -177,12 +177,9 @@ export const postReply = (submissionId, content) => {
       return Promise.resolve(content);
     }
 
-    replyTypingService.connect();
-    replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
-    replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
-
     dispatch(setIsPostingReply(true));
 
+    replyTypingService.stopTyping(submissionId);
     return submissionService.postReply(submissionId, content)
       .then((reply) => {
         dispatch(addRepliesForSubmissionId(submissionId, [reply]));

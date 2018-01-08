@@ -49,24 +49,32 @@ ReplyTypingService.disconnect = function () {
 };
 
 ReplyTypingService.register = function (submissionId) {
-  checkIsConnected();
+  if(!checkIsConnected()) {
+    return;
+  }
   socket.send(registerMessage(submissionId));
 };
 
 ReplyTypingService.unregister = function (submissionId) {
-  checkIsConnected();
+  if(!checkIsConnected()) {
+    return;
+  }
   socket.send(unregisterMessage(submissionId));
 };
 
 ReplyTypingService.startTyping = function (submissionId) {
-  checkIsConnected();
+  if(!checkIsConnected()) {
+    return;
+  }
   socket.send(startTypingMessage(submissionId));
   clearTimeout(timeouts[submissionId]);
-  timeouts[submissionId] = setTimeout(() => this.stopTyping(submissionId), 5000);
+  timeouts[submissionId] = setTimeout(() => this.stopTyping(submissionId), 500000);
 };
 
 ReplyTypingService.stopTyping = function (submissionId) {
-  checkIsConnected();
+  if(!checkIsConnected()) {
+    return;
+  }
   socket.send(stopTypingMessage(submissionId));
   clearTimeout(timeouts[submissionId]);
 };
@@ -81,8 +89,10 @@ ReplyTypingService.setOnStopTyping = function (func) {
 
 const checkIsConnected = () => {
   if (!connected) {
-    throw new Error('You are not connected.');
+    console.warn('You are not connected.');
+    return false;
   }
+  return true;
 };
 
 const registerMessage = (submissionId) => {

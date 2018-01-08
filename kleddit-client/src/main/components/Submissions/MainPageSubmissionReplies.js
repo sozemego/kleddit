@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { CircularProgress, TextField } from 'material-ui';
 import moment from 'moment/moment';
 import MainPageMoreReplies from '../../containers/MainPageMoreReplies';
+import { TypingIndicator } from '../../../commons/components/TypingIndicator/TypingIndicator';
+import { ReplyIndicator } from '../../../submissions/components/ReplyIndicator';
 
 const styles = {
   repliesContainer: {
@@ -168,7 +170,7 @@ export class MainPageSubmissionReplies extends Component {
         name="Reply"
       />
       <div style={styles.repliesListContainer}>
-        {someoneTypingReply ? 'Someone is typing a reply...' : null}
+        <ReplyIndicator text={'Someone is typing a reply...'} show={someoneTypingReply}/>
         {loadingElement}
         {replies.map(getReplyComponent)}
         <MainPageMoreReplies submissionId={submissionId}/>
