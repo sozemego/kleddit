@@ -48,8 +48,8 @@ public class ReplyTypingWebSocket {
     switch (messageType) {
       case REGISTER: handleRegister(json, session); break;
       case UNREGISTER: handleUnregister(json, session); break;
-      case START_TYPING: handleStartTyping(json); break;
-      case STOP_TYPING: handleStopTyping(json); break;
+      case START_TYPING: handleStartTyping(json, session); break;
+      case STOP_TYPING: handleStopTyping(json, session); break;
     }
   }
 
@@ -64,7 +64,6 @@ public class ReplyTypingWebSocket {
         v.add(session);
         return v;
       });
-      System.out.println(submissionSessionMap.get(submissionId).size());
     }
   }
 
@@ -78,26 +77,29 @@ public class ReplyTypingWebSocket {
         }
         return v;
       });
-      System.out.println(submissionSessionMap.get(submissionId).size());
     }
   }
 
-  private void handleStartTyping(Map<String, String> json) {
+  private void handleStartTyping(Map<String, String> json, Session initiator) {
     String submissionId = json.get("submissionId");
     Set<Session> sessions = getSessions(submissionId);
+    sessions.remove(initiator);
     String message = getStartTypingMessage(submissionId);
     sendToAll(message, sessions);
   }
 
-  private void handleStopTyping(Map<String, String> json) {
+  private void handleStopTyping(Map<String, String> json, Session initiator) {
     String submissionId = json.get("submissionId");
     Set<Session> sessions = getSessions(submissionId);
+    sessions.remove(initiator);
     String message = getStopTypingMessage(submissionId);
     sendToAll(message, sessions);
   }
 
   private Set<Session> getSessions(String submissionId) {
-    return submissionSessionMap.getOrDefault(submissionId, new HashSet<>());
+    synchronized (submissionSessionMap) {
+      return new HashSet<>(submissionSessionMap.getOrDefault(submissionId, new HashSet<>()));
+    }
   }
 
   private String getStartTypingMessage(String submissionId) {
