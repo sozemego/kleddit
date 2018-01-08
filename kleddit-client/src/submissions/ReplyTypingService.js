@@ -68,7 +68,7 @@ ReplyTypingService.startTyping = function (submissionId) {
   }
   socket.send(startTypingMessage(submissionId));
   clearTimeout(timeouts[submissionId]);
-  timeouts[submissionId] = setTimeout(() => this.stopTyping(submissionId), 500000);
+  timeouts[submissionId] = setTimeout(() => this.stopTyping(submissionId), 5000);
 };
 
 ReplyTypingService.stopTyping = function (submissionId) {
