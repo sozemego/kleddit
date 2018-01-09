@@ -12,6 +12,7 @@ import { setErrorMessage } from '../app/actions';
 import { ReplyTypingService as replyTypingService } from '../submissions/ReplyTypingService';
 import { onStartTyping } from '../submissions/actions';
 import { onStopTyping } from '../submissions/actions';
+import { addReply } from '../submissions/actions';
 
 export const SET_SUBKLEDDITS = 'SET_SUBKLEDDITS';
 const setSubkleddits = makeActionCreator(SET_SUBKLEDDITS, 'subkleddits');
@@ -40,6 +41,7 @@ export const init = () => {
     replyTypingService.connect();
     replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
     replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
+    replyTypingService.setOnReply((reply) => dispatch(addReply(reply)));
 
     dispatch(getSubkleddits());
     dispatch(loadSubmissions());

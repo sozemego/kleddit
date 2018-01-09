@@ -4,10 +4,7 @@ import { makeActionCreator } from '../state/utils';
 import { setSubmissionErrors } from '../main/actions';
 import { SubmissionService as submissionService } from './SubmissionService';
 import {
-  getCurrentReplyPage,
-  getCurrentSubmission,
-  getRepliesPerPage,
-  isFetchingNextReplyPage,
+  getCurrentReplyPage, getCurrentSubmission, getRepliesPerPage, isFetchingNextReplyPage,
   isPostingReply,
 } from './selectors';
 import { getUsername } from '../user/state/selectors';
@@ -181,12 +178,17 @@ export const postReply = (submissionId, content) => {
 
     replyTypingService.stopTyping(submissionId);
     return submissionService.postReply(submissionId, content)
-      .then((reply) => {
-        dispatch(addRepliesForSubmissionId(submissionId, [reply]));
-        dispatch(setInputReplyForSubmission(submissionId, ''));
-        dispatch(incrementReplyCount(submissionId));
-        dispatch(setIsPostingReply(false));
-      });
+      .then((reply) => dispatch(addReply(reply)));
+  };
+};
+
+export const addReply = (reply) => {
+  return (dispatch, getState) => {
+    const { submissionId } = reply;
+    dispatch(addRepliesForSubmissionId(submissionId, [reply]));
+    dispatch(setInputReplyForSubmission(submissionId, ''));
+    dispatch(incrementReplyCount(submissionId));
+    dispatch(setIsPostingReply(false));
   };
 };
 
@@ -195,6 +197,11 @@ export const fetchCurrentSubmission = (submissionId) => {
 
     dispatch(fetchingNextReplyPage(true));
     dispatch(setReplyPage(1));
+
+    replyTypingService.connect();
+    replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
+    replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
+    replyTypingService.setOnReply((reply) => dispatch(addReply(reply)));
 
     return Promise.all([
       submissionService.getSubmissionById(submissionId),

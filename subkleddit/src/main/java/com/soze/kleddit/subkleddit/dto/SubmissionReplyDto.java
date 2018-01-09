@@ -45,4 +45,15 @@ public class SubmissionReplyDto {
   public String getContent() {
     return content;
   }
+
+  @Override
+  public String toString() {
+    return "SubmissionReplyDto{" +
+      "replyId='" + replyId + '\'' +
+      ", submissionId='" + submissionId + '\'' +
+      ", createdAt=" + createdAt +
+      ", author='" + author + '\'' +
+      ", content='" + content + '\'' +
+      '}';
+  }
 }

@@ -3,13 +3,13 @@ import { networkConfig } from '../config/network';
 
 const subkledditBase = 'subkleddit';
 const repliesTyping = 'replies/typing';
+const timeouts = {};
 
 let socket = null;
 let connected = false;
 let onStartTyping = _.noop;
 let onStopTyping = _.noop;
-
-const timeouts = {};
+let onReply = _.noop;
 
 export const ReplyTypingService = {};
 
@@ -38,6 +38,9 @@ ReplyTypingService.connect = function () {
     if (parsed['STOP_TYPING']) {
       onStopTyping(parsed['STOP_TYPING']);
     }
+    if (parsed['REPLY']) {
+      onReply(parsed['REPLY']);
+    }
   };
 };
 
@@ -49,21 +52,21 @@ ReplyTypingService.disconnect = function () {
 };
 
 ReplyTypingService.register = function (submissionId) {
-  if(!checkIsConnected()) {
+  if (!checkIsConnected()) {
     return;
   }
   socket.send(registerMessage(submissionId));
 };
 
 ReplyTypingService.unregister = function (submissionId) {
-  if(!checkIsConnected()) {
+  if (!checkIsConnected()) {
     return;
   }
   socket.send(unregisterMessage(submissionId));
 };
 
 ReplyTypingService.startTyping = function (submissionId) {
-  if(!checkIsConnected()) {
+  if (!checkIsConnected()) {
     return;
   }
   socket.send(startTypingMessage(submissionId));
@@ -72,7 +75,7 @@ ReplyTypingService.startTyping = function (submissionId) {
 };
 
 ReplyTypingService.stopTyping = function (submissionId) {
-  if(!checkIsConnected()) {
+  if (!checkIsConnected()) {
     return;
   }
   socket.send(stopTypingMessage(submissionId));
@@ -85,6 +88,10 @@ ReplyTypingService.setOnStartTyping = function (func) {
 
 ReplyTypingService.setOnStopTyping = function (func) {
   onStopTyping = func;
+};
+
+ReplyTypingService.setOnReply = function (func) {
+  onReply = func;
 };
 
 const checkIsConnected = () => {

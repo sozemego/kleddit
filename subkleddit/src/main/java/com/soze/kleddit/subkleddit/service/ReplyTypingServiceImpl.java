@@ -1,10 +1,13 @@
 package com.soze.kleddit.subkleddit.service;
 
+import com.soze.kleddit.subkleddit.dto.SubmissionReplyDto;
+import com.soze.kleddit.subkleddit.events.ReplyPostedEvent;
 import com.soze.kleddit.utils.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +26,7 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
   private static final String UNREGISTER = "UNREGISTER";
   private static final String START_TYPING = "START_TYPING";
   private static final String STOP_TYPING = "STOP_TYPING";
+  private static final String REPLY = "REPLY";
 
   private final Map<String, Session> idSessionMap = new ConcurrentHashMap<>();
   private final Map<String, Set<String>> submissionSessionIdMap = new ConcurrentHashMap<>();
@@ -69,6 +73,12 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
       case START_TYPING: handleStartTyping(message, session); break;
       case STOP_TYPING: handleStopTyping(message, session); break;
     }
+  }
+
+  @Override
+  public void onReply(@Observes final ReplyPostedEvent event) {
+    SubmissionReplyDto dto = event.getSubmissionReplyDto();
+    handleReply(dto);
   }
 
   private void handleRegister(Map<String, String> json, Session session) {
@@ -127,6 +137,11 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
     sendToAll(message, sessions);
   }
 
+  private void handleReply(SubmissionReplyDto dto) {
+    Set<Session> sessions = getSessions(dto.getSubmissionId());
+    sendToAll(getReplyMessage(dto), sessions);
+  }
+
   private Set<Session> getSessions(String submissionId) {
     synchronized (lock) {
       return submissionSessionIdMap.get(submissionId)
@@ -145,6 +160,12 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
   private String getStopTypingMessage(String submissionId) {
     Map<String, String> message = new HashMap<>();
     message.put(STOP_TYPING, submissionId);
+    return JsonUtils.objectToJson(message);
+  }
+
+  private String getReplyMessage(SubmissionReplyDto dto) {
+    Map<String, SubmissionReplyDto> message = new HashMap<>();
+    message.put(REPLY, dto);
     return JsonUtils.objectToJson(message);
   }
 

@@ -1,8 +1,10 @@
 package com.soze.kleddit.subkleddit.service;
 
+import com.soze.kleddit.subkleddit.dto.SubmissionReplyDto;
 import com.soze.kleddit.subkleddit.dto.SubmissionReplyForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionReply;
+import com.soze.kleddit.subkleddit.events.ReplyPostedEvent;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionReplyException;
 import com.soze.kleddit.subkleddit.repository.SubmissionReplyRepository;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -27,6 +30,9 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
 
   private static final Logger LOG  = LoggerFactory.getLogger(SubmissionReplyServiceImpl.class);
   private static final int MAX_REPLY_LENGTH = 10000;
+
+  @Inject
+  private Event<ReplyPostedEvent> event;
 
   @Inject
   private SubmissionReplyRepository submissionReplyRepository;
@@ -70,7 +76,9 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     reply.setCreatedAt(Timestamp.from(Instant.now()));
     reply.setContent(form.getContent());
 
-    return submissionReplyRepository.postReply(reply);
+    reply = submissionReplyRepository.postReply(reply);
+    event.fire(new ReplyPostedEvent(convertToDto(reply)));
+    return reply;
   }
 
   @Override
@@ -124,5 +132,15 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     }
 
     return submissionReplyRepository.getReplies(submissionId, pagination);
+  }
+
+  private SubmissionReplyDto convertToDto(SubmissionReply reply) {
+    return new SubmissionReplyDto(
+      reply.getReplyId().toString(),
+      reply.getSubmissionId().toString(),
+      reply.getCreatedAt().getTime(),
+      reply.getAuthor().getUsername(),
+      reply.getContent()
+    );
   }
 }
