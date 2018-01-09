@@ -44,6 +44,7 @@ const styles = {
     margin: '6px 6px',
     wordBreak: 'break-all',
     padding: '4px',
+    whiteSpace: 'pre-wrap',
   },
 };
 

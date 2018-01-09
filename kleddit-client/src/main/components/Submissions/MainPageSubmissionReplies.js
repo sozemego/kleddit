@@ -6,6 +6,7 @@ import MainPageMoreReplies from '../../containers/MainPageMoreReplies';
 import { TypingIndicator } from '../../../commons/components/TypingIndicator/TypingIndicator';
 import { ReplyIndicator } from '../../../submissions/components/ReplyIndicator';
 import ReplyTextField from '../../../submissions/containers/ReplyTextField';
+import { Reply } from '../../../submissions/components/Reply';
 
 const styles = {
   repliesContainer: {
@@ -69,17 +70,8 @@ styles.eventReplyContainer = Object.assign({}, styles.replyContainer, {
 
 export class MainPageSubmissionReplies extends Component {
 
-  getReplyComponent = ({ replyId, content, author, createdAt }, index) => {
-    return <div key={replyId}
-                style={index % 2 ? styles.eventReplyContainer : styles.oddReplyContainer}>
-      <div style={styles.replyHeaderContainer}>
-        <div style={styles.replyHeaderAuthor}>{author}</div>
-        <div style={styles.replyHeaderTimestamp}>
-          {moment(createdAt).format('LTS')}
-        </div>
-      </div>
-      <div style={styles.replyContent}>{content}</div>
-    </div>;
+  getReplyComponent = (reply) => {
+    return <Reply reply={reply} key={reply.replyId}/>;
   };
 
   render() {

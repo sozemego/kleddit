@@ -23,6 +23,7 @@ const styles = {
     marginLeft: '4px',
     width: '100%',
     padding: '2px',
+    whiteSpace: 'pre-wrap',
   },
 };
 
