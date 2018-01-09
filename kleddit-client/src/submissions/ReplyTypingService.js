@@ -6,7 +6,6 @@ const repliesTyping = 'replies/typing';
 const timeouts = {};
 
 let socket = null;
-let connected = false;
 let onStartTyping = _.noop;
 let onStopTyping = _.noop;
 let onReply = _.noop;
@@ -14,8 +13,8 @@ let onReply = _.noop;
 export const ReplyTypingService = {};
 
 ReplyTypingService.connect = function () {
-  if (connected) {
-    console.warn('Already connected');
+  if (socket && socket.readyState !== WebSocket.CLOSED) {
+    console.warn('Already connected or connecting or closing. Either way, cannot connect right now.');
     return;
   }
 
@@ -23,11 +22,11 @@ ReplyTypingService.connect = function () {
   socket = new WebSocket(`${wsProtocol}://${base}:${port}${version}/${subkledditBase}/${repliesTyping}`);
 
   socket.onopen = () => {
-    connected = true;
+
   };
 
   socket.onclose = () => {
-    connected = false;
+
   };
 
   socket.onmessage = (message) => {
@@ -45,28 +44,30 @@ ReplyTypingService.connect = function () {
 };
 
 ReplyTypingService.disconnect = function () {
-  if (connected) {
+  if(socket) {
     socket.close();
-    connected = false;
   }
 };
 
 ReplyTypingService.register = function (submissionId) {
-  if (!checkIsConnected()) {
+  if(isConnecting()) {
+    return setTimeout(() => this.register(submissionId), 125);
+  }
+  if(!isOpen()) {
     return;
   }
   socket.send(registerMessage(submissionId));
 };
 
 ReplyTypingService.unregister = function (submissionId) {
-  if (!checkIsConnected()) {
+  if (!isOpen()) {
     return;
   }
   socket.send(unregisterMessage(submissionId));
 };
 
 ReplyTypingService.startTyping = function (submissionId) {
-  if (!checkIsConnected()) {
+  if (!isOpen()) {
     return;
   }
   socket.send(startTypingMessage(submissionId));
@@ -75,7 +76,7 @@ ReplyTypingService.startTyping = function (submissionId) {
 };
 
 ReplyTypingService.stopTyping = function (submissionId) {
-  if (!checkIsConnected()) {
+  if (!isOpen()) {
     return;
   }
   socket.send(stopTypingMessage(submissionId));
@@ -94,12 +95,12 @@ ReplyTypingService.setOnReply = function (func) {
   onReply = func;
 };
 
-const checkIsConnected = () => {
-  if (!connected) {
-    console.warn('You are not connected.');
-    return false;
-  }
-  return true;
+const isOpen = () => {
+  return (socket && socket.readyState === WebSocket.OPEN);
+};
+
+const isConnecting = () => {
+  return (socket && socket.readyState === WebSocket.CONNECTING);
 };
 
 const registerMessage = (submissionId) => {

@@ -4,6 +4,7 @@ import { Paper, TextField } from 'material-ui';
 import moment from 'moment/moment';
 
 import { Reply } from '../Reply';
+import ReplyTextField from '../../containers/ReplyTextField';
 
 const KEYS = {
   SHIFT: 'SHIFT',
@@ -31,61 +32,15 @@ const styles = {
     alignItems: 'flex-end',
     margin: '12px 0px 12px 0px',
     padding: '0px 4px 0px 4px',
-  },
-  replyTextField: {
-    width: "100%",
-  },
+  }
 };
 
 export class Submission extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      replyText: '',
-    };
-  }
-
-  onReplyChanged = (event, replyText) => {
-    this.setState({ replyText });
-  };
-
-  onReplySubmit = () => {
-    const {
-      onReplySubmit,
-      submission: { submissionId },
-    } = this.props;
-
-    const { replyText } = this.state;
-    return onReplySubmit(submissionId, replyText).then((replyText = '') => {
-      this.setState({ replyText });
-    });
-  };
-
-  onReplyTextKeyDown = (event) => {
-    const { onReplySubmit } = this;
-    if (keyCodes[event.keyCode] === KEYS.ENTER && !this.shiftPressed) {
-      onReplySubmit();
-      event.preventDefault();
-    }
-    this.shiftPressed = keyCodes[event.keyCode] === KEYS.SHIFT;
-  };
-
-  onReplyTextKeyUp = (event) => {
-    if (keyCodes[event.keyCode] === KEYS.SHIFT) {
-      this.shiftPressed = false;
-    }
-  };
-
   render() {
-    const {
-      onReplyChanged,
-      onReplyTextKeyDown,
-      onReplyTextKeyUp,
-    } = this;
-    const { replyText } = this.state;
     const { submission, replies } = this.props;
     const {
+      submissionId,
       title,
       createdAt,
       author,
@@ -107,17 +62,7 @@ export class Submission extends Component {
           </div>
         </Paper>
         <Paper zDepth={3} style={styles.replyTextFieldContainer}>
-          <TextField
-            underlineShow={false}
-            hintText={'Reply'}
-            multiLine
-            style={styles.replyTextField}
-            onChange={onReplyChanged}
-            value={replyText}
-            onKeyDown={onReplyTextKeyDown}
-            onKeyUp={onReplyTextKeyUp}
-            name="Reply"
-          />
+          <ReplyTextField submissionId={submissionId}/>
         </Paper>
         <div>
           {replies.map(reply => <Reply reply={reply} key={reply.replyId}/>)}

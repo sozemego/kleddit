@@ -4,7 +4,10 @@ import { makeActionCreator } from '../state/utils';
 import { setSubmissionErrors } from '../main/actions';
 import { SubmissionService as submissionService } from './SubmissionService';
 import {
-  getCurrentReplyPage, getCurrentSubmission, getRepliesPerPage, isFetchingNextReplyPage,
+  getCurrentReplyPage,
+  getCurrentSubmission,
+  getRepliesPerPage,
+  isFetchingNextReplyPage,
   isPostingReply,
 } from './selectors';
 import { getUsername } from '../user/state/selectors';
@@ -202,6 +205,7 @@ export const fetchCurrentSubmission = (submissionId) => {
     replyTypingService.setOnStartTyping((submissionId) => dispatch(onStartTyping(submissionId)));
     replyTypingService.setOnStopTyping((submissionId) => dispatch(onStopTyping(submissionId)));
     replyTypingService.setOnReply((reply) => dispatch(addReply(reply)));
+    replyTypingService.register(submissionId);
 
     return Promise.all([
       submissionService.getSubmissionById(submissionId),
@@ -247,5 +251,12 @@ export const onStartTyping = (submissionId) => {
 export const onStopTyping = (submissionId) => {
   return (dispatch, getState) => {
     dispatch(removeSubmissionIdReplyTyped(submissionId));
+  };
+};
+export const onReplyTextChanged = (submissionId) => {
+  return (dispatch, getState) => {
+
+    replyTypingService.startTyping(submissionId);
+
   };
 };

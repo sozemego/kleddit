@@ -5,6 +5,7 @@ import moment from 'moment/moment';
 import MainPageMoreReplies from '../../containers/MainPageMoreReplies';
 import { TypingIndicator } from '../../../commons/components/TypingIndicator/TypingIndicator';
 import { ReplyIndicator } from '../../../submissions/components/ReplyIndicator';
+import ReplyTextField from '../../../submissions/containers/ReplyTextField';
 
 const styles = {
   repliesContainer: {
@@ -66,24 +67,7 @@ styles.eventReplyContainer = Object.assign({}, styles.replyContainer, {
   backgroundColor: 'rgba(17, 17, 17, 1)',
 });
 
-const KEYS = {
-  SHIFT: 'SHIFT',
-  ENTER: 'ENTER',
-};
-
-const keyCodes = {
-  13: KEYS.ENTER,
-  16: KEYS.SHIFT,
-};
-
 export class MainPageSubmissionReplies extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      replyText: '',
-    };
-  }
 
   getReplyComponent = ({ replyId, content, author, createdAt }, index) => {
     return <div key={replyId}
@@ -98,56 +82,16 @@ export class MainPageSubmissionReplies extends Component {
     </div>;
   };
 
-  onReplyChanged = (event, replyText) => {
-    const { onReplyTextChanged, submissionId } = this.props;
-    this.setState({ replyText });
-    onReplyTextChanged(submissionId);
-  };
-
-  onReplySubmit = () => {
-    const {
-      onReplySubmit,
-      submissionId,
-    } = this.props;
-    const { replyText } = this.state;
-    return onReplySubmit(submissionId, replyText).then((replyText = '') => {
-      this.setState({ replyText });
-    });
-  };
-
-  onReplyTextKeyDown = (event) => {
-    const { onReplySubmit } = this;
-    if (keyCodes[event.keyCode] === KEYS.ENTER && !this.shiftPressed) {
-      onReplySubmit();
-      event.preventDefault();
-    }
-    this.shiftPressed = keyCodes[event.keyCode] === KEYS.SHIFT;
-  };
-
-  onReplyTextKeyUp = (event) => {
-    if (keyCodes[event.keyCode] === KEYS.SHIFT) {
-      this.shiftPressed = false;
-    }
-  };
-
   render() {
     const {
       isShowingReplies,
       replies,
       isLoadingReplies,
       submissionId,
-      someoneTypingReply,
     } = this.props;
 
     const {
-      replyText,
-    } = this.state;
-
-    const {
-      onReplyChanged,
       getReplyComponent,
-      onReplyTextKeyDown,
-      onReplyTextKeyUp,
     } = this;
 
     if (!isShowingReplies) return null;
@@ -159,18 +103,8 @@ export class MainPageSubmissionReplies extends Component {
     }
 
     return <div style={styles.repliesContainer} key={2}>
-      <TextField
-        hintText={'Reply'}
-        multiLine
-        style={styles.replyTextField}
-        onChange={onReplyChanged}
-        value={replyText}
-        onKeyDown={onReplyTextKeyDown}
-        onKeyUp={onReplyTextKeyUp}
-        name="Reply"
-      />
+      <ReplyTextField submissionId={submissionId}/>
       <div style={styles.repliesListContainer}>
-        <ReplyIndicator text={'Someone is typing a reply...'} show={someoneTypingReply}/>
         {loadingElement}
         {replies.map(getReplyComponent)}
         <MainPageMoreReplies submissionId={submissionId}/>
