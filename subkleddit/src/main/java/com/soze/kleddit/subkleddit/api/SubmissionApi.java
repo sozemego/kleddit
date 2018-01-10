@@ -8,6 +8,7 @@ import com.soze.kleddit.user.api.Authenticated;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import com.soze.kleddit.utils.filters.Log;
+import com.soze.kleddit.utils.filters.RateLimited;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.inject.Inject;
@@ -64,6 +65,7 @@ public class SubmissionApi {
   }
 
   @Authenticated
+  @RateLimited
   @Path("/subscribed")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
