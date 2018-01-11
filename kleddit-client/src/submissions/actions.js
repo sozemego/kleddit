@@ -76,8 +76,12 @@ export const loadSubmissions = (page, limit) => {
         dispatch(addSubmissions(submissions));
       })
       .catch((error) => {
-        if (_.get(error, 'response.status', 500) === 401) {
+        const status = _.get(error, `status`, 500);
+        if (status === 401) {
           return dispatch(setErrorMessage(`Problem fetching submissions, you are not logged in!`));
+        }
+        if(status === 429) {
+          return;
         }
         dispatch(setErrorMessage('Ops, had a problem fetching submissions!'));
       });

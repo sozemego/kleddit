@@ -1,13 +1,37 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { store } from '../state/init';
 import { networkConfig } from '../config/network';
-import { fetching, stopFetching } from '../app/actions';
+import { fetching, setErrorMessage, stopFetching } from '../app/actions';
 
 const fetch = () => store.dispatch(fetching());
 
 const fetched = ({data}) => {
   store.dispatch(stopFetching());
   return data;
+};
+
+const errorInterceptor = (error) => {
+  return errorUnpacker(error)
+    .then(rateLimitErrorInterceptor)
+    .then(fetchedError);
+};
+
+const rateLimitErrorInterceptor = (error) => {
+  if(_.get(error, `status`, 400) === 429) {
+    store.dispatch(setErrorMessage('Too many requests!'));
+    throw error;
+  }
+};
+
+const errorUnpacker = (error) => {
+  const err = {
+    status: _.get(error, `response.status`, 400),
+    error: _.get(error, `response.statusText`, 'error'),
+    data: JSON.parse(_.get(error, `response.data.entity`, ``)),
+  };
+
+  return Promise.resolve(err);
 };
 
 const fetchedError = (error) => {
@@ -20,7 +44,7 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-axios.interceptors.response.use(fetched, fetchedError);
+axios.interceptors.response.use(fetched, errorInterceptor);
 
 export const NetworkService = {};
 
