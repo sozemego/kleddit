@@ -29,7 +29,6 @@ public class RateLimitServiceImpl implements RateLimitService {
     Objects.requireNonNull(user);
     Objects.requireNonNull(limitedResource);
 
-    //TODO make this an immutable copy so we don't have to synchronize?
     final Multimap<String, Long> userRequests = requestHistory.compute(limitedResource, (k, v) -> {
       if (v == null) {
         v = Multimaps.synchronizedMultimap(HashMultimap.create());
@@ -41,35 +40,35 @@ public class RateLimitServiceImpl implements RateLimitService {
     final TimeUnit timeUnit = rateLimit.getTimeUnit();
     final int timeUnits = rateLimit.getTimeUnits();
 
-    //it's ok to synchronize on this collection
-    synchronized (userRequests) {
-      //1. remove all previous requests older than timeUnit * timeUnits
-      //to do that, we need to find the timestamp before which we will remove previous requests
-      final long now = Instant.now().toEpochMilli();
-      final long rateLimitWindow = TimeUnit.MILLISECONDS.convert(timeUnits, timeUnit);
-      final long removeBefore = now - rateLimitWindow;
+    List<Long> userTimestamps = new LinkedList<>(userRequests.get(user));
 
-      final List<Long> timestamps = new LinkedList<>(userRequests.get(user)); //to stream
-      timestamps.removeIf(timestamp -> timestamp < removeBefore);
 
-      //2. get count of requests remaining
-      final int requests = timestamps.size();
+    //1. remove all previous requests older than timeUnit * timeUnits
+    //to do that, we need to find the timestamp before which we will remove previous requests
+    final long now = Instant.now().toEpochMilli();
+    userTimestamps.add(now);
+    final long rateLimitWindow = TimeUnit.MILLISECONDS.convert(timeUnits, timeUnit);
+    final long removeBefore = now - rateLimitWindow;
 
-      //3. if everything is ok, don't throw exception
+    userTimestamps.removeIf(timestamp -> timestamp < removeBefore);
 
-      //4. if over limit, throw exception
-      if(requests > limit) {
-        //4a. calculate when next request will be allowed to be fired
-        //you can only be over limit by 1
-        //this is why we get the request at index 0
-        final long timeNextRequestVanishes = timestamps.get(0) + rateLimitWindow - now;
+    //2. get count of requests remaining
+    final int requests = userTimestamps.size();
 
-        throw new RateLimitException(limitedResource, rateLimit, timeNextRequestVanishes / 1000);
-      }
+    //3. if everything is ok, don't throw exception
 
-      //5. add this request to the history
-      userRequests.put(user, now);
+    //4. if over limit, throw exception
+    if (requests > limit) {
+      //4a. calculate when next request will be allowed to be fired
+      //you can only be over limit by 1
+      //this is why we get the request at index 0
+      final long timeNextRequestVanishes = userTimestamps.get(0) + rateLimitWindow - now;
+
+      throw new RateLimitException(limitedResource, rateLimit, timeNextRequestVanishes / 1000);
     }
+
+    //5. add this request to the history
+    userRequests.replaceValues(user, userTimestamps);
 
   }
 }

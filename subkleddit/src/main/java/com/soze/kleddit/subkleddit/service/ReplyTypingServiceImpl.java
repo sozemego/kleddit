@@ -143,7 +143,7 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
   }
 
   private Set<Session> getSessions(String submissionId) {
-    synchronized (lock) {
+    synchronized (lock) {// dont need this?
       return submissionSessionIdMap.get(submissionId)
         .stream()
         .map(idSessionMap::get)
