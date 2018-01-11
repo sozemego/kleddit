@@ -41,15 +41,27 @@ public class RateLimitedFilter implements ContainerRequestFilter {
     //method values override type values
     RateLimited annotation = methodAnnotation != null ? methodAnnotation : resourceAnnotation;
 
-    //2. find the limited object (either a class or method)
-    Object limitedObject = methodAnnotation != null ? resourceInfo.getResourceMethod() : resourceInfo.getResourceClass();
+    //2. create a value object for the resource
+    LimitedResource limitedResource = new LimitedResource(
+      resourceInfo.getResourceMethod(),
+      requestContext.getMethod(),
+      requestContext.getUriInfo().getPath()
+    );
 
     //3. find the user name or IP if anonymous
     Principal principal = securityContext.getUserPrincipal();
     String user = principal != null ? principal.getName() : httpServletRequest.getRemoteAddr();
 
     //3. apply rate limiting filter for this method and user
-    rateLimitService.applyFilter(annotation, user, limitedObject);
+    rateLimitService.applyFilter(getRateLimit(annotation), user, limitedResource);
+  }
+
+  private RateLimit getRateLimit(RateLimited rateLimited) {
+    return new RateLimit(
+      rateLimited.limit(),
+      rateLimited.timeUnit(),
+      rateLimited.timeUnits()
+    );
   }
 
 }

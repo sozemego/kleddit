@@ -5,6 +5,7 @@ import com.soze.kleddit.user.dto.Jwt;
 import com.soze.kleddit.user.dto.LoginForm;
 import com.soze.kleddit.user.service.AuthService;
 import com.soze.kleddit.utils.filters.Log;
+import com.soze.kleddit.utils.filters.RateLimited;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -27,6 +28,7 @@ public class AuthApi {
   private SecurityContext securityContext;
 
   @Path("/login")
+  @RateLimited(limit = 5, timeUnits = 1)
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +38,7 @@ public class AuthApi {
   }
 
   @Authenticated
+  @RateLimited(limit = 5, timeUnits = 1)
   @Path("/password/change")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

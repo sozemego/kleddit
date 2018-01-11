@@ -22,8 +22,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Log
 @Path("submission")
+@Log
+@RateLimited
 public class SubmissionApi {
 
   @Inject
@@ -65,7 +66,6 @@ public class SubmissionApi {
   }
 
   @Authenticated
-  @RateLimited
   @Path("/subscribed")
   @GET
   @Produces(MediaType.APPLICATION_JSON)

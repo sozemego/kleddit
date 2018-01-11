@@ -7,6 +7,7 @@ import com.soze.kleddit.subkleddit.service.SubmissionReplyService;
 import com.soze.kleddit.user.api.Authenticated;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import com.soze.kleddit.utils.filters.Log;
+import com.soze.kleddit.utils.filters.RateLimited;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Path("/submission/reply")
 @Log
+@RateLimited
 public class SubmissionReplyApi {
 
   @Inject

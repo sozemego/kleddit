@@ -5,6 +5,7 @@ import com.soze.kleddit.user.dto.SimpleUserDto;
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.service.UserService;
 import com.soze.kleddit.utils.filters.Log;
+import com.soze.kleddit.utils.filters.RateLimited;
 import com.soze.kleddit.utils.http.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ public class UserApi {
 
   @POST
   @Path("/register")
+  @RateLimited(limit = 5, timeUnits = 1)
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response registerUser(RegisterUserForm registerUserForm) {
@@ -55,6 +57,7 @@ public class UserApi {
 
   @GET
   @Path("/single/{username}")
+  @RateLimited
   @Produces(MediaType.APPLICATION_JSON)
   public Response getUserByUsername(@PathParam("username") String username) {
     Objects.requireNonNull(username);
@@ -71,6 +74,7 @@ public class UserApi {
   }
 
   @Authenticated
+  @RateLimited
   @DELETE
   @Path("/single/delete")
   public Response deleteUser(@Context SecurityContext context) {
@@ -79,6 +83,7 @@ public class UserApi {
   }
 
   @GET
+  @RateLimited
   @Path("/single/available/{username}")
   public Response isUsernameAvailable(@PathParam("username") String username) {
     boolean isAvailable = userService.isAvailableForRegistration(username);
