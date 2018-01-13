@@ -178,10 +178,10 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 const loginError = makeActionCreator(LOGIN_ERROR, 'message');
 
 export const SET_USERNAME = 'SET_USERNAME';
-const setUsername = makeActionCreator(SET_USERNAME, 'username');
+export const setUsername = makeActionCreator(SET_USERNAME, 'username');
 
 export const SET_TOKEN = 'SET_TOKEN';
-const setToken = makeActionCreator(SET_TOKEN, 'token');
+export const setToken = makeActionCreator(SET_TOKEN, 'token');
 
 export const ADD_SUBSCRIBED_TO_SUBKLEDDIT = 'ADD_SUBSCRIBED_TO_SUBKLEDDIT';
 const addSubscribedToSubkleddit = makeActionCreator(ADD_SUBSCRIBED_TO_SUBKLEDDIT, 'subkleddit');

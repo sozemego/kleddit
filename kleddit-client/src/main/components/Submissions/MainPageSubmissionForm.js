@@ -114,11 +114,11 @@ export class MainPageSubmissionForm extends Component {
       <div style={styles.submissionFormContainer}>
         <div>If you wish to submit a new post, please do it in the form below</div>
         <div style={styles.submissionFormSubkledditInputContainer}>
-          <div style={styles.submissionFormLabelContainer}>Subkleddit</div>
           <SelectField multiple={false}
                        value={subkleddit !== null ? subkleddits[subkleddit] : subkleddits[0] || null}
                        onChange={(event, subkleddit) => this.setState({ subkleddit })}
                        labelStyle={{ display: 'flex', justifyContent: 'center' }}
+                       floatingLabelText={'Subkleddit'}
           >
             {subkleddits.map((subkleddit, index) => {
               return <MenuItem key={index}
@@ -129,23 +129,25 @@ export class MainPageSubmissionForm extends Component {
           </SelectField>
         </div>
         <div style={styles.submissionFormTitleInputContainer}>
-          <div style={styles.submissionFormLabelContainer}>Title</div>
           <TextField
             style={styles.submissionFormTitleInput}
             value={title}
             errorText={submissionErrors.title}
             name="Title"
+            floatingLabelText={'Title'}
+            floatingLabelFixed
             onChange={(event, title) => onTitleChange(title)}
           />
         </div>
         <div style={styles.submissionFormContentInputContainer}>
-          <div style={styles.submissionFormLabelContainer}>Content</div>
           <TextField
             multiLine={true}
             style={styles.submissionFormContentInput}
             value={content}
             errorText={submissionErrors.content}
             name="Content"
+            floatingLabelText={'Content'}
+            floatingLabelFixed
             onChange={(event, content) => onContentChange(content)}
           />
         </div>

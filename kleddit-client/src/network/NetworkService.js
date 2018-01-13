@@ -3,6 +3,8 @@ import _ from 'lodash';
 import { store } from '../state/init';
 import { networkConfig } from '../config/network';
 import { fetching, setErrorMessage, stopFetching } from '../app/actions';
+import { setCurrentSubmission } from '../submissions/actions';
+import { setToken, setUsername } from '../user/state/actions';
 
 const fetch = () => store.dispatch(fetching());
 
@@ -14,12 +16,21 @@ const fetched = ({data}) => {
 const errorInterceptor = (error) => {
   return errorUnpacker(error)
     .then(rateLimitErrorInterceptor)
+    .then(unauthorizedErrorInterceptor)
     .then(fetchedError);
 };
 
 const rateLimitErrorInterceptor = (error) => {
   if(_.get(error, `status`, 400) === 429) {
     store.dispatch(setErrorMessage('Too many requests!'));
+    throw error;
+  }
+};
+
+const unauthorizedErrorInterceptor = (error) => {
+  if(_.get(error, 'status', 400) === 401) {
+    store.dispatch(setUsername(null));
+    store.dispatch(setToken(null));
     throw error;
   }
 };
