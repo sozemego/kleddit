@@ -4,7 +4,6 @@ import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionReply;
-import com.soze.kleddit.subkleddit.entity.SubmissionType;
 import com.soze.kleddit.subkleddit.exceptions.SubkledditDoesNotExistException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.user.entity.User;
@@ -98,7 +97,6 @@ public class SubmissionServiceImpl implements SubmissionService {
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);
     submission.setTitle(form.getTitle());
-    submission.setSubmissionType(SubmissionType.valueOf(form.getType()));
 
     List<Submission> submissions = subkleddit.getSubmissions();
     submissions.add(submission);

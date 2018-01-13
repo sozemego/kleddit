@@ -10,18 +10,15 @@ public class SubmissionForm {
   private final String subkledditName;
   private final String title;
   private final String content;
-  private final String type;
 
   @JsonCreator
   public SubmissionForm(@JsonProperty("subkledditName") String subkledditName,
                         @JsonProperty("title") String title,
-                        @JsonProperty("content") String content,
-                        @JsonProperty("type") String type
+                        @JsonProperty("content") String content
   ) {
     this.subkledditName = Objects.requireNonNull(subkledditName);
     this.title = Objects.requireNonNull(title);
     this.content = Objects.requireNonNull(content);
-    this.type = Objects.requireNonNull(type);
   }
 
   public String getSubkledditName() {
@@ -36,17 +33,12 @@ public class SubmissionForm {
     return content;
   }
 
-  public String getType() {
-    return type;
-  }
-
   @Override
   public String toString() {
     return "SubmissionForm{" +
       "subkledditName='" + subkledditName + '\'' +
       ", title='" + title + '\'' +
       ", content='" + content + '\'' +
-      ", type='" + type + '\'' +
       '}';
   }
 }

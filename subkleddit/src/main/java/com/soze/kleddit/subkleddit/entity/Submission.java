@@ -31,10 +31,6 @@ public class Submission {
   @Size(min = 1, max = 10000)
   private String content;
 
-  @Column(name = "submission_type")
-  @Enumerated(EnumType.STRING)
-  private SubmissionType submissionType;
-
   @ManyToOne(fetch = FetchType.EAGER)
   private Subkleddit subkleddit;
 
@@ -75,14 +71,6 @@ public class Submission {
 
   public void setContent(String content) {
     this.content = content;
-  }
-
-  public SubmissionType getSubmissionType() {
-    return submissionType;
-  }
-
-  public void setSubmissionType(final SubmissionType submissionType) {
-    this.submissionType = submissionType;
   }
 
   public Subkleddit getSubkleddit() {

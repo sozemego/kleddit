@@ -39,7 +39,6 @@ CREATE TABLE submissions
   content varchar(10000) NOT NULL,
   created_at timestamp NOT NULL,
   title varchar(100) NOT NULL,
-  submission_type submission_type NOT NULL,
   author_id uuid references users (user_id) NOT NULL,
   subkleddit_subkleddit_id uuid references subkleddits (subkleddit_id) NOT NULL
 );
