@@ -20,6 +20,8 @@ public class RateLimitedFilter implements ContainerRequestFilter {
 
   private static final Logger LOG = LoggerFactory.getLogger(RateLimitedFilter.class);
 
+  private final boolean rateLimitEnabled = Boolean.valueOf(System.getenv("KLEDDIT_RATE_LIMIT_ENABLED"));
+
   @Context
   private ResourceInfo resourceInfo;
 
@@ -34,6 +36,9 @@ public class RateLimitedFilter implements ContainerRequestFilter {
 
   @Override
   public void filter(final ContainerRequestContext requestContext) throws IOException {
+    if(!rateLimitEnabled) {
+      return;
+    }
     RateLimited resourceAnnotation = resourceInfo.getResourceClass().getAnnotation(RateLimited.class);
     RateLimited methodAnnotation = resourceInfo.getResourceMethod().getAnnotation(RateLimited.class);
 

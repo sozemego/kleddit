@@ -1,6 +1,7 @@
 package com.soze.kleddit.subkleddit.test;
 
 import com.soze.kleddit.subkleddit.dto.*;
+import com.soze.kleddit.subkleddit.entity.SubmissionType;
 import com.soze.kleddit.user.dto.Jwt;
 import com.soze.kleddit.user.dto.LoginForm;
 import com.soze.kleddit.user.dto.RegisterUserForm;
@@ -130,7 +131,8 @@ public class SubkledditTest extends HttpClient {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form, getPath(SUBKLEDDIT_POST_SUBMISSION));
     assertResponseIsCreated(response);

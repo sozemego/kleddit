@@ -139,11 +139,18 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
 
   private void handleReply(SubmissionReplyDto dto) {
     Set<Session> sessions = getSessions(dto.getSubmissionId());
+    if(sessions.isEmpty()) {
+      return;
+    }
     sendToAll(getReplyMessage(dto), sessions);
   }
 
   private Set<Session> getSessions(String submissionId) {
     synchronized (lock) {// dont need this?
+      Set<String> sessions = submissionSessionIdMap.get(submissionId);
+      if(sessions == null) {
+        return new HashSet<>();
+      }
       return submissionSessionIdMap.get(submissionId)
         .stream()
         .map(idSessionMap::get)

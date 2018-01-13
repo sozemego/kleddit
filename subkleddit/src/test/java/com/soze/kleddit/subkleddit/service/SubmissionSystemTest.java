@@ -4,6 +4,7 @@ import com.soze.kleddit.subkleddit.dto.SubmissionForm;
 import com.soze.kleddit.subkleddit.dto.SubmissionSimpleDto;
 import com.soze.kleddit.subkleddit.dto.SubscriptionForm;
 import com.soze.kleddit.subkleddit.dto.SubscriptionType;
+import com.soze.kleddit.subkleddit.entity.SubmissionType;
 import com.soze.kleddit.subkleddit.test.SubkledditTest;
 import com.soze.kleddit.utils.CommonUtils;
 import com.soze.kleddit.utils.jpa.EntityUUID;
@@ -36,7 +37,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form);
     assertResponseIsCreated(response);
@@ -54,7 +56,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form);
     assertResponseIsBadRequest(response);
@@ -69,7 +72,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form);
     assertResponseIsUnauthorized(response);
@@ -87,7 +91,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form);
     assertResponseIsBadRequest(response);
@@ -105,7 +110,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
     Response response = post(form);
     assertResponseIsCreated(response);
@@ -126,7 +132,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "",
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
 
     Response response = post(form);
@@ -148,7 +155,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       CommonUtils.generateRandomString(500),
-      "Content!"
+      "Content!",
+      SubmissionType.TEXT.toString()
     );
 
     Response response = post(form);
@@ -170,7 +178,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      ""
+      "",
+      SubmissionType.TEXT.toString()
     );
 
     Response response = post(form);
@@ -192,7 +201,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      CommonUtils.generateRandomString(10005)
+      CommonUtils.generateRandomString(10005),
+      SubmissionType.TEXT.toString()
     );
 
     Response response = post(form);
@@ -214,7 +224,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Super content"
+      "Super content",
+      SubmissionType.TEXT.toString()
     );
 
     post(form);
@@ -235,7 +246,8 @@ public class SubmissionSystemTest extends SubkledditTest {
     SubmissionForm form = new SubmissionForm(
       subkledditName,
       "Title",
-      "Super content"
+      "Super content",
+      SubmissionType.TEXT.toString()
     );
 
     SubmissionSimpleDto responseSubmission = getSubmission(post(form));
