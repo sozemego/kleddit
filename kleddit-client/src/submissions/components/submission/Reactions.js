@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getReactionsForSubmission } from '../../selectors';
+import * as submissionActions from '../../actions';
 
 import dislike from './reactions/dislike.png';
 import hate from './reactions/hate.png';
@@ -49,8 +50,17 @@ export class Reactions extends Component {
 
   getPath = (reaction) => reactionImages[reaction];
 
+  onReactionClick = (reaction) => {
+    const {
+      react,
+      submissionId,
+    } = this.props;
+
+    react(submissionId, reaction);
+  };
+
   createReactions = () => {
-    const { getPath } = this;
+    const { getPath, onReactionClick } = this;
     const {
       reactions,
     } = this.props;
@@ -59,7 +69,7 @@ export class Reactions extends Component {
       return <div key={key}
                   style={styles.reactionContainer}
       >
-        <ReactionImage src={getPath(key)} alt={key}/>
+        <ReactionImage src={getPath(key)} alt={key} type={key} onClick={onReactionClick}/>
         <span>{reactions[key] || 0}</span>
       </div>;
     });
@@ -94,5 +104,5 @@ const mapStateToProps = (state, { submissionId }) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Reactions);
+export default connect(mapStateToProps, submissionActions)(Reactions);
 

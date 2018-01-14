@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { REACTIONS } from '../../../constants';
 
 const inHoverAnimation = Radium.keyframes({
   '0%': {
@@ -46,7 +47,19 @@ export class ReactionImage extends Component {
     super(props);
   }
 
+  onClick = () => {
+    const {
+      onClick,
+      type,
+    } = this.props;
+    onClick(type);
+  };
+
   render() {
+    const {
+      onClick,
+    } = this;
+
     const {
       hovered,
     } = this.state;
@@ -65,7 +78,9 @@ export class ReactionImage extends Component {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      }}>
+      }}
+           onClick={onClick}
+      >
         <img src={src} alt={alt} style={style}/>
       </div>
     );
@@ -75,7 +90,9 @@ export class ReactionImage extends Component {
 
 ReactionImage.propTypes = {
   src: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(Object.values(REACTIONS)),
   alt: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 ReactionImage.defaultProps = {};
