@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createReducer, makeActionCreator } from '../state/utils';
+import { createReducer } from '../state/utils';
 import * as SUBMISSIONS_ACTIONS from './actions';
 
 const initialState = {
@@ -109,6 +109,34 @@ const removeSubmissionIdReplyTyped = (state, action) => {
   return {...state, submissionRepliesTyped};
 };
 
+const changeReactionCount = (state, action) => {
+  const { submissionId, reaction, count } = action;
+
+  const submissions = {...state.submissions};
+  const submission = {...submissions[submissionId]};
+  const reactions = {...submission.reactions};
+  let reactionCount = submission.reactions[reaction];
+  if(!reactionCount) {
+    reactions[reaction] = 0;
+  }
+  reactions[reaction] += count;
+  submission.reactions = reactions;
+  submissions[submissionId] = submission;
+
+  return {...state, submissions};
+};
+
+const setUserReaction = (state, action) => {
+  const { submissionId, reaction } = action;
+
+  const submissions = {...state.submissions};
+  const submission = {...submissions[submissionId]};
+  submission.userReaction = reaction;
+  submissions[submissionId] = submission;
+
+  return {...state, submissions};
+};
+
 const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.CLEAR_SUBMISSIONS]: clearSubmissions,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSIONS]: addSubmissions,
@@ -125,6 +153,8 @@ const submissions = createReducer(initialState, {
   [SUBMISSIONS_ACTIONS.FETCHING_NEXT_REPLY_PAGE]: fetchingNextReplyPage,
   [SUBMISSIONS_ACTIONS.ADD_SUBMISSION_ID_REPLY_TYPED]: addSubmissionIdReplyTyped,
   [SUBMISSIONS_ACTIONS.REMOVE_SUBMISSION_ID_REPLY_TYPED]: removeSubmissionIdReplyTyped,
+  [SUBMISSIONS_ACTIONS.CHANGE_REACTION_COUNT]: changeReactionCount,
+  [SUBMISSIONS_ACTIONS.SET_USER_REACTION]: setUserReaction,
 });
 
 export default submissions;

@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS  public.subkleddits;
 DROP TABLE IF EXISTS  public.subkleddit_subscriptions;
 
 -- CREATE TYPE submission_type AS ENUM('TEXT', 'LINK');
--- CREATE TYPE submission_reaction_type AS ENUM('LIKE', 'LAUGH', 'LOVE', 'DISLIKE', 'HATE');
+-- CREATE TYPE submission_reaction_type AS ENUM('LIKE', 'LAUGH', 'LOVE', 'DISLIKE', 'HATE, 'POOP');
 
 CREATE TABLE users
 (

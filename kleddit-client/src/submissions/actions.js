@@ -6,7 +6,7 @@ import { SubmissionService as submissionService } from './SubmissionService';
 import {
   getCurrentReplyPage,
   getCurrentSubmission,
-  getRepliesPerPage,
+  getRepliesPerPage, getUserReaction,
   isFetchingNextReplyPage,
   isPostingReply,
 } from './selectors';
@@ -62,6 +62,12 @@ export const addSubmissionIdReplyTyped = makeActionCreator(ADD_SUBMISSION_ID_REP
 
 export const REMOVE_SUBMISSION_ID_REPLY_TYPED = 'REMOVE_SUBMISSION_ID_REPLY_TYPED';
 export const removeSubmissionIdReplyTyped = makeActionCreator(REMOVE_SUBMISSION_ID_REPLY_TYPED, 'submissionId');
+
+export const CHANGE_REACTION_COUNT = 'CHANGE_REACTION_COUNT';
+export const changeReactionCount = makeActionCreator(CHANGE_REACTION_COUNT, 'submissionId', 'reaction', 'count');
+
+export const SET_USER_REACTION = 'SET_USER_REACTION';
+export const setUserReaction = makeActionCreator(SET_USER_REACTION, 'submissionId', 'reaction');
 
 export const loadSubmissions = (page, limit) => {
   return (dispatch, getState) => {
@@ -275,7 +281,28 @@ export const react = (submissionId, reactionType) => {
       throw new Error('Invalid reaction type.');
     }
 
-    return submissionService.react(submissionId, reactionType);
+    return submissionService.react(submissionId, reactionType)
+      .then(() => {
+        //1. if user previously had a reaction to this submission
+        //   we need to decrement the count it
+        const userReaction = getUserReaction(getState, submissionId);
+        if(userReaction !== null) {
+          dispatch(changeReactionCount(submissionId, userReaction, -1));
+        }
+
+        //2. if user previously had a reaction and it's the same
+        //   as the selected reaction, we need to remove it from the user
+        if(userReaction === reactionType) {
+          dispatch(setUserReaction(submissionId, null));
+        } else {
+          //3. or we set user's reaction for this submission
+          dispatch(setUserReaction(submissionId, reactionType));
+          dispatch(changeReactionCount(submissionId, reactionType, 1));
+        }
+
+
+
+      });
 
   };
 };
