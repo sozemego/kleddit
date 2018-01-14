@@ -34,7 +34,7 @@ const styles = {
     animationName: outHoverAnimation,
     animationFillMode: 'forwards',
     ':hover': {
-      animation: 'x 0.25s ease',
+      animation: 'x 0.45s ease',
       animationName: inHoverAnimation,
       animationFillMode: 'forwards',
     },

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
+import _ from 'lodash'
 import { rootSelector } from '../state/utils';
 import { getMaxRepliesShown, getShowingRepliesSubmissions } from '../main/selectors';
 
@@ -68,4 +68,9 @@ export const getSubmissions = createSelector(
 export const getReactionsForSubmission = (state, submissionId) => {
   const submissions = getSubmissionMap(state);
   return _.get(submissions, `[${submissionId}].reactions`, {});
+};
+
+export const getUserReaction = (state, submissionId) => {
+  const submissions = getSubmissionMap(state);
+  return _.get(submissions, `[${submissionId}].userReaction`, null);
 };

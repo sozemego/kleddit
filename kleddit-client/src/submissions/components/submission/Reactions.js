@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getReactionsForSubmission } from '../../selectors';
+import { getReactionsForSubmission, getUserReaction } from '../../selectors';
 import * as submissionActions from '../../actions';
 
 import dislike from './reactions/dislike.png';
@@ -35,11 +35,16 @@ const styles = {
     height: '18px',
     cursor: 'pointer',
   },
+  reactionCount: {},
 };
 
 styles.hoveredReactionImage = Object.assign({}, styles.reactionImage, {
   width: '20px',
   height: '20px',
+});
+
+styles.ownReactionCount = Object.assign({}, styles.reactionCount, {
+  color: '#0097a7',
 });
 
 export class Reactions extends Component {
@@ -63,6 +68,7 @@ export class Reactions extends Component {
     const { getPath, onReactionClick } = this;
     const {
       reactions,
+      userReaction,
     } = this.props;
 
     return Object.keys(REACTIONS).map((key) => {
@@ -70,7 +76,9 @@ export class Reactions extends Component {
                   style={styles.reactionContainer}
       >
         <ReactionImage src={getPath(key)} alt={key} type={key} onClick={onReactionClick}/>
-        <span>{reactions[key] || 0}</span>
+        <span style={userReaction === key ? styles.ownReactionCount : styles.reactionCount}>
+          {reactions[key] || 0}
+        </span>
       </div>;
     });
 
@@ -101,6 +109,7 @@ Reactions.defaultProps = {};
 const mapStateToProps = (state, { submissionId }) => {
   return {
     reactions: getReactionsForSubmission(state, submissionId),
+    userReaction: getUserReaction(state, submissionId),
   };
 };
 
