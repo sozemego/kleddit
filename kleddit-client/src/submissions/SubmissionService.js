@@ -10,6 +10,7 @@ const single = `${base}/submission/single`;
 const reply = '/submission/reply';
 const getReplies = `${base}${reply}`;
 const postReply = `${base}${reply}`;
+const react = `${base}/submission/react`;
 
 export const SubmissionService = {};
 
@@ -49,5 +50,12 @@ SubmissionService.postReply = function (submissionId, content) {
   return networkService.post(`${postReply}`, {
     submissionId,
     content,
+  });
+};
+
+SubmissionService.react = function(submissionId, reactionType) {
+  return networkService.post(`${react}`, {
+    submissionId,
+    reactionType,
   });
 };

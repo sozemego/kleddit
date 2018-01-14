@@ -1,7 +1,8 @@
-const TEXT = 'TEXT';
-const LINK = 'LINK';
-
-export const SUBMISSION_TYPES = {
-  TEXT: TEXT,
-  LINK: LINK,
+export const REACTIONS = {
+  LIKE: 'LIKE',
+  LAUGH: 'LAUGH',
+  LOVE: 'LOVE',
+  DISLIKE: 'DISLIKE',
+  HATE: 'HATE',
+  POOP: 'POOP',
 };

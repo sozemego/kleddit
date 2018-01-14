@@ -13,6 +13,7 @@ import {
 import { getUsername } from '../user/state/selectors';
 import { setErrorMessage } from '../app/actions';
 import { ReplyTypingService as replyTypingService } from './ReplyTypingService';
+import { REACTIONS } from './constants';
 
 export const CLEAR_SUBMISSIONS = 'CLEAR_SUBMISSIONS';
 export const clearSubmissions = makeActionCreator(CLEAR_SUBMISSIONS);
@@ -257,10 +258,24 @@ export const onStopTyping = (submissionId) => {
     dispatch(removeSubmissionIdReplyTyped(submissionId));
   };
 };
+
 export const onReplyTextChanged = (submissionId) => {
   return (dispatch, getState) => {
 
     replyTypingService.startTyping(submissionId);
+
+  };
+};
+
+export const react = (submissionId, reactionType) => {
+  return (dispatch, getState) => {
+
+    const reactionExists = !!REACTIONS[reactionType];
+    if(!reactionExists) {
+      throw new Error('Invalid reaction type.');
+    }
+
+    return submissionService.react(submissionId, reactionType);
 
   };
 };

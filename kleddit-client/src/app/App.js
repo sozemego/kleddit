@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { store } from '../state/init';
 import { Kleddit } from '../kleddit/Kleddit';
+import { StyleRoot } from 'radium';
 
 const theme = getMuiTheme(darkBaseTheme);
 
@@ -16,7 +17,9 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={theme}>
         <Provider store={store}>
-          <Kleddit/>
+          <StyleRoot>
+            <Kleddit/>
+          </StyleRoot>
         </Provider>
       </MuiThemeProvider>
     );

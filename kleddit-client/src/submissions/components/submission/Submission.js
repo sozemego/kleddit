@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, TextField } from 'material-ui';
+import { Paper } from 'material-ui';
 import moment from 'moment/moment';
 
 import { Reply } from '../Reply';
 import ReplyTextField from '../../containers/ReplyTextField';
 
-const KEYS = {
-  SHIFT: 'SHIFT',
-  ENTER: 'ENTER',
-};
-
-const keyCodes = {
-  13: KEYS.ENTER,
-  16: KEYS.SHIFT,
-};
+import Reactions from './Reactions';
 
 const styles = {
   container: {
@@ -64,6 +56,7 @@ export class Submission extends Component {
         <Paper zDepth={3} style={styles.replyTextFieldContainer}>
           <ReplyTextField submissionId={submissionId}/>
         </Paper>
+        <Reactions submissionId={submissionId}/>
         <div>
           {replies.map(reply => <Reply reply={reply} key={reply.replyId}/>)}
         </div>

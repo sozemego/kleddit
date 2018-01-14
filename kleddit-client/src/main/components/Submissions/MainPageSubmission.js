@@ -7,6 +7,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ReplyCount from '../../../submissions/components/ReplyCount';
 import StylelessLink from '../../../app/components/StylelessLink';
 import './submission.css';
+import Reactions from '../../../submissions/components/submission/Reactions';
 
 const styles = {
   submissionContainer: {
@@ -141,6 +142,7 @@ export class MainPageSubmission extends Component {
         <ReplyCount submissionId={submissionId} style={styles.replyCount}/>
       </StylelessLink>
       <Divider/>
+      <Reactions submissionId={submissionId}/>
       <Paper style={styles.submissionContent} zDepth={1}>{content}</Paper>
     </Paper>;
   }
