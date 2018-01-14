@@ -46,8 +46,8 @@ class ReplyTextField extends Component {
       submissionId,
     } = this.props;
     const { replyText } = this.state;
-    return onReplySubmit(submissionId, replyText).then((replyText = '') => {
-      this.setState({ replyText });
+    return onReplySubmit(submissionId, replyText).then(() => {
+      this.setState({ replyText: '' });
     });
   };
 
