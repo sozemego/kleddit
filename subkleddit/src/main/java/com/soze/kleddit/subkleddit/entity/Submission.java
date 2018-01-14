@@ -7,6 +7,9 @@ import org.hibernate.annotations.Formula;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "submissions")
@@ -36,6 +39,9 @@ public class Submission {
 
   @Formula("(SELECT COUNT(sr.reply_id) FROM submission_replies AS sr WHERE sr.submission_id = submission_id)")
   private int replyCount;
+
+  @OneToMany(mappedBy = "submissionId", fetch = FetchType.EAGER)
+  private List<SubmissionReaction> reactions = new ArrayList<>();
 
   public Submission() {
 
@@ -97,7 +103,18 @@ public class Submission {
     this.replyCount = replyCount;
   }
 
-  @Override
+  public List<SubmissionReaction> getReactions() {
+    return reactions;
+  }
+
+
+  public void setReactions(final List<SubmissionReaction> reactions) {
+    Objects.requireNonNull(reactions);
+    this.reactions.clear();
+    this.reactions.addAll(reactions);
+  }
+
+    @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;

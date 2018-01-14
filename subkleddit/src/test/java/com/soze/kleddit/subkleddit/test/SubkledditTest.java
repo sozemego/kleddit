@@ -52,6 +52,7 @@ public class SubkledditTest extends HttpClient {
   private static final String SUBMISSION_DELETE = "SUBMISSION_DELETE";
   private static final String SUBMISSION_GET_REPLIES = "SUBMISSION_GET_REPLIES";
   private static final String SUBMISSION_GET_BY_SUBKLEDDIT = "SUBMISSION_GET_BY_SUBKLEDDIT";
+  private static final String SUBMISSION_REACT = "SUBMISSION_REACT";
 
 
   /**
@@ -79,6 +80,7 @@ public class SubkledditTest extends HttpClient {
   private static final String DEFAULT_SUBMISSION_DELETE = DEFAULT_SUBKLEDDIT_BASE + "/submission/delete";
   private static final String DEFAULT_SUBMISSION_GET_REPLIES = DEFAULT_SUBKLEDDIT_BASE + "/submission/reply";
   private static final String DEFAULT_SUBMISSION_GET_BY_SUBKLEDDIT = DEFAULT_SUBKLEDDIT_BASE + "/submission/subkleddit";
+  private static final String DEFAULT_SUBMISSION_REACT = DEFAULT_SUBKLEDDIT_BASE + "/submission/react";
 
   private final Map<String, String> properties = getDefaultProperties();
 
@@ -140,6 +142,10 @@ public class SubkledditTest extends HttpClient {
 
   protected Response post(SubmissionForm form) {
     return post(form, getPath(SUBKLEDDIT_POST_SUBMISSION));
+  }
+
+  protected Response post(SubmissionReactionForm form) {
+    return post(form, getPath(SUBMISSION_REACT));
   }
 
   protected Response post(SubmissionReplyForm form) {
@@ -246,6 +252,7 @@ public class SubkledditTest extends HttpClient {
     properties.put(SUBMISSION_DELETE, DEFAULT_SUBMISSION_DELETE);
     properties.put(SUBMISSION_GET_REPLIES, DEFAULT_SUBMISSION_GET_REPLIES);
     properties.put(SUBMISSION_GET_BY_SUBKLEDDIT, DEFAULT_SUBMISSION_GET_BY_SUBKLEDDIT);
+    properties.put(SUBMISSION_REACT, DEFAULT_SUBMISSION_REACT);
     return properties;
   }
 

@@ -16,8 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 public class SubkledditSystemTest extends SubkledditTest {
 
-  private final String getAllSubkleddits = "all/";
-  private final String getByName = "single/";
   private final String search = "search/";
 
   @Before

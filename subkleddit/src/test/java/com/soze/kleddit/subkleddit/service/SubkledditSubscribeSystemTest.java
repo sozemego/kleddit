@@ -16,9 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 public class SubkledditSubscribeSystemTest extends SubkledditTest {
 
-  private final String userSubscriptions = "subscription/user/subkleddits/";
-  private final String subkledditSubscriptions = "subscription/subkleddit/subscriptions/";
-
   @Before
   public void setup() throws Exception {
     DatabaseReset.resetDatabase();

@@ -1,14 +1,18 @@
-ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS submissions_author_id_fkey;
-ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS submissions_subkleddit_subkleddit_id_fkey;
-ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_submission_id_fkey;
-ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS submission_replies_author_id_fkey;
-DROP TABLE IF EXISTS public.submissions;
-DROP TABLE IF EXISTS public.users;
-DROP TABLE IF EXISTS public.subkleddits;
-DROP TABLE IF EXISTS public.subkleddit_subscriptions;
-DROP TABLE IF EXISTS public.submission_replies;
+ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS  submission_replies_submission_id_fkey;
+ALTER TABLE IF EXISTS public.submission_replies DROP CONSTRAINT IF EXISTS  submission_replies_author_id_fkey;
+ALTER TABLE IF EXISTS public.submission_reactions DROP CONSTRAINT IF EXISTS  submission_reactions_submission_id_fkey;
+ALTER TABLE IF EXISTS public.submission_reactions DROP CONSTRAINT IF EXISTS  submission_reactions_user_id_fkey;
+ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS  submissions_author_id_fkey;
+ALTER TABLE IF EXISTS public.submissions DROP CONSTRAINT IF EXISTS  submissions_subkleddit_subkleddit_id_fkey;
+DROP TABLE IF EXISTS  public.submission_replies;
+DROP TABLE IF EXISTS  public.submission_reactions;
+DROP TABLE IF EXISTS  public.submissions;
+DROP TABLE IF EXISTS  public.users;
+DROP TABLE IF EXISTS  public.subkleddits;
+DROP TABLE IF EXISTS  public.subkleddit_subscriptions;
 
 -- CREATE TYPE submission_type AS ENUM('TEXT', 'LINK');
+-- CREATE TYPE submission_reaction_type AS ENUM('LIKE', 'LAUGH', 'LOVE', 'DISLIKE', 'HATE');
 
 CREATE TABLE users
 (
@@ -61,3 +65,12 @@ CREATE TABLE submission_replies
   content VARCHAR(10000) NOT NULL,
   nuked BOOLEAN DEFAULT FALSE NOT NULL
 );
+
+CREATE TABLE submission_reactions
+(
+  submission_reaction_id uuid NOT NULL PRIMARY KEY,
+  submission_id uuid NOT NULL REFERENCES submissions(submission_id),
+  user_id uuid NOT NULL REFERENCES users(user_id),
+  reaction_type submission_reaction_type NOT NULL,
+  UNIQUE (submission_id, user_id, reaction_type)
+)

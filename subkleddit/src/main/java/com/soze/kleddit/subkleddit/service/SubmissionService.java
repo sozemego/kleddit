@@ -1,6 +1,7 @@
 package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
+import com.soze.kleddit.subkleddit.dto.SubmissionReactionForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.jpa.EntityUUID;
@@ -46,5 +47,7 @@ public interface SubmissionService {
   void deleteSubmission(String username, EntityUUID submissionId);
 
   Optional<Submission> getSubmissionById(EntityUUID submissionId);
+
+  void react(String username, SubmissionReactionForm form);
 
 }

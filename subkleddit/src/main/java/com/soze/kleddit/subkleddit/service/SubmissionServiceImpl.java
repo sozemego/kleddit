@@ -1,11 +1,14 @@
 package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionForm;
+import com.soze.kleddit.subkleddit.dto.SubmissionReactionForm;
 import com.soze.kleddit.subkleddit.entity.Subkleddit;
 import com.soze.kleddit.subkleddit.entity.Submission;
+import com.soze.kleddit.subkleddit.entity.SubmissionReaction;
 import com.soze.kleddit.subkleddit.entity.SubmissionReply;
 import com.soze.kleddit.subkleddit.exceptions.SubkledditDoesNotExistException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
+import com.soze.kleddit.subkleddit.repository.SubmissionReactionRepository;
 import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.exceptions.AuthUserDoesNotExistException;
 import com.soze.kleddit.user.service.UserService;
@@ -41,6 +44,9 @@ public class SubmissionServiceImpl implements SubmissionService {
   @Inject
   private SubmissionReplyService submissionReplyService;
 
+  @Inject
+  private SubmissionReactionRepository submissionReactionRepository;
+
   @Override
   public Submission submit(String username, SubmissionForm form) {
     Objects.requireNonNull(username);
@@ -67,22 +73,22 @@ public class SubmissionServiceImpl implements SubmissionService {
       throw new SubkledditDoesNotExistException(subkledditName + " does not exist!");
     }
 
-    if(form.getTitle().trim().isEmpty()) {
+    if (form.getTitle().trim().isEmpty()) {
       LOG.info("User tried to post a submission without a title.");
       throw new SubmissionException("Title cannot be empty.");
     }
 
-    if(form.getContent().trim().isEmpty()) {
+    if (form.getContent().trim().isEmpty()) {
       LOG.info("User tried to post a submission without content.");
       throw new SubmissionException("Content cannot be empty.");
     }
 
-    if(form.getTitle().length() > MAX_TITLE_LENGTH) {
+    if (form.getTitle().length() > MAX_TITLE_LENGTH) {
       LOG.info("User tried to post too long title.");
       throw new SubmissionException("User tried to post too long title. Maximum title length is: " + MAX_TITLE_LENGTH);
     }
 
-    if(form.getContent().length() > MAX_CONTENT_LENGTH) {
+    if (form.getContent().length() > MAX_CONTENT_LENGTH) {
       LOG.info("User tried to post too long content.");
       throw new SubmissionException("User tried to post too long content. Maximum content length is: " + MAX_CONTENT_LENGTH);
     }
@@ -97,6 +103,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     submission.setContent(form.getContent());
     submission.setSubkleddit(subkleddit);
     submission.setTitle(form.getTitle());
+    submission.setReactions(new ArrayList<>());
 
     List<Submission> submissions = subkleddit.getSubmissions();
     submissions.add(submission);
@@ -143,7 +150,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     Objects.requireNonNull(pagination);
 
     Optional<User> userOptional = userService.getUserByUsername(username);
-    if(!userOptional.isPresent()) {
+    if (!userOptional.isPresent()) {
       LOG.info("Non existing user wanted to get a list of submissions.");
       throw new AuthUserDoesNotExistException(username);
     }
@@ -159,14 +166,14 @@ public class SubmissionServiceImpl implements SubmissionService {
     Objects.requireNonNull(submissionId);
 
     Optional<Submission> optionalSubmission = getSubmissionById(submissionId);
-    if(!optionalSubmission.isPresent()) {
+    if (!optionalSubmission.isPresent()) {
       LOG.info("Tried to delete submission with id [{}], but it does not exist.", submissionId);
       throw new SubmissionException("Submission id does not exist.");
     }
 
     Submission submission = optionalSubmission.get();
     String authorName = submission.getAuthor().getUsername();
-    if(!authorName.equalsIgnoreCase(username)) {
+    if (!authorName.equalsIgnoreCase(username)) {
       LOG.info("User [{}]  is trying to delete user [{}]'s submission.", username, authorName);
       throw new SubmissionException("Submission id does not exist.");
     }
@@ -187,6 +194,55 @@ public class SubmissionServiceImpl implements SubmissionService {
   @Override
   public Optional<Submission> getSubmissionById(EntityUUID submissionId) {
     return subkledditService.getSubmissionById(submissionId);
+  }
+
+  @Override
+  public void react(final String username, final SubmissionReactionForm form) {
+    Objects.requireNonNull(username);
+    Objects.requireNonNull(form);
+
+    //1. check if user exists
+    Optional<User> optionalUser = userService.getUserByUsername(username);
+    if (!optionalUser.isPresent()) {
+      throw new AuthUserDoesNotExistException(username);
+    }
+
+    EntityUUID userId = optionalUser.get().getUserId();
+
+    //2. check if submission exists
+    Optional<Submission> optionalSubmission = getSubmissionById(EntityUUID.fromString(form.getSubmissionId()));
+    if (!optionalSubmission.isPresent()) {
+      throw new SubmissionException("Submission with id [" + form.getSubmissionId() + "] does not exist");
+    }
+
+    Submission submission = optionalSubmission.get();
+
+    //3. get previous reaction from this user to this submission
+    List<SubmissionReaction> reactions = submission.getReactions();
+
+    Optional<SubmissionReaction> optionalSubmissionReaction = reactions
+      .stream()
+      .filter(reaction -> {
+        return reaction.getUserId().equals(userId);
+      }).findFirst();
+
+    //4. if reaction exits, delete it
+    optionalSubmissionReaction.ifPresent(reaction -> {
+      //update submission
+      reactions.remove(reaction);
+      submission.setReactions(new ArrayList<>(reactions));
+      subkledditService.updateSubmission(submission);
+      submissionReactionRepository.deleteReaction(reaction);
+    });
+
+    //5. create a reaction to this submission
+    SubmissionReaction reaction = new SubmissionReaction();
+    reaction.setSubmissionReactionId(EntityUUID.randomId());
+    reaction.setSubmissionId(EntityUUID.fromString(form.getSubmissionId()));
+    reaction.setReactionType(SubmissionReaction.ReactionType.valueOf(form.getReactionType()));
+    reaction.setUserId(userId);
+
+    submissionReactionRepository.addReaction(reaction);
   }
 
 }

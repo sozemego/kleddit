@@ -4,6 +4,7 @@ package com.soze.kleddit.subkleddit.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class SubmissionSimpleDto {
@@ -15,6 +16,7 @@ public class SubmissionSimpleDto {
   private final String content;
   private final String subkleddit;
   private final int replyCount;
+  private final Map<String, Integer> reactions;
 
   @JsonCreator
   public SubmissionSimpleDto(@JsonProperty("submissionId") String submissionId,
@@ -23,7 +25,8 @@ public class SubmissionSimpleDto {
                              @JsonProperty("title") String title,
                              @JsonProperty("content") String content,
                              @JsonProperty("subkleddit") String subkleddit,
-                             @JsonProperty("replyCount") int replyCount
+                             @JsonProperty("replyCount") int replyCount,
+                             @JsonProperty("reactions") Map<String, Integer> reactions
   ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.author = Objects.requireNonNull(author);
@@ -32,6 +35,7 @@ public class SubmissionSimpleDto {
     this.content = Objects.requireNonNull(content);
     this.subkleddit = Objects.requireNonNull(subkleddit);
     this.replyCount = replyCount;
+    this.reactions = Objects.requireNonNull(reactions);
   }
 
   public String getSubmissionId() {
@@ -60,5 +64,9 @@ public class SubmissionSimpleDto {
 
   public int getReplyCount() {
     return replyCount;
+  }
+
+  public Map<String, Integer> getReactions() {
+    return reactions;
   }
 }
