@@ -284,7 +284,7 @@ export const react = (submissionId, reactionType) => {
     return submissionService.react(submissionId, reactionType)
       .then(() => {
         //1. if user previously had a reaction to this submission
-        //   we need to decrement the count it
+        //   we need to decrement the count of it
         const userReaction = getUserReaction(getState, submissionId);
         if(userReaction !== null) {
           dispatch(changeReactionCount(submissionId, userReaction, -1));
