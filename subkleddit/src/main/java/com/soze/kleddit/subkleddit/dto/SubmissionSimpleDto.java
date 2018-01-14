@@ -17,6 +17,7 @@ public class SubmissionSimpleDto {
   private final String subkleddit;
   private final int replyCount;
   private final Map<String, Integer> reactions;
+  private final String userReaction;
 
   @JsonCreator
   public SubmissionSimpleDto(@JsonProperty("submissionId") String submissionId,
@@ -26,7 +27,8 @@ public class SubmissionSimpleDto {
                              @JsonProperty("content") String content,
                              @JsonProperty("subkleddit") String subkleddit,
                              @JsonProperty("replyCount") int replyCount,
-                             @JsonProperty("reactions") Map<String, Integer> reactions
+                             @JsonProperty("reactions") Map<String, Integer> reactions,
+                             @JsonProperty("userReaction") String userReaction
   ) {
     this.submissionId = Objects.requireNonNull(submissionId);
     this.author = Objects.requireNonNull(author);
@@ -36,6 +38,7 @@ public class SubmissionSimpleDto {
     this.subkleddit = Objects.requireNonNull(subkleddit);
     this.replyCount = replyCount;
     this.reactions = Objects.requireNonNull(reactions);
+    this.userReaction = userReaction;
   }
 
   public String getSubmissionId() {
@@ -68,5 +71,9 @@ public class SubmissionSimpleDto {
 
   public Map<String, Integer> getReactions() {
     return reactions;
+  }
+
+  public String getUserReaction() {
+    return userReaction;
   }
 }

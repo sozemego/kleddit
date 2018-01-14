@@ -101,4 +101,39 @@ public class SubmissionReactionSystemTest extends SubkledditTest {
     assertTrue(reactions.get(SubmissionReaction.ReactionType.DISLIKE.toString()) == 1);
   }
 
+  @Test
+  public void testSameReactionShouldDelete() {
+    String username = "user";
+    login(username);
+    subscribe("General");
+    String submissionId = submitTo("General");
+
+    SubmissionReactionForm form = new SubmissionReactionForm(
+      submissionId,
+      SubmissionReaction.ReactionType.LIKE.toString()
+    );
+
+    Response response = post(form);
+    assertResponseIsCreated(response);
+
+    SubmissionSimpleDto dto = getSubmissionById(submissionId);
+    Map<String, Integer> reactions = dto.getReactions();
+
+    assertEquals(1, reactions.size());
+    assertTrue(reactions.get(SubmissionReaction.ReactionType.LIKE.toString()) == 1);
+
+    response = post(
+      new SubmissionReactionForm(
+        submissionId,
+        SubmissionReaction.ReactionType.LIKE.toString()
+      )
+    );
+    assertResponseIsCreated(response);
+
+    dto = getSubmissionById(submissionId);
+    reactions = dto.getReactions();
+
+    assertEquals(0, reactions.size());
+  }
+
 }

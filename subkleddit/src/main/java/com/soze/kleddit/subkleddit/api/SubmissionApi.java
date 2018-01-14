@@ -7,6 +7,7 @@ import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionReaction;
 import com.soze.kleddit.subkleddit.service.SubmissionService;
 import com.soze.kleddit.user.api.Authenticated;
+import com.soze.kleddit.user.service.UserService;
 import com.soze.kleddit.utils.api.pagination.Pagination;
 import com.soze.kleddit.utils.api.pagination.PaginationFactory;
 import com.soze.kleddit.utils.filters.Log;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,9 @@ public class SubmissionApi {
 
   @Inject
   private SubmissionService submissionService;
+
+  @Inject
+  private UserService userService; //todo refactor this, use own security context
 
   //TODO wrap in security container class?
   @Context
@@ -57,7 +62,7 @@ public class SubmissionApi {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getSubmissionById(@PathParam("submissionId") EntityUUID submissionId) {
     Optional<Submission> submissionOptional = submissionService.getSubmissionById(submissionId);
-    if(!submissionOptional.isPresent()) {
+    if (!submissionOptional.isPresent()) {
       return Response.status(404).build();
     }
 
@@ -127,12 +132,25 @@ public class SubmissionApi {
   private SubmissionSimpleDto convertSubmission(Submission submission) {
     Objects.requireNonNull(submission);
 
-    List<SubmissionReaction> reactions = submission.getReactions();
+    final List<SubmissionReaction> reactions = submission.getReactions();
+    final Map<String, Integer> reactionMap = new HashMap<>();
 
-    Map<String, Integer> reactionMap = new HashMap<>();
+    String[] userReaction = new String[]{null}; //lambda final variable workaround
+    Principal principal = securityContext.getUserPrincipal();
+    if (principal != null) {
+      userService.getUserByUsername(principal.getName())
+        .ifPresent(user -> {
+          EntityUUID userId = user.getUserId();
+          reactions.stream()
+            .filter(reaction -> reaction.getUserId().equals(userId))
+            .findFirst()
+            .ifPresent(reaction -> userReaction[0] = reaction.getReactionType().toString());
+        });
+    }
+
 
     reactions.forEach(reaction -> reactionMap.compute(reaction.getReactionType().toString(), (k, v) -> {
-      if(v == null) {
+      if (v == null) {
         return 1;
       }
       return ++v;
@@ -146,7 +164,8 @@ public class SubmissionApi {
       submission.getContent(),
       submission.getSubkleddit().getName(),
       submission.getReplyCount(),
-      reactionMap
+      reactionMap,
+      userReaction[0]
     );
   }
 

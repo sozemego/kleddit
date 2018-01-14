@@ -201,6 +201,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     Objects.requireNonNull(username);
     Objects.requireNonNull(form);
 
+    SubmissionReaction.ReactionType reactionType = SubmissionReaction.ReactionType.valueOf(form.getReactionType().toUpperCase());
+
     //1. check if user exists
     Optional<User> optionalUser = userService.getUserByUsername(username);
     if (!optionalUser.isPresent()) {
@@ -220,29 +222,37 @@ public class SubmissionServiceImpl implements SubmissionService {
     //3. get previous reaction from this user to this submission
     List<SubmissionReaction> reactions = submission.getReactions();
 
-    Optional<SubmissionReaction> optionalSubmissionReaction = reactions
+    reactions
       .stream()
       .filter(reaction -> {
         return reaction.getUserId().equals(userId);
-      }).findFirst();
+      })
+      .findFirst()
+      .ifPresentOrElse(reaction -> {
+        //if the reaction is the same, we delete the previous one and don't add another
+        if(reaction.getReactionType() == reactionType) {
+          reactions.remove(reaction);
+          subkledditService.updateSubmission(submission);
+          submissionReactionRepository.deleteReaction(reaction);
+          return;
+        }
 
-    //4. if reaction exits, delete it
-    optionalSubmissionReaction.ifPresent(reaction -> {
-      //update submission
-      reactions.remove(reaction);
-      submission.setReactions(new ArrayList<>(reactions));
-      subkledditService.updateSubmission(submission);
-      submissionReactionRepository.deleteReaction(reaction);
-    });
+        //update submission and reaction
+        reaction.setReactionType(reactionType);
+//        submission.setReactions(reactions);
+        subkledditService.updateSubmission(submission);
+        submissionReactionRepository.updateReaction(reaction);
+      }, () -> {
+        //5. create a reaction to this submission
+        SubmissionReaction reaction = new SubmissionReaction();
+        reaction.setSubmissionReactionId(EntityUUID.randomId());
+        reaction.setSubmissionId(EntityUUID.fromString(form.getSubmissionId()));
+        reaction.setReactionType(reactionType);
+        reaction.setUserId(userId);
 
-    //5. create a reaction to this submission
-    SubmissionReaction reaction = new SubmissionReaction();
-    reaction.setSubmissionReactionId(EntityUUID.randomId());
-    reaction.setSubmissionId(EntityUUID.fromString(form.getSubmissionId()));
-    reaction.setReactionType(SubmissionReaction.ReactionType.valueOf(form.getReactionType()));
-    reaction.setUserId(userId);
+        submissionReactionRepository.addReaction(reaction);
+      });
 
-    submissionReactionRepository.addReaction(reaction);
   }
 
 }

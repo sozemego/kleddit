@@ -23,6 +23,10 @@ public class SubmissionReaction {
   @Enumerated(EnumType.STRING)
   private ReactionType reactionType;
 
+  public enum ReactionType {
+    LIKE, LAUGH, LOVE, DISLIKE, HATE, POOP;
+  }
+
   public SubmissionReaction() {
 
   }
@@ -57,10 +61,6 @@ public class SubmissionReaction {
 
   public void setSubmissionId(final EntityUUID submissionId) {
     this.submissionId = submissionId;
-  }
-
-  public enum ReactionType {
-    LIKE, LAUGH, LOVE, DISLIKE, HATE;
   }
 
   @Override
