@@ -39,7 +39,7 @@ const errorUnpacker = (error) => {
   const err = {
     status: _.get(error, `response.status`, 400),
     error: _.get(error, `response.statusText`, 'error'),
-    data: JSON.parse(_.get(error, `response.data.entity`, ``)),
+    data: JSON.parse(_.get(error, `response.data.entity`, '{}')),
   };
 
   return Promise.resolve(err);
