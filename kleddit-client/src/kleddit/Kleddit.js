@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+
+import {history} from '../navigation/NavigationService';
 
 import HeaderContainer from '../header/containers/HeaderContainer';
 import ErrorDisplay from '../app/containers/ErrorDisplay';
@@ -13,7 +15,7 @@ export class Kleddit extends Component {
 
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div>
           <HeaderContainer/>
           <div>

@@ -1,6 +1,6 @@
-import { createHashHistory } from 'history';
+import { createBrowserHistory } from 'history';
 
-const history = createHashHistory();
+export const history = createBrowserHistory();
 
 const navigate = path => {
   if (!path || typeof path !== 'string') {
