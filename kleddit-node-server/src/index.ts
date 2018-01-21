@@ -1,4 +1,5 @@
 import * as express from "express"
+import {resetDatabase} from "./utils/sql/database-reset";
 
 const app = express()
 
