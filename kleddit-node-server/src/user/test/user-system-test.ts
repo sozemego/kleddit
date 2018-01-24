@@ -3,8 +3,9 @@ import { resetDatabase } from '../../utils/sql/database-reset'
 import { createRegisterUserForm } from '../dto/register-user-form'
 import { ResponseAsserts } from '../../utils/http/response-asserts'
 import { createSimpleUserDto } from '../dto/simple-user-dto'
-import { fromAxiosResponse } from '../../utils/http/error-response'
+import { fromAxiosError } from '../../utils/http/error-response'
 import { createLoginForm } from '../dto/login-form'
+import { AxiosError } from 'axios'
 
 const basePath = 'http://localhost:8080/api/0.1/user'
 
@@ -34,30 +35,34 @@ describe('creating new user', () => {
     })
     it('should not create a user if it already exists', async () => {
         expect.assertions(4)
-
         const username = 'sozemego'
         ResponseAsserts.assertResponseIsCreated(await client.post(register, createRegisterUserForm(username, 'password')))
 
-        const response = await client.post(register, createRegisterUserForm(username, 'password'))
-        ResponseAsserts.assertResponseIsBadRequest(response)
-
-        const errorResponse = fromAxiosResponse(response)
-        expect(errorResponse.statusCode).toBe(400)
-        expect(errorResponse.data.field).toBe('username')
-        return Promise.resolve()
+        try {
+            await client.post(register, createRegisterUserForm(username, 'password'))
+        } catch (e) {
+            const response: AxiosError = e
+            ResponseAsserts.assertResponseIsBadRequest(response)
+            const errorResponse = fromAxiosError(response)
+            expect(errorResponse.statusCode).toBe(400)
+            expect(errorResponse.data.field).toBe('username')
+        }
 
     })
-    // it('should not create user with space inside name', async () => {
-    //     expect.assertions(2)
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('some whitespace', 'password')))
-    //     expect(errorResponse.statusCode).toBe(400)
-    //     expect(errorResponse.data.field).toBe('username')
-    //     return Promise.resolve()
-    //
-    // })
+    it('should not create user with space inside name', async () => {
+        expect.assertions(2)
+        try {
+            await client.post(register, createRegisterUserForm('some whitespace', 'password'))
+        } catch (e) {
+            const response: AxiosError = e
+            const errorResponse = fromAxiosError(response)
+            expect(errorResponse.statusCode).toBe(400)
+            expect(errorResponse.data.field).toBe('username')
+        }
+    })
     // it('should not create user with space after name', async () => {
     //     expect.assertions(2)
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('some_whitespace_after_this   ', 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm('some_whitespace_after_this   ', 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     //     return Promise.resolve()
@@ -66,7 +71,7 @@ describe('creating new user', () => {
     // it('should not create user with space before name', async () => {
     //     expect.assertions(2)
     //
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('    legit_username', 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm('    legit_username', 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     //     return Promise.resolve()
@@ -74,7 +79,7 @@ describe('creating new user', () => {
     // })
     // it('should not create user with white space only', async () => {
     //     expect.assertions(2)
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('      ', 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm('      ', 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     //     return Promise.resolve()
@@ -82,13 +87,13 @@ describe('creating new user', () => {
     // })
     // it('should not create user with illegal characters', async () => {
     //     expect.assertions(2)
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('[]@#$', 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm('[]@#$', 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     // })
     // it('should create user with all allowable characters', async () => {
     //     expect.assertions(2)
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm('qwertyuiopasdfghjklzxcvbnm1234567890-_', 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm('qwertyuiopasdfghjklzxcvbnm1234567890-_', 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     // })
@@ -103,7 +108,7 @@ describe('creating new user', () => {
     //     expect.assertions(2)
     //
     //     const username = new Array(500).fill('a').join('')
-    //     const errorResponse = fromAxiosResponse(await client.post(register, createRegisterUserForm(username, 'password')))
+    //     const errorResponse = fromAxiosError(await client.post(register, createRegisterUserForm(username, 'password')))
     //     expect(errorResponse.statusCode).toBe(400)
     //     expect(errorResponse.data.field).toBe('username')
     // })

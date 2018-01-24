@@ -24,11 +24,16 @@ export const resetDatabase = async () => {
         database: DB,
     })
 
-    await client.connect()
+    try {
+        await client.connect()
+        //3. execute
+        await client.query(sql)
 
-    //3. execute
-    await client.query(sql)
+        console.log('database reset')
+        return client.end()
+    } catch (e) {
+        console.log(e)
+    }
 
-    console.log('database reset')
-    return client.end()
+
 }

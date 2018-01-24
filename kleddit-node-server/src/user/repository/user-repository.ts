@@ -2,6 +2,7 @@ import pool from '../../utils/sql/pool'
 import { Pool } from 'pg'
 import { convertToUsers } from '../entity/entity-converter'
 import { User, UserEntity } from '../entity/user'
+import { USER_ALREADY_EXISTS } from '../error/errors'
 
 export class UserRepository {
 
@@ -25,7 +26,6 @@ export class UserRepository {
      * @returns {Promise<void>}
      */
     addUser = async (user: UserEntity): Promise<void> => {
-        console.log('USER', user)
         const client = await this.pool.connect()
 
         const query = `INSERT INTO users VALUES($1, $2, $3, $4, $5)`
@@ -35,7 +35,7 @@ export class UserRepository {
                 user.userId, user.createdAt, user.nuked, user.passwordHash, user.username
             ])
         } catch (e) {
-
+            throw new Error(USER_ALREADY_EXISTS)
         }
 
     }

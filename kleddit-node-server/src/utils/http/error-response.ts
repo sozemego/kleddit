@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 
 export interface ErrorResponse {
 
@@ -18,7 +18,8 @@ export const createErrorResponse = (statusCode: number, error: string, data: obj
     }
 }
 
-export const fromAxiosResponse = (response: AxiosResponse): ErrorResponse => {
+export const fromAxiosError = (errorResponse: AxiosError): ErrorResponse => {
+    const response = errorResponse.response
     const statusCode = response.status
     const error = response.data.error
     const data = response.data.data

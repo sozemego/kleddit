@@ -14,13 +14,15 @@ DROP TABLE IF EXISTS  public.subkleddit_subscriptions;
 -- CREATE TYPE submission_type AS ENUM('TEXT', 'LINK');
 -- CREATE TYPE submission_reaction_type AS ENUM('LIKE', 'LAUGH', 'LOVE', 'DISLIKE', 'HATE, 'POOP');
 
+-- CREATE EXTENSION citext;
+
 CREATE TABLE users
 (
   user_id uuid NOT NULL PRIMARY KEY,
   created_at timestamp NOT NULL,
   nuked boolean DEFAULT FALSE NOT NULL,
   password_hash varchar(255) NOT NULL,
-  username varchar(50) NOT NULL UNIQUE
+  username citext NOT NULL UNIQUE
 );
 
 CREATE TABLE subkleddit_subscriptions

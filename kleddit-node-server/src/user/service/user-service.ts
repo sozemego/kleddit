@@ -5,11 +5,15 @@ import * as USER_ERRORS from '../error/errors'
 import { hashWithSalt } from '../utils/password-hash'
 import {v4 as uuid} from 'uuid'
 import { User, UserEntity } from '../entity/user'
+import * as _ from 'lodash'
 
 export class UserService {
 
-    constructor(private userRepository: UserRepository) {
+    private usernameValidator: RegExp
+    private maxUsernameLength: number
 
+    constructor(private userRepository: UserRepository) {
+        this.usernameValidator = new RegExp(/^[a-zA-Z0-9_-]+$/)
     }
 
     getAllUsers = async () => {
@@ -17,14 +21,28 @@ export class UserService {
     }
 
     private validateForm = (form: RegisterUserForm) => {
-        //1. validate username
-        //this.validateUsername(form.username)
+        const {username, password} = form
 
-        //2. validate password
-        //this.validatePassword(form.password)
+        this.validateUsername(username)
+        this.validatePassword(password)
     }
 
-    registerUser = async (form: RegisterUserForm) => {
+    private validateUsername = (username: string) => {
+        //check characters, only alphanumeric allowed
+        if(!this.usernameValidator.test(username)) {
+            throw new Error(USER_ERRORS.INVALID_USERNAME_CHARACTERS)
+        }
+
+        if(username.length > this.maxUsernameLength) {
+            throw new Error(USER_ERRORS.USERNAME_TOO_LONG)
+        }
+    }
+
+    private validatePassword = (password: string) => {
+
+    }
+
+    registerUser = async (form: RegisterUserForm): User => {
 
         //1. validate form
         this.validateForm(form)
@@ -41,7 +59,7 @@ export class UserService {
         }
 
         await this.userRepository.addUser(userEntity)
-        return Promise.resolve()
+        return _.omit(userEntity, 'passwordHash')
     }
 
     getUserByUsername = async (username: string) => {

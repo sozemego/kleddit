@@ -4,17 +4,11 @@ import { requestLogger } from '../../utils/middlewares/request-logging'
 import { default as userService } from '../service/user-service'
 import { createRegisterUserForm } from '../dto/register-user-form'
 import * as USER_ERRORS from '../error/errors'
+import { errorHandler } from '../error/handlers'
 
 const router = express.Router()
 
 router.use(requestLogger)
-
-const errorHandler = (err, req, res, next) => {
-    switch (err.message) {
-        case USER_ERRORS.USER_DOES_NOT_EXIST: console.log('user does not exist!')
-    }
-}
-
 
 //TODO remove
 router.get('/all', async (req, res) => {
@@ -33,9 +27,13 @@ router.post('/register', async (req, res, next) => {
     if (!username || !password) throw new Error('Registration form requires a username and a password')
 
     const form = createRegisterUserForm(username, password)
-    await userService.registerUser(form)
+    try {
+        await userService.registerUser(form)
+        res.sendStatus(201).end()
+    } catch (e) {
+        return next(e)
+    }
 
-    res.sendStatus(201)
 })
 
 router.get('/single/:username', async (req, res, next) => {

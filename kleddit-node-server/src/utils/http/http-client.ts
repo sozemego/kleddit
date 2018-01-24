@@ -2,6 +2,7 @@ import axios from 'axios'
 import { AxiosError, AxiosInstance } from 'axios'
 import { AxiosResponse } from 'axios'
 import { AxiosRequestConfig } from 'axios'
+import * as _ from 'lodash'
 
 export class HttpClient {
 
@@ -44,8 +45,10 @@ const logRequestInterceptor = (config: AxiosRequestConfig) => {
 }
 
 const logErrorInterceptor = (error: any): any => {
-    console.log('ERROR', error.Error)
-    return error
+    console.log('ERROR')
+    console.log(error.message)
+    console.log(_.get(error, `response.data`))
+    throw error
 }
 
 const logResponseInterceptor = (response: AxiosResponse) => {
