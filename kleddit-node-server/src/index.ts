@@ -1,5 +1,15 @@
-import * as express from "express"
+import * as express from 'express'
 import { base as userBasePath, errorHandler, router } from './user/api/user-router'
+import * as winston from 'winston'
+
+winston.remove(winston.transports.Console)
+winston.add(
+    winston.transports.Console, {
+        colorize: true,
+        timestamp: true,
+        level: 'info',
+    }
+)
 
 const app = express()
 
@@ -28,8 +38,8 @@ app.listen(port, (err) => {
     // console.log(routes)
 
     console.log(`Server is listening on port ${port}`)
-});
+})
 
 process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-});
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
+})

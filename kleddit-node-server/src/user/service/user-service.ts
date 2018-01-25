@@ -1,19 +1,24 @@
+import * as _ from 'lodash'
+import * as winston from 'winston'
+import {v4 as uuid} from 'uuid'
+
 import { UserRepository } from '../repository/user-repository'
 import {default as userRepository} from '../repository/user-repository'
 import { RegisterUserForm } from '../dto/register-user-form'
 import * as USER_ERRORS from '../error/errors'
 import { hashWithSalt } from '../utils/password-hash'
-import {v4 as uuid} from 'uuid'
 import { User, UserEntity } from '../entity/user'
-import * as _ from 'lodash'
 
 export class UserService {
 
     private usernameValidator: RegExp
     private maxUsernameLength: number
+    private maxPasswordLength: number
 
     constructor(private userRepository: UserRepository) {
         this.usernameValidator = new RegExp(/^[a-zA-Z0-9_-]+$/)
+        this.maxUsernameLength = 38
+        this.maxPasswordLength = 128
     }
 
     getAllUsers = async () => {
@@ -39,11 +44,12 @@ export class UserService {
     }
 
     private validatePassword = (password: string) => {
-
+        if(password.length > this.maxPasswordLength) {
+            throw new Error(USER_ERRORS.PASSWORD_TOO_LONG)
+        }
     }
 
-    registerUser = async (form: RegisterUserForm): User => {
-
+    registerUser = async (form: RegisterUserForm): Promise<User> => {
         //1. validate form
         this.validateForm(form)
 
@@ -59,7 +65,8 @@ export class UserService {
         }
 
         await this.userRepository.addUser(userEntity)
-        return _.omit(userEntity, 'passwordHash')
+        winston.info(`Registered user ${form.username}`)
+        return <User>_.omit(userEntity, 'passwordHash');
     }
 
     getUserByUsername = async (username: string) => {
@@ -70,6 +77,10 @@ export class UserService {
         }
 
         return user
+    }
+
+    isUsernameAvailable = async (username: string) => {
+        return this.userRepository.isUsernameAvailable(username)
     }
 
 }

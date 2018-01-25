@@ -3,6 +3,18 @@ import { AxiosError, AxiosInstance } from 'axios'
 import { AxiosResponse } from 'axios'
 import { AxiosRequestConfig } from 'axios'
 import * as _ from 'lodash'
+import * as winstonModule from 'winston'
+
+const winston = new winstonModule.Logger({
+    level: 'info',
+    transports: [
+        new winstonModule.transports.Console({
+            colorize: true,
+            timestamp: true,
+            level: 'info',
+        })
+    ]
+})
 
 export class HttpClient {
 
@@ -25,7 +37,7 @@ export class HttpClient {
     }
 
     post = async (url: string, data?: any): Promise<AxiosResponse> => {
-        console.log(`post payload: ${JSON.stringify(data)}`)
+        winston.info(`post payload: ${JSON.stringify(data)}`)
         return this.instance.post(url, data)
     }
 
@@ -40,19 +52,19 @@ export class HttpClient {
 }
 
 const logRequestInterceptor = (config: AxiosRequestConfig) => {
-    console.log(new Date().toISOString(), `Making a ${config.method.toUpperCase()} to ${config.baseURL}${config.url}`)
+    winston.info(new Date().toISOString(), `Making a ${config.method.toUpperCase()} to ${config.baseURL}${config.url}`)
     return config
 }
 
 const logErrorInterceptor = (error: any): any => {
-    console.log('ERROR')
-    console.log(error.message)
-    console.log(_.get(error, `response.data`))
+    winston.info('ERROR')
+    winston.info(error.message)
+    winston.info(_.get(error, `response.data`))
     throw error
 }
 
 const logResponseInterceptor = (response: AxiosResponse) => {
-    console.log(new Date().toISOString(), 'NORMAL RESPONSE', response.data)
+    winston.info(new Date().toISOString(), 'NORMAL RESPONSE', response.data)
     return response
 }
 

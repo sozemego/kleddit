@@ -50,6 +50,14 @@ export class UserRepository {
         return users.length ? users[0] : null
     }
 
+    isUsernameAvailable = async (username: string): Promise<Boolean> => {
+        const client = await this.pool.connect()
+        const result = await client.query('SELECT COUNT(u.username) FROM users AS u WHERE u.username = $1', [username])
+
+        await client.release()
+        return !(+result.rows[0].count)
+    }
+
 }
 
 export default new UserRepository(pool)

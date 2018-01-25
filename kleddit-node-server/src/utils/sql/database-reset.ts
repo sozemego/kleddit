@@ -1,10 +1,11 @@
 import * as pg from 'pg'
-import {readFile} from "../file/file-utils";
+import { readFile } from '../file/file-utils'
+import * as winston from 'winston'
 
 const DB_USER = process.env['KLEDDIT_DB_USER']
 const DB_PASS = process.env['KLEDDIT_DB_PASS']
 const HOST = '127.0.0.1'
-const DB  = 'kleddit-test' //TODO later load from config
+const DB = 'kleddit-test' //TODO later load from config
 
 /**
  * Logic of this method is very straightforward, because it's used only
@@ -29,10 +30,10 @@ export const resetDatabase = async () => {
         //3. execute
         await client.query(sql)
 
-        console.log('database reset')
+        winston.info('database reset')
         return client.end()
     } catch (e) {
-        console.log(e)
+        winston.info(e)
     }
 
 
