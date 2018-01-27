@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { base as userBasePath, errorHandler, router } from './user/api/user-router'
 import * as winston from 'winston'
+import { AUTH_USER_DOES_NOT_EXIST } from './user/error/errors'
 
 winston.remove(winston.transports.Console)
 winston.add(
@@ -16,6 +17,13 @@ const app = express()
 app.use(express.json())
 app.use(userBasePath, router)
 app.use(userBasePath, errorHandler)
+
+app.use('*', (err, req, res, next) => {
+    switch (err.message) {
+        case AUTH_USER_DOES_NOT_EXIST: return res.send(401)
+    }
+    next()
+})
 
 const port = 8080
 app.listen(port, (err) => {

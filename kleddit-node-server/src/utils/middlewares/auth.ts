@@ -6,21 +6,27 @@ const AUTHENTICATION_SCHEME = "BEARER"
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.get(HEADER)
+    console.log(authorization)
     if(!isTokenBased(authorization)) {
+        console.log('not token based')
         return unauthorized(res)
     }
 
     const token = authorization.substr(AUTHENTICATION_SCHEME.length).trim()
 
-    req.user = {
-        username: authService.getUsernameClaim(token)
+    try {
+        req.user = {
+            username: authService.getUsernameClaim(token)
+        }
+    } catch (e) {
+        return unauthorized(res)
     }
 
     next()
 }
 
 const unauthorized = (res: Response) => {
-    res.sendStatus(401)
+    res.status(401).send()
 }
 
 const isTokenBased = (header: string | undefined) => {
