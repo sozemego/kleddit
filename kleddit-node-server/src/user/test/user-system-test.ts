@@ -194,8 +194,8 @@ describe('username availability', () => {
 
         let response = await client.post(login, createLoginForm(username, password))
 
-        const data = JSON.parse(response.data).jwt
-        client.setToken(data)
+        const token = response.data.jwt
+        client.setToken(token)
         await client.delete(deleteUser)
 
         const isAvailable = await client.getEntity(`${available}/${username}`, (res) => res)

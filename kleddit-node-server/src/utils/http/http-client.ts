@@ -22,7 +22,7 @@ export class HttpClient {
     private token: string
 
     constructor(path: string) {
-        this.instance = axios.create({baseURL: path})
+        this.instance = axios.create({ baseURL: path })
         this.instance.interceptors.request.use(logRequestInterceptor, logErrorInterceptor)
         this.instance.interceptors.response.use(logResponseInterceptor, errorResponseInterceptor)
     }
@@ -42,7 +42,7 @@ export class HttpClient {
     }
 
     delete = async (url: string): Promise<AxiosResponse> => {
-        return this.instance.delete(url)
+        return this.instance.delete(url, { headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
     setToken = (token: string) => {

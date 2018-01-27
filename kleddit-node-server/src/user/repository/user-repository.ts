@@ -3,6 +3,7 @@ import { Pool } from 'pg'
 import { convertToUsers } from '../entity/entity-converter'
 import { User, UserEntity } from '../entity/user'
 import { USER_ALREADY_EXISTS } from '../error/errors'
+import * as _ from 'lodash'
 
 export class UserRepository {
 
@@ -40,7 +41,7 @@ export class UserRepository {
 
     }
 
-    getUserByUsername = async (username: string | null): Promise<User> => {
+    getUserByUsername = async (username: string): Promise<User> => {
         const client = await this.pool.connect()
         const result = await client.query('SELECT * FROM users AS u WHERE u.username = $1', [username])
 
@@ -50,12 +51,28 @@ export class UserRepository {
         return users.length ? users[0] : null
     }
 
+    getUserPasswordHash = async (username: string): Promise<string> => {
+        const client = await this.pool.connect()
+        const result = await client.query('SELECT u.password_hash FROM users AS u WHERE u.username = $1', [username])
+
+        await client.release()
+
+        return _.get(result, 'rows[0].password_hash', null)
+    }
+
     isUsernameAvailable = async (username: string): Promise<Boolean> => {
         const client = await this.pool.connect()
         const result = await client.query('SELECT COUNT(u.username) FROM users AS u WHERE u.username = $1', [username])
 
         await client.release()
-        return !(+result.rows[0].count)
+        return !(Number(result.rows[0].count))
+    }
+
+    deleteUser = async (username: string): Promise<void> => {
+        const client = await this.pool.connect()
+        const result = await client.query('UPDATE users AS u SET nuked = $1 WHERE u.username = $2', [true, username])
+
+        await client.release()
     }
 
 }

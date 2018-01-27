@@ -1,9 +1,9 @@
 import * as _ from 'lodash'
 import * as winston from 'winston'
-import {v4 as uuid} from 'uuid'
+import { v4 as uuid } from 'uuid'
 
 import { UserRepository } from '../repository/user-repository'
-import {default as userRepository} from '../repository/user-repository'
+import { default as userRepository } from '../repository/user-repository'
 import { RegisterUserForm } from '../dto/register-user-form'
 import * as USER_ERRORS from '../error/errors'
 import { hashWithSalt } from '../utils/password-hash'
@@ -26,7 +26,7 @@ export class UserService {
     }
 
     private validateForm = (form: RegisterUserForm) => {
-        const {username, password} = form
+        const { username, password } = form
 
         this.validateUsername(username)
         this.validatePassword(password)
@@ -34,17 +34,17 @@ export class UserService {
 
     private validateUsername = (username: string) => {
         //check characters, only alphanumeric allowed
-        if(!this.usernameValidator.test(username)) {
+        if (!this.usernameValidator.test(username)) {
             throw new Error(USER_ERRORS.INVALID_USERNAME_CHARACTERS)
         }
 
-        if(username.length > this.maxUsernameLength) {
+        if (username.length > this.maxUsernameLength) {
             throw new Error(USER_ERRORS.USERNAME_TOO_LONG)
         }
     }
 
     private validatePassword = (password: string) => {
-        if(password.length > this.maxPasswordLength) {
+        if (password.length > this.maxPasswordLength) {
             throw new Error(USER_ERRORS.PASSWORD_TOO_LONG)
         }
     }
@@ -64,23 +64,36 @@ export class UserService {
             passwordHash: hash
         }
 
+        const user = await this.userRepository.getUserByUsername(form.username)
+        if (user !== null) {
+            throw new Error(USER_ERRORS.USER_ALREADY_EXISTS)
+        }
+
         await this.userRepository.addUser(userEntity)
         winston.info(`Registered user ${form.username}`)
-        return <User>_.omit(userEntity, 'passwordHash');
+        return <User>_.omit(userEntity, 'passwordHash')
     }
 
     getUserByUsername = async (username: string) => {
         const user = await this.userRepository.getUserByUsername(username)
 
-        if(user === null) {
+        if (user === null) {
             throw new Error(USER_ERRORS.USER_DOES_NOT_EXIST)
         }
 
         return user
     }
 
+    getUserPasswordHash = async (username: string): Promise<string> => {
+        return this.userRepository.getUserPasswordHash(username)
+    }
+
     isUsernameAvailable = async (username: string) => {
         return this.userRepository.isUsernameAvailable(username)
+    }
+
+    deleteUser = async (username: string) => {
+        return this.userRepository.deleteUser(username)
     }
 
 }
