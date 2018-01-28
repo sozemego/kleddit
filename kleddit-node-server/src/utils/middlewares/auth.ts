@@ -6,9 +6,7 @@ const AUTHENTICATION_SCHEME = "BEARER"
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.get(HEADER)
-    console.log(authorization)
     if(!isTokenBased(authorization)) {
-        console.log('not token based')
         return unauthorized(res)
     }
 
