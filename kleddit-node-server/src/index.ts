@@ -25,7 +25,16 @@ app.use('*', (err, req, res, next) => {
     next()
 })
 
-const port = 8080
+const args = process.argv.slice(2);
+
+const argMap = args.reduce((map, next) => {
+    const tokens = next.split('=');
+    map[tokens[0]] = tokens[1];
+    return map;
+}, {})
+
+const port = +(argMap['port'] || 8080)
+
 app.listen(port, (err) => {
     if (err) console.log(err)
 

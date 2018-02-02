@@ -9,7 +9,8 @@
     "tsc": "tsc",
     "tsc-watch": "tsc --watch",
     "dev": "nodemon ./dist",
-    "debug-dev": "node %NODE_DEBUG_OPTION% ./dist/index.js"
+    "debug-dev": "node %NODE_DEBUG_OPTION% ./dist/index.js",
+    "test-server": "nodemon ./dist port=8180"
   },
   "author": "",
   "license": "ISC",
