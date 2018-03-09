@@ -1,5 +1,6 @@
 package com.soze.kleddit.user.controller;
 
+import com.soze.kleddit.interceptors.RateLimited;
 import com.soze.kleddit.user.dto.RegisterUserForm;
 import com.soze.kleddit.user.dto.SimpleUserDto;
 import com.soze.kleddit.user.entity.User;
@@ -43,12 +44,14 @@ public class UserController {
     return ResponseEntity.ok(dtos);
   }
 
+  @RateLimited(limit = 5, timeUnits = 1)
   @PostMapping(path = "/register", produces = "application/json")
   public ResponseEntity registerUser(@RequestBody final RegisterUserForm registerUserForm) {
     userService.addUser(registerUserForm);
     return ResponseEntity.ok(new SimpleUserDto(registerUserForm.getUsername()));
   }
 
+  @RateLimited
   @GetMapping(path = "/single/{username}", produces = "application/json")
   public ResponseEntity getUserByUsername(@PathVariable("username") final String username) {
     Objects.requireNonNull(username);
@@ -64,12 +67,14 @@ public class UserController {
     return ResponseEntity.ok(new SimpleUserDto(userOptional.get().getUsername()));
   }
 
+  @RateLimited
   @DeleteMapping(path = "/single/delete")
   public ResponseEntity deleteUser(final Principal principal) {
     userService.deleteUser(principal.getName());
     return ResponseEntity.ok().build();
   }
 
+  @RateLimited
   @GetMapping(path = "/single/available/{username}")
   public ResponseEntity isUsernameAvailable(@PathVariable("username") final String username) {
     boolean isAvailable = userService.isAvailableForRegistration(username);

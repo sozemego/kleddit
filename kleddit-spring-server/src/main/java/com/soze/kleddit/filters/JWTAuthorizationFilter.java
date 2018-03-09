@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Objects;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -31,10 +30,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
   protected void doFilterInternal(HttpServletRequest req,
                                   HttpServletResponse res,
                                   FilterChain chain) throws IOException, ServletException {
-    final Enumeration<String> headers = req.getHeaderNames();
-    while(headers.hasMoreElements()) {
-      System.out.println(headers.nextElement());
-    }
     String header = req.getHeader(AUTHORIZATION);
 
     System.out.println("AUTHENTICATING " + header);

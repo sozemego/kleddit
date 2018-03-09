@@ -1,5 +1,6 @@
 package com.soze.kleddit.user.controller;
 
+import com.soze.kleddit.interceptors.RateLimited;
 import com.soze.kleddit.user.dto.ChangePasswordForm;
 import com.soze.kleddit.user.dto.Jwt;
 import com.soze.kleddit.user.dto.LoginForm;
@@ -25,12 +26,14 @@ public class AuthController {
         this.authService = Objects.requireNonNull(authService);
     }
 
+    @RateLimited(limit = 5, timeUnits = 1)
     @PostMapping(path = "/login")
     public ResponseEntity login(@RequestBody final LoginForm loginForm) {
         Jwt token = authService.login(loginForm);
         return ResponseEntity.ok(token);
     }
 
+    @RateLimited(limit = 5, timeUnits = 1)
     @PostMapping(path = "/password/change")
     public ResponseEntity passwordChange(@RequestBody final ChangePasswordForm changePasswordForm, final Principal principal) {
         authService.passwordChange(principal.getName(), changePasswordForm);

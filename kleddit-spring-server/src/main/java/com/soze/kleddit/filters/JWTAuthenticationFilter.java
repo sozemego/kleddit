@@ -33,7 +33,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-    System.out.println("CALLING AUTH FILTER WHY");
     try {
       final LoginForm form = new ObjectMapper().readValue(request.getInputStream(), LoginForm.class);
 
