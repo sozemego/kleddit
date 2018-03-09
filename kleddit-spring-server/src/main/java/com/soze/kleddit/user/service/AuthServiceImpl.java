@@ -46,18 +46,27 @@ public class AuthServiceImpl implements AuthService {
     validateLogin(loginForm);
 
     return new Jwt(
-      JWT.create()
-        .withIssuer(ISSUER)
-        .withClaim(USER_NAME_CLAIM, loginForm.getUsername())
-        .sign(algorithm)
+        JWT.create()
+            .withIssuer(ISSUER)
+            .withClaim(USER_NAME_CLAIM, loginForm.getUsername())
+            .sign(algorithm)
+    );
+  }
+
+  @Override
+  public Jwt getToken(final String username) {
+    return new Jwt(
+        JWT.create()
+            .withIssuer(ISSUER)
+            .withClaim(USER_NAME_CLAIM, username)
+            .sign(algorithm)
     );
   }
 
   //TODO refactor this, move somewhere else?
   private void validateLogin(LoginForm form) {
     Objects.requireNonNull(form);
-    User user;
-    user = getUserByUsername(form.getUsername()).<AuthUserDoesNotExistException>orElseThrow(() -> {
+    User user = getUserByUsername(form.getUsername()).<AuthUserDoesNotExistException>orElseThrow(() -> {
       form.reset();
       throw new AuthUserDoesNotExistException("Username " + form.getUsername());
     });

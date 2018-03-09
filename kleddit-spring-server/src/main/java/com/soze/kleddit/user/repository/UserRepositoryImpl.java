@@ -4,19 +4,22 @@ import com.soze.kleddit.user.entity.User;
 import com.soze.kleddit.user.exception.AuthUserDoesNotExistException;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
-  @Autowired
+  @PersistenceContext
   private EntityManager em;
 
   @Override
@@ -63,6 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
+  @Transactional
   public void addUser(User user) {
     em.persist(user);
   }

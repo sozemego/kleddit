@@ -12,7 +12,7 @@ import java.util.UUID;
 public class EntityUUID implements Serializable {
 
   @Column(name = "id")
-//  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
   private UUID id;
 
   public EntityUUID() {}

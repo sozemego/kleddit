@@ -6,17 +6,17 @@ public class KledditWebApplicationInitializer extends AbstractAnnotationConfigDi
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{KledditRootConfig.class, KledditSecurityConfiguration.class};
+        return new Class[]{KledditRootConfig.class, JPAConfiguration.class, KledditSecurityConfiguration.class, KledditWebConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{KledditWebConfig.class};
+        return null;
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/*"};
+        return new String[]{"/"};
     }
 
     @Override

@@ -22,6 +22,8 @@ public interface AuthService {
      */
     Jwt login(LoginForm loginForm);
 
+    Jwt getToken(final String username);
+
     /**
      * Given a token, logs out the user. For now, the method will only
      * log that user logged out. Client-side, cookie will be removed.

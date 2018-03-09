@@ -7,8 +7,9 @@ import com.soze.kleddit.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -24,24 +25,19 @@ public class AuthController {
         this.authService = Objects.requireNonNull(authService);
     }
 
-    @RequestMapping(path = "/hello", method = RequestMethod.GET)
-    public ResponseEntity hello() {
-        return ResponseEntity.ok().build();
-    }
-
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(final LoginForm loginForm) {
+    @PostMapping(path = "/login")
+    public ResponseEntity login(@RequestBody final LoginForm loginForm) {
         Jwt token = authService.login(loginForm);
         return ResponseEntity.ok(token);
     }
 
-    @RequestMapping(path = "/password/change", method = RequestMethod.POST)
-    public ResponseEntity passwordChange(final ChangePasswordForm changePasswordForm, final Principal principal) {
+    @PostMapping(path = "/password/change")
+    public ResponseEntity passwordChange(@RequestBody final ChangePasswordForm changePasswordForm, final Principal principal) {
         authService.passwordChange(principal.getName(), changePasswordForm);
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(path = "/logout")
+    @PostMapping(path = "/logout")
     public ResponseEntity logout() {
         return ResponseEntity.ok().build();
     }
