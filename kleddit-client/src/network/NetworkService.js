@@ -23,16 +23,16 @@ const errorInterceptor = (error) => {
 const rateLimitErrorInterceptor = (error) => {
   if(_.get(error, `status`, 400) === 429) {
     store.dispatch(setErrorMessage('Too many requests!'));
-    throw error;
   }
+  return error;
 };
 
 const unauthorizedErrorInterceptor = (error) => {
   if(_.get(error, 'status', 400) === 401) {
     store.dispatch(setUsername(null));
     store.dispatch(setToken(null));
-    throw error;
   }
+  return error;
 };
 
 const errorUnpacker = (error) => {
