@@ -72,11 +72,13 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
+  @Transactional
   public void updateUser(User user) {
     em.merge(user);
   }
 
   @Override
+  @Transactional
   public void deleteUser(String username) {
     User user = getUserByUsername(username).orElseThrow(() -> {
       //TODO move this to UserService

@@ -15,9 +15,6 @@ import java.security.Principal;
 @Service
 public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 
-//  @Autowired
-//  private Environment environment;
-
   @Value("${KLEDDIT_RATE_LIMIT_ENABLED}")
   private String rateLimitEnabled;
 
@@ -26,8 +23,11 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//    final String rateLimitEnabled = environment.getProperty("KLEDDIT_RATE_LIMIT_ENABLED");
     if (!Boolean.valueOf(rateLimitEnabled)) {
+      return true;
+    }
+
+    if(!(handler instanceof HandlerMethod)) {
       return true;
     }
 
