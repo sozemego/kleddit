@@ -4,6 +4,7 @@ import com.soze.kleddit.subkleddit.dto.SubmissionReplyDto;
 import com.soze.kleddit.subkleddit.dto.SubmissionReplyForm;
 import com.soze.kleddit.subkleddit.entity.Submission;
 import com.soze.kleddit.subkleddit.entity.SubmissionReply;
+import com.soze.kleddit.subkleddit.events.ReplyPostedEvent;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionException;
 import com.soze.kleddit.subkleddit.exceptions.SubmissionReplyException;
 import com.soze.kleddit.subkleddit.repository.SubmissionReplyRepository;
@@ -15,6 +16,7 @@ import com.soze.kleddit.utils.pagination.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -29,8 +31,8 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
   private static final Logger LOG  = LoggerFactory.getLogger(SubmissionReplyServiceImpl.class);
   private static final int MAX_REPLY_LENGTH = 10000;
 
-//  @Inject
-//  private Event<ReplyPostedEvent> event;
+  @Autowired
+  private ApplicationEventPublisher applicationEventPublisher;
 
   @Autowired
   private SubmissionReplyRepository submissionReplyRepository;
@@ -75,7 +77,7 @@ public class SubmissionReplyServiceImpl implements SubmissionReplyService {
     reply.setContent(form.getContent());
 
     reply = submissionReplyRepository.postReply(reply);
-//    event.fire(new ReplyPostedEvent(convertToDto(reply)));
+    applicationEventPublisher.publishEvent(new ReplyPostedEvent(this, convertToDto(reply)));
     return reply;
   }
 

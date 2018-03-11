@@ -1,15 +1,15 @@
 package com.soze.kleddit.subkleddit.events;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionReplyDto;
+import org.springframework.context.ApplicationEvent;
 
-import java.util.Objects;
-
-public class ReplyPostedEvent {
+public class ReplyPostedEvent extends ApplicationEvent {
 
   private final SubmissionReplyDto submissionReplyDto;
 
-  public ReplyPostedEvent(final SubmissionReplyDto submissionReplyDto) {
-    this.submissionReplyDto = Objects.requireNonNull(submissionReplyDto);
+  public ReplyPostedEvent(Object source, SubmissionReplyDto submissionReplyDto) {
+    super(source);
+    this.submissionReplyDto = submissionReplyDto;
   }
 
   public SubmissionReplyDto getSubmissionReplyDto() {

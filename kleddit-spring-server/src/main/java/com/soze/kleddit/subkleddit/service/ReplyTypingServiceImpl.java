@@ -1,6 +1,7 @@
 package com.soze.kleddit.subkleddit.service;
 
 import com.soze.kleddit.subkleddit.dto.SubmissionReplyDto;
+import com.soze.kleddit.subkleddit.events.ReplyPostedEvent;
 import com.soze.kleddit.utils.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,11 +78,11 @@ public class ReplyTypingServiceImpl implements ReplyTypingService {
     }
   }
 
-//  @Override
-//  public void onReply(@Observes final ReplyPostedEvent event) {
-//    SubmissionReplyDto dto = event.getSubmissionReplyDto();
-//    handleReply(dto);
-//  }
+  @Override
+  public void onApplicationEvent(ReplyPostedEvent event) {
+    SubmissionReplyDto dto = event.getSubmissionReplyDto();
+    handleReply(dto);
+  }
 
   private void handleRegister(Map<String, String> json, WebSocketSession session) {
     synchronized (lock) {
