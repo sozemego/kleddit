@@ -191,8 +191,8 @@ export const postReply = (submissionId, content) => {
     dispatch(setIsPostingReply(true));
 
     replyTypingService.stopTyping(submissionId);
-    return submissionService.postReply(submissionId, content);
-      // .then((reply) => dispatch(addReply(reply)));
+    return submissionService.postReply(submissionId, content)
+      .then((reply) => dispatch(addReply(reply)));
   };
 };
 

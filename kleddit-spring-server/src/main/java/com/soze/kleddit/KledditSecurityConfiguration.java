@@ -51,6 +51,7 @@ public class KledditSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/0.1/subkleddit/user/subkleddits/*").permitAll()
         .antMatchers("/api/0.1/subkleddit/submission/subkleddit/*").permitAll()
         .antMatchers("/api/0.1/subkleddit/single/*").permitAll()
+        .antMatchers("/api/0.1/subkleddit/replies/typing").permitAll()
         .antMatchers(HttpMethod.GET, "/api/0.1/subkleddit/submission/reply/*").permitAll()
         .anyRequest().authenticated()
       .and()
