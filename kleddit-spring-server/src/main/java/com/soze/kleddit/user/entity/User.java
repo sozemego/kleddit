@@ -3,6 +3,8 @@ package com.soze.kleddit.user.entity;
 import com.soze.kleddit.utils.jpa.EntityUUID;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -18,12 +20,12 @@ public class User {
   private EntityUUID userId;
 
   @Column(name = "username")
-//  @Size(min = 1, max = 50)
-//  @NotNull
+  @Size(min = 1, max = 50)
+  @NotNull
   private String username;
 
   @Column(name = "password_hash")
-//  @NotNull
+  @NotNull
   private String passwordHash;
 
   @Column(name = "created_at")

@@ -5,6 +5,7 @@ import com.soze.kleddit.utils.jpa.EntityUUID;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,11 @@ public class Submission {
   private User author;
 
   @Column(name = "title")
-//  @Size(min = 1, max = 100)
+  @Size(min = 1, max = 100)
   private String title;
 
   @Column(name = "content")
-//  @Size(min = 1, max = 10000)
+  @Size(min = 1, max = 10000)
   private String content;
 
   @ManyToOne(fetch = FetchType.EAGER)
